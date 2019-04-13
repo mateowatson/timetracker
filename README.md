@@ -2,7 +2,7 @@
 
 **WARNING: This project is in active development. Do not use.**
 
-This is a simple timetracker meant to run on a LAMP server. It will have users, projects, and tasks information for each timelog started/submitted. I eventually want to add user roles (admin, at least) and possibly some concept of teams.
+This is a simple timetracker web app. It will have users, projects, and tasks information for each timelog started/submitted. I eventually want to add user roles (admin, at least) and possibly some concept of teams.
 
 Another goal is to have it not require JavaScript to run in the browser, but to have some JavaScript sprinkled on top for browsers with JavaScript enabled. Or perhaps the user would need to intentionally enable JavaScript as a user setting. I realize this is a niche feature and that JavaScript is not evil, but it's just something I wanna do...
 
