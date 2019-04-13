@@ -1,0 +1,8 @@
+.site-title {
+	grid-area: site-title;
+	font-size: 2em;
+	@media (max-width: 900px) {
+		font-size: 1.25em;
+		margin: 0;
+	}
+}

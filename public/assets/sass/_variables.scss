@@ -1,0 +1,7 @@
+$button-color: rgb(27, 51, 95);
+$button-color-disabled: rgb(156, 156, 156);
+$button-color-start-time: rgb(36, 160, 36);
+$button-color-end-time: rgb(185, 28, 28);
+
+$link-color: $button-color;
+$link-hover-color: darken($link-color, 15%);

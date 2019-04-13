@@ -1,0 +1,89 @@
+.logs {
+	position: relative;
+	grid-area: logs;
+	//justify-self: stretch;
+	width: 100%;
+
+	&__heading {
+		&--hidden {
+			@include visually-hidden();
+		}
+	}
+
+	&__no-logs-message {
+		padding: 1em;
+		background-color: #fff;
+		border: 1px solid $link-color;
+	}
+
+	&__table {
+		position: relative;
+		display: table;
+		width: 100%;
+		border-collapse: collapse;
+		border: 1px solid $link-color;
+		background-color: #fff;
+	}
+
+	&__th {
+		border-bottom: 1px solid $link-color;
+		border-collapse: collapse;
+		text-align: left;
+		vertical-align: center;
+		padding: 12px;
+
+		&--total-time-label {
+			text-align: right;
+		}
+
+		&--number {
+			text-align: right;
+		}
+	}
+
+	&__td {
+		border-bottom: 1px solid $link-color;
+		border-collapse: collapse;
+		text-align: left;
+		vertical-align: center;
+		padding: 12px;
+
+		&--number {
+			text-align: right;
+		}
+	}
+
+	&__filter-ul {
+		position: relative;
+		list-style-type: none;
+		padding: 0;
+		margin: 0 0 -1px 0;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		z-index: 1;
+	}
+
+	/* &__filter-li {
+
+	} */
+
+	&__filter-li-a {
+		padding: 1em 2em;
+		display: block;
+		text-decoration: none;
+		&:hover {
+			text-decoration: none;
+		}
+		&--current {
+			font-weight: bold;
+			background-color: #fff;
+			border: 1px solid $link-color;
+			border-bottom: none;
+		}
+	}
+
+	&__no-results-found {
+		font-size: 2em;
+	}
+}

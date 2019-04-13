@@ -1,0 +1,39 @@
+.main-layout {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: auto;
+	grid-column-gap: 24px;
+	grid-row-gap: 24px;
+	grid-template-areas: 
+		"site-title account"
+		"timer search"
+		"logs logs";
+
+	padding: 1em 5em;
+
+	@media (max-width: 900px) {
+		grid-template-areas: 
+			"account account"
+			"site-title site-title"
+			"timer timer"
+			"search search"
+			"logs logs";
+		padding: 1em;
+		grid-row-gap: 12px;
+	}
+
+	&--search-page {
+		grid-template-areas: 
+			"site-title account"
+			"search search"
+			"logs logs";
+		
+		@media (max-width: 900px) {
+			grid-template-areas: 
+				"account account"
+				"site-title site-title"
+				"search search"
+				"logs logs";
+		}
+	}
+}

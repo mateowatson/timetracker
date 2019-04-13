@@ -1,0 +1,1 @@
+<h1 class="site-title"><a href="/">Time Tracker</a> - <?php echo $v_page_title; ?></h1>
