@@ -12,7 +12,7 @@ To install this for local development (I'm not sure if it works on anyone else's
 
 After cloning the repo, run `composer install` from the project root, assuming you have Composer installed on your computer.
 
-Copy `setup-example.cfg` in the root directory to a file named `setup.cfg` and the database creds for your localhost SQL instance. It needs just an empty database.
+Copy `setup-example.cfg` in the root directory to a file named `setup.cfg` and add the database creds for your localhost SQL instance. It needs just an empty database.
 
 Run `npm install`, from the `public` directory, assuming you have npm installed.
 
