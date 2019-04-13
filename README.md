@@ -2,9 +2,9 @@
 
 **WARNING: This project is in active development. Do not use.**
 
-This is a simple timetracker meant to run on a LAMP server. It will have users, projects, and tasks information for each time log started/submitted. I eventually want to add user roles (admin, at least) and possibly some concept of teams.
+This is a simple timetracker meant to run on a LAMP server. It will have users, projects, and tasks information for each timelog started/submitted. I eventually want to add user roles (admin, at least) and possibly some concept of teams.
 
-Another goal is to have it not require JavaScript to run in the browser, but to have some JavaScript sprinkled on top for browsers with JavaScript enabled. Or perhaps the user would need intentionally enable JavaScript as a user setting. I realize this is a niche feature and that JavaScript is not evil, but it's just something I wanna do...
+Another goal is to have it not require JavaScript to run in the browser, but to have some JavaScript sprinkled on top for browsers with JavaScript enabled. Or perhaps the user would need to intentionally enable JavaScript as a user setting. I realize this is a niche feature and that JavaScript is not evil, but it's just something I wanna do...
 
 ## Installing
 
@@ -26,7 +26,7 @@ In order to migrate the database schema into your database, go to `localhost/mig
 
 I am new to trying to run a serious (at least kind of serious) open-source project, but I really want to learn the GitHub features (issues, pull requests, project boards, etc.). I'm going to try to use [GitFlow](https://nvie.com/posts/a-successful-git-branching-model/) as best I can. Bear with me if you get involved!
 
-# Built With
+## Built With
 
 - [Fat Free Framework](https://fatfreeframework.com)
 - [Laravel Mix](https://laravel-mix.com/)
