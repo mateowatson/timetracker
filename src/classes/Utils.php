@@ -90,4 +90,112 @@ class Utils {
 	
 		return $unchunked;
 	}
+
+	/**
+	 * Converts range in seconds to hours:minutes:seconds format.
+	 * 
+	 * @param string|integer $seconds Only numeric characters if string
+	 * @return string Formattted time diff, eg 12:02:19
+	 */
+	static function timediff_from_seconds($seconds) {
+		$hr_min_s = array(
+			$seconds/60/60,
+			$seconds/60 - (intval($seconds/60/60) * 60),
+			$seconds - (intval($seconds/60) * 60)
+		);
+
+		$pretty_hr_min_s = array_map(function($unit) {
+			return intval($unit) < 10 ? '0'.intval($unit) : intval($unit);
+		}, $hr_min_s);
+		
+		return $pretty_hr_min_s[0].':'.$pretty_hr_min_s[1].':'.$pretty_hr_min_s[2];
+	}
+
+	static function set_v_logs(
+		$f3,
+		$user_id = null,
+		$conditions = '',
+		$paginate = false,
+		$page_offset = null
+	) {
+		if($user_id === null) {
+			return false;
+		}
+			
+		if($paginate && $page_offset === null) {
+			$page_offset = 0;
+		}
+
+		$db = $f3->get('DB');
+
+		$query_string = '
+			SELECT
+				logs.notes, logs.start_time, logs.end_time, logs.id,
+				projects.name AS project_name,
+				tasks.name AS task_name,
+				users.username,
+				IF(logs.end_time != "0000-00-00 00:00:00",
+					TIMESTAMPDIFF(SECOND, logs.start_time, logs.end_time),
+					TIMESTAMPDIFF(SECOND, logs.start_time, NOW())
+				)
+				as time_sum,
+				CONCAT(
+					DATE_FORMAT(
+						DATE(logs.start_time),
+						"%b %e, %Y"
+					),
+					" ",
+					TIME_FORMAT(
+						TIME(logs.start_time),
+						"%r"
+					)
+				) as start_time_formatted,
+				CONCAT(
+					DATE_FORMAT(
+						DATE(logs.end_time),
+						"%b %e, %Y"
+					),
+					" ",
+					TIME_FORMAT(
+						TIME(logs.end_time),
+						"%r"
+					)
+				) as end_time_formatted
+			FROM logs
+			LEFT JOIN projects
+				ON logs.project_id = projects.id
+			LEFT JOIN tasks
+				ON logs.task_id = tasks.id
+			LEFT JOIN users
+				ON logs.user_id = users.id
+			WHERE user_id = ? '.$conditions.'
+			ORDER BY start_time DESC';
+
+		if($paginate) {
+			$query_string .= ' LIMIT ?, 10';
+
+			$logs = $db->exec($query_string, array(
+				$user_id,
+				$page_offset
+			));
+
+			foreach($logs as $idx => $log) {
+				$logs[$idx]['time_sum'] = self::timediff_from_seconds($log['time_sum']);
+			}
+			$f3->set('v_logs', $logs);
+
+			return true;
+		}
+
+		$logs = $db->exec($query_string, array(
+			$user_id
+		));
+
+		foreach($logs as $idx => $log) {
+			$logs[$idx]['time_sum'] = self::timediff_from_seconds($log['time_sum']);
+		}
+		$f3->set('v_logs', $logs);
+
+		return true;
+	}
 }

@@ -76,10 +76,10 @@ class Dashboard {
 
 		// GET LOGS LIST
 		$is_week = isset($f3->get('REQUEST')['week']) ? true : false;
-		$dashboard_time_filter = null;
+		$dashboard_time_filter = 'null';
 		if($is_week) {
 			$dashboard_time_filter = '
-				(
+				AND (
 					YEAR(CAST(logs.start_time AS DATE)) = YEAR(CAST(NOW() AS DATE))
 					AND
 					WEEK(CAST(logs.start_time AS DATE), 0) = WEEK(CAST(NOW() AS DATE), 0)
@@ -87,54 +87,18 @@ class Dashboard {
 			';
 		} else {
 			$dashboard_time_filter = '
-				CAST(logs.start_time AS DATE) =
+				AND CAST(logs.start_time AS DATE) =
 				CAST(NOW() AS DATE)
 			';
 		}
-		$logs = $db->exec('
-			SELECT
-				logs.notes, logs.start_time, logs.end_time, logs.id,
-				projects.name AS project_name,
-				tasks.name AS task_name,
-				users.username,
-				IF(logs.end_time != "0000-00-00 00:00:00",
-					TIMEDIFF(logs.end_time, logs.start_time),
-					TIMEDIFF(NOW(), logs.start_time)
-				) as time_sum,
-				CONCAT(
-					DATE_FORMAT(
-						DATE(logs.start_time),
-						"%b %e, %Y"
-					),
-					" ",
-					TIME_FORMAT(
-						TIME(logs.start_time),
-						"%r"
-					)
-				) as start_time_formatted,
-				CONCAT(
-					DATE_FORMAT(
-						DATE(logs.end_time),
-						"%b %e, %Y"
-					),
-					" ",
-					TIME_FORMAT(
-						TIME(logs.end_time),
-						"%r"
-					)
-				) as end_time_formatted
-			FROM logs
-			LEFT JOIN projects
-				ON logs.project_id = projects.id
-			LEFT JOIN tasks
-				ON logs.task_id = tasks.id
-			LEFT JOIN users
-				ON logs.user_id = users.id
-			WHERE user_id = ?
-				AND '.$dashboard_time_filter.'
-			ORDER BY start_time DESC
-		', array($user->id));
-		$f3->set('v_logs', $logs);
+		
+		$did_set_v_logs = Utils::set_v_logs(
+			$f3,
+			$user->id,
+			$dashboard_time_filter,
+			false,
+			null
+		);
 
 		// GET TOTAL TIME
 		$logs_total_time = $db->exec('
@@ -148,7 +112,7 @@ class Dashboard {
 				as total_time
 			FROM logs
 			WHERE user_id = ?
-				AND '.$dashboard_time_filter.'
+				'.$dashboard_time_filter.'
 			ORDER BY start_time DESC
 		', array($user->id));
 		$f3->set('v_logs_total_time', $logs_total_time[0]['total_time']);

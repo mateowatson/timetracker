@@ -87,58 +87,14 @@ class Search {
 		$logs_count = $logs_count_query[0]['logs_count'];
 		$f3->set('v_logs_count', $logs_count);
 		
-		// GET LOGS LIST
-		$logs = $db->exec(
-			'
-				SELECT
-					logs.notes, logs.start_time, logs.end_time, logs.id,
-					projects.name AS project_name,
-					tasks.name AS task_name,
-					users.username,
-					IF(logs.end_time != "0000-00-00 00:00:00",
-						TIMEDIFF(logs.end_time, logs.start_time),
-						TIMEDIFF(NOW(), logs.start_time)
-					)
-					as time_sum,
-					CONCAT(
-						DATE_FORMAT(
-							DATE(logs.start_time),
-							"%b %e, %Y"
-						),
-						" ",
-						TIME_FORMAT(
-							TIME(logs.start_time),
-							"%r"
-						)
-					) as start_time_formatted,
-					CONCAT(
-						DATE_FORMAT(
-							DATE(logs.end_time),
-							"%b %e, %Y"
-						),
-						" ",
-						TIME_FORMAT(
-							TIME(logs.end_time),
-							"%r"
-						)
-					) as end_time_formatted
-				FROM logs
-				LEFT JOIN projects
-					ON logs.project_id = projects.id
-				LEFT JOIN tasks
-					ON logs.task_id = tasks.id
-				LEFT JOIN users
-					ON logs.user_id = users.id
-				WHERE user_id = ? '.$sql_condition.'
-				ORDER BY start_time DESC
-				LIMIT ?, 10
-			',
-			array(
-				$user->id,
-				$sql_offset
-			)
+		$did_set_v_logs = Utils::set_v_logs(
+			$f3,
+			$user->id,
+			$sql_condition,
+			true,
+			$sql_offset
 		);
-		$f3->set('v_logs', $logs);
+
 
 		// GET LOGS TOTAL TIME
 		$logs_total_time = $db->exec('
@@ -153,10 +109,11 @@ class Search {
 			WHERE user_id = ? '.$sql_condition.'
 			ORDER BY start_time DESC
 		', array($user->id));
-		$logs_total_time_hours = $logs_total_time[0]['total_time']/60/60;
-		$logs_total_time_minutes = $logs_total_time[0]['total_time']/60 - (intval($logs_total_time_hours) * 60);
-		$logs_total_time_seconds = $logs_total_time[0]['total_time'] - (intval($logs_total_time[0]['total_time']/60) * 60);
-		$f3->set('v_logs_total_time', intval($logs_total_time_hours) . ':' . intval($logs_total_time_minutes) . ':' . intval($logs_total_time_seconds));
+		
+		$f3->set(
+			'v_logs_total_time',
+			Utils::timediff_from_seconds($logs_total_time[0]['total_time'])
+		);
 
 		// SET NEXT AND PREV LINKS
 		if($page === 0) {
