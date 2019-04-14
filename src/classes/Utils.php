@@ -111,6 +111,20 @@ class Utils {
 		return $pretty_hr_min_s[0].':'.$pretty_hr_min_s[1].':'.$pretty_hr_min_s[2];
 	}
 
+	/**
+	 * Generates the global f3 array variable with the logs to show in the logs table of a
+	 * given template/class.
+	 * 
+	 * @param Base $f3 The base Fat Free Framework instance.
+	 * @param int $user_id The base Fat Free Framework instance.
+	 * @param string $conditions Conditions to pass into the SQL statement. Must start
+	 * with 'AND'. It should be a valid clause, so you'll need to read the code for this
+	 * function in order to pass in a valid condition string.
+	 * @param bool $paginate Whether to paginate the SQL query by 10 per page..
+	 * @param int|null $page_offset How many records to offset. Only relevant if $paginate is
+	 * set to `true` and you need the offset to be more than 0.
+	 * @return bool true on success, false on failure.
+	 */
 	static function set_v_logs(
 		$f3,
 		$user_id = null,
@@ -195,6 +209,49 @@ class Utils {
 			$logs[$idx]['time_sum'] = self::timediff_from_seconds($log['time_sum']);
 		}
 		$f3->set('v_logs', $logs);
+
+		return true;
+	}
+
+	/**
+	 * Generates the global f3 variable with the total time of all the logs in the current
+	 * table.
+	 * 
+	 * @param Base $f3 The base Fat Free Framework instance.
+	 * @param int $user_id The base Fat Free Framework instance.
+	 * @param string $conditions Conditions to pass into the SQL statement. Must start
+	 * with 'AND'. It should be a valid clause, so you'll need to read the code for this
+	 * function in order to pass in a valid condition string.
+	 * @return bool true on success, false on failure.
+	 */
+	static function set_v_logs_total_time(
+		$f3,
+		$user_id = null,
+		$conditions = ''
+	) {
+		if($user_id === null) {
+			return false;
+		}
+
+		$db = $f3->get('DB');
+
+		$logs_total_time = $db->exec('
+			SELECT
+				SUM(
+					IF(logs.end_time != "0000-00-00 00:00:00",
+						TIMESTAMPDIFF(SECOND, logs.start_time, logs.end_time),
+						TIMESTAMPDIFF(SECOND, logs.start_time, NOW())
+					)
+				) as total_time
+			FROM logs
+			WHERE user_id = ? '.$conditions.'
+			ORDER BY start_time DESC
+		', array($user_id));
+		
+		$f3->set(
+			'v_logs_total_time',
+			self::timediff_from_seconds($logs_total_time[0]['total_time'])
+		);
 
 		return true;
 	}

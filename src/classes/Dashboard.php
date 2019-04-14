@@ -91,7 +91,6 @@ class Dashboard {
 				CAST(NOW() AS DATE)
 			';
 		}
-		
 		$did_set_v_logs = Utils::set_v_logs(
 			$f3,
 			$user->id,
@@ -100,23 +99,10 @@ class Dashboard {
 			null
 		);
 
-		// GET TOTAL TIME
-		$logs_total_time = $db->exec('
-			SELECT
-				SEC_TO_TIME(SUM(TIME_TO_SEC(
-					IF(logs.end_time != "0000-00-00 00:00:00",
-						TIMEDIFF(logs.end_time, logs.start_time),
-						TIMEDIFF(NOW(), logs.start_time)
-					)))
-				)
-				as total_time
-			FROM logs
-			WHERE user_id = ?
-				'.$dashboard_time_filter.'
-			ORDER BY start_time DESC
-		', array($user->id));
-		$f3->set('v_logs_total_time', $logs_total_time[0]['total_time']);
-
+		// SET TOTAL TIME
+		$did_set_v_logs_total_time = Utils::set_v_logs_total_time(
+			$f3, $user->id, $dashboard_time_filter
+		);
 		
 		// ADDITIONAL VIEW VARIABLES
 		$f3->set('v_page_title', 'Dashboard');

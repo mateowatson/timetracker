@@ -86,7 +86,8 @@ class Search {
 		);
 		$logs_count = $logs_count_query[0]['logs_count'];
 		$f3->set('v_logs_count', $logs_count);
-		
+
+		// SET LOGS LIST
 		$did_set_v_logs = Utils::set_v_logs(
 			$f3,
 			$user->id,
@@ -96,23 +97,9 @@ class Search {
 		);
 
 
-		// GET LOGS TOTAL TIME
-		$logs_total_time = $db->exec('
-			SELECT
-				SUM(
-					IF(logs.end_time != "0000-00-00 00:00:00",
-						TIMESTAMPDIFF(SECOND, logs.start_time, logs.end_time),
-						TIMESTAMPDIFF(SECOND, logs.start_time, NOW())
-					)
-				) as total_time
-			FROM logs
-			WHERE user_id = ? '.$sql_condition.'
-			ORDER BY start_time DESC
-		', array($user->id));
-		
-		$f3->set(
-			'v_logs_total_time',
-			Utils::timediff_from_seconds($logs_total_time[0]['total_time'])
+		// SET LOGS TOTAL TIME
+		$did_set_v_logs_total_time = Utils::set_v_logs_total_time(
+			$f3, $user->id, $sql_condition
 		);
 
 		// SET NEXT AND PREV LINKS
