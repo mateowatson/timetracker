@@ -9,17 +9,27 @@
 	<section class="logs">
 		<?php if(!$v_no_matches): ?>
 			<h1 class="logs__heading logs__heading--hidden">Search Results</h1>
+
+			<?php if($v_prev_link || $v_next_link): ?>
+			<div class="pagination-links">
+				<?php if($v_prev_link): ?>
+				<a class="pagination-links__arrow" href="<?php echo $v_prev_link; ?>">
+					&larr;
+				</a>
+				<?php endif; ?>
+				<span class="pagination-links__number">
+					<?php echo 'Page ' . $v_curr_page . '/' . $v_num_pages; ?>
+				</span>
+				<?php if($v_next_link): ?>
+				<a class="pagination-links__arrow" href="<?php echo $v_next_link; ?>">
+					&rarr;
+				</a>
+				<?php endif; ?>
+			</div>
+			<?php endif; ?>
+
 			<?php require_once('partials/logs-table.php'); ?>
 
-			<div class="search-pagination">
-			<?php if($v_prev_link): ?>
-				<a href="<?php echo $v_prev_link; ?>">&larr;</a>
-			<?php endif; ?>
-			<?php echo $v_curr_page . '/' . $v_num_pages; ?>
-			<?php if($v_next_link): ?>
-				<a href="<?php echo $v_next_link; ?>">&rarr;</a>
-			<?php endif; ?>
-			</div>
 			<?php else: ?>
 			<p class="logs__no-results-found">No results found.</p>
 		<?php endif; ?>
