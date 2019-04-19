@@ -53,21 +53,36 @@ class Timer {
 		$running_timer_notes = null;
 
 		// HANDLE PROJECT
-		// Add new project to db
 		if($req_new_proj) {
 			$db_projects->load(array('name=?', $req_new_proj));
-			// Make sure is new project before adding to projects
-			if($db_projects->dry()) {
+			$proj_already_exists = !$db_projects->dry();
+			if($proj_already_exists) {
+				$userProjectsQuery = $db->exec('
+					SELECT * FROM projects LEFT JOIN users_projects ON
+					(users_projects.user_id = ? AND
+					users_projects.project_id = projects.id) WHERE
+					users_projects.user_id IS NOT NULL
+				', array($user->id));
+				$userProjects = array();
+				foreach($userProjectsQuery as $query) {
+					array_push($userProjects, $query['project_id']);
+				}
+				if(!in_array($db_projects->id, $userProjects)) {
+					$db_projects->reset();
+					$db_projects->name = $req_new_proj;
+					$db_projects->save();
+					$db_users_projects->user_id = $user->id;
+					$db_users_projects->project_id = $db_projects->id;
+					$db_users_projects->save();
+				}
+			} else if(!$proj_already_exists) {
 				$db_projects->name = $req_new_proj;
 				$db_projects->save();
+				$db_users_projects->user_id = $user->id;
+				$db_users_projects->project_id = $db_projects->id;
+				$db_users_projects->save();
 			}
-			// Add the new record to users_projects
-			$db_users_projects->user_id = $user->id;
-			$db_users_projects->project_id = $db_projects->id;
-			$db_users_projects->save();
-			// Assign id to variable to keep track of this for making the log
 			$running_timer_project = $db_projects->id;
-		// OR find existing project in db
 		} else if($req_proj) {
 			$db_projects->load(array('id=?', $req_proj));
 			// Just in case it is not in db somehow
@@ -78,26 +93,40 @@ class Timer {
 				$db_users_projects->project_id = $db_projects->id;
 				$db_users_projects->save();
 			}
-			// Assign id to variable to keep track of this for making the log
 			$running_timer_project = $db_projects->id;
 		}
 
 		// HANDLE TASK
-		// Add new task to db
 		if($req_new_task) {
 			$db_tasks->load(array('name=?', $req_new_task));
-			// Make sure is new task before adding to tasks
-			if($db_tasks->dry()) {
+			$task_already_exists = !$db_tasks->dry();
+			if($task_already_exists) {
+				$userTasksQuery = $db->exec('
+					SELECT * FROM tasks LEFT JOIN users_tasks ON
+					(users_tasks.user_id = ? AND
+					users_tasks.task_id = tasks.id) WHERE
+					users_tasks.user_id IS NOT NULL
+				', array($user->id));
+				$userTasks = array();
+				foreach($userTasksQuery as $query) {
+					array_push($userTasks, $query['task_id']);
+				}
+				if(!in_array($db_tasks->id, $userTasks)) {
+					$db_tasks->reset();
+					$db_tasks->name = $req_new_task;
+					$db_tasks->save();
+					$db_users_tasks->user_id = $user->id;
+					$db_users_tasks->task_id = $db_tasks->id;
+					$db_users_tasks->save();
+				}
+			} else if(!$task_already_exists) {
 				$db_tasks->name = $req_new_task;
 				$db_tasks->save();
+				$db_users_tasks->user_id = $user->id;
+				$db_users_tasks->task_id = $db_tasks->id;
+				$db_users_tasks->save();
 			}
-			// Add the new record to users_tasks
-			$db_users_tasks->user_id = $user->id;
-			$db_users_tasks->task_id = $db_tasks->id;
-			$db_users_tasks->save();
-			// Assign id to variable to keep track of this for making the log
 			$running_timer_task = $db_tasks->id;
-		// OR find existing task in db
 		} else if($req_task) {
 			$db_tasks->load(array('id=?', $req_task));
 			// Just in case it is new somehow
@@ -108,7 +137,6 @@ class Timer {
 				$db_users_tasks->task_id = $db_tasks->id;
 				$db_users_tasks->save();
 			}
-			// Assign id to variable to keep track of this for making the log
 			$running_timer_task = $db_tasks->id;
 		}
 
