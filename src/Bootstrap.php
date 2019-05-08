@@ -34,9 +34,9 @@ foreach ($f3->get('v_errors') as $error) {
 $f3->set('v_confirmations', json_decode($f3->get('SESSION.confirmations')) ? : array());
 // Creating v_confirmations_element_ids, simply for ease of checking quickly if there are any
 // confirmations, especially for use in the template files.
-foreach ($f3->get('v_confirmations') as $error) {
+foreach ($f3->get('v_confirmations') as $confirmation) {
 	$element_ids = array();
-	array_push($element_ids, $error->element_id);
+	array_push($element_ids, $confirmation->element_id);
 	$f3->set('v_confirmations_element_ids', array_unique($element_ids));
 }
 // Reset errors in db
