@@ -7,12 +7,39 @@
 </head>
 <body>
 
+<h1>Install</h1>
+
 <div id="run-migration-page">
-	<form method="POST" action="" id="run-migration" name="run-migration">
+	<!-- <form method="POST" action="" id="run-migration" name="run-migration">
 		<input type="submit" value="Run Migration" id="run-migration-submit">
+	</form> -->
+
+	<form action="/migration" method="POST" id="migration">
+		<input type="text" name="csrf" value="<?php echo $CSRF; ?>" hidden>
+
+		<p>Create the initial user.</p>
+
+		<label for="username">Username:</label><br>
+		<input type="text" id="username" name="username"><br><br>
+
+		<label for="password">Password:</label><br>
+		<input type="password" id="password" name="password"><br>
+		
+		<input type="submit" value="Install">
 	</form>
 
-	<div id="run-migration-status"></div>
+	<?php if(in_array(
+		'migration_errors', $v_errors_element_ids ? : array()
+	)) : ?>
+	<div class="errors" id="start_timer_bottom_errors">
+		<?php
+		foreach($v_errors as $error) :
+		if($error->element_id === 'migration_errors') :
+		?>
+		<p><?php echo $error->message; ?></p>
+		<?php endif; endforeach; ?>
+	</div>
+	<?php endif; ?>
 </div>
 
 

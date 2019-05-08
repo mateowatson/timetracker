@@ -10,10 +10,19 @@ class Register {
 	function post_register($f3, $args) {
 		Utils::prevent_csrf($f3, $args);
 
-		$db = $f3->get('DB');
-
 		$request_user = $f3->get('REQUEST')['username'];
 		$request_password = $f3->get('REQUEST')['password'];
+
+		if(!$request_user || !$request_password) {
+			$f3->push('v_errors', array(
+				'element_id' => 'registration_errors',
+				'message' => 'Please fill out all the user creation fields.'
+			));
+		}
+
+		Utils::reroute_with_errors($f3, $args, '/register');
+
+		$db = $f3->get('DB');
 
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $request_user));
