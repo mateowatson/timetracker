@@ -28,6 +28,15 @@
 	}
 }
 
+@mixin button-is-link() {
+	text-decoration: none;
+	&:hover, &:active, &:visited {
+		text-decoration: none;
+		color: #fff;
+	}
+}
+
+// This is used to make a button look like a link
 @mixin button-link() {
 	color: $link-color;
 	background-color: transparent;

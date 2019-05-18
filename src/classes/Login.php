@@ -5,6 +5,8 @@ class Login {
 		$db = $f3->get('DB');
 		$session = $f3->get('SESSION_INSTANCE');
 		Utils::send_csrf($f3, $args);
+
+		$f3->set('v_page_title', 'Login');
 		$view = new View;
 		echo $view->render('login.php');
 	}

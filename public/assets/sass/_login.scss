@@ -3,5 +3,12 @@
 
 	&__button {
 		@include button($button-color);
+		@include button-is-link();
+	}
+
+	&__or-separator {
+		display: inline-block;
+		margin: 0 2em;
+		text-transform: uppercase;
 	}
 }

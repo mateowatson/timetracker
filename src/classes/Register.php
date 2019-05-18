@@ -3,6 +3,8 @@
 class Register {
 	function show($f3, $args) {
 		Utils::send_csrf($f3, $args);
+
+		$f3->set('v_page_title', 'Register');
 		$view = new View;
 		echo $view->render('register.php');
 	}

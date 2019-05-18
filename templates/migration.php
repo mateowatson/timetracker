@@ -4,9 +4,6 @@
 
 	<?php require_once('partials/heading.php'); ?>
 
-	<!-- <form method="POST" action="" id="run-migration" name="run-migration">
-		<input type="submit" value="Run Migration" id="run-migration-submit">
-	</form> -->
 	<div class="login">
 		<form action="/install" method="POST" id="migration">
 			<input type="text" name="csrf" value="<?php echo $CSRF; ?>" hidden>
