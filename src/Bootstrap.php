@@ -21,6 +21,13 @@ $f3->set('UI', ROOT_DIR . '/templates/');
 $f3->set('AUTOLOAD', ROOT_DIR . '/src/classes/');
 $f3->set('DEBUG',3);
 
+$db = $f3->get('DB');
+$users = $db->exec('SHOW TABLES LIKE \'users\'');
+
+if(!count($users) && $_SERVER['REQUEST_URI'] !== '/migration') {
+	$f3->reroute('/migration');
+}
+
 // Capture errors in memory
 $f3->set('v_errors', json_decode($f3->get('SESSION.errors')) ? : array());
 // Creating v_errors_element_ids, simply for ease of checking quickly if there are any
@@ -42,5 +49,7 @@ foreach ($f3->get('v_confirmations') as $confirmation) {
 // Reset errors in db
 $f3->set('SESSION.errors', '');
 $f3->set('SESSION.confirmations', '');
+
+
 
 $f3->run();

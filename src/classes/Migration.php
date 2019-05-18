@@ -2,12 +2,18 @@
 class Migration {
 	function show($f3, $args) {
 		//echo 'Hello World';
+		Utils::send_csrf($f3, $args);
 		$view=new View;
         echo $view->render('migration.php');
 	}
 
 	function beforeRoute($f3, $args) {
-		//$f3->reroute('/');
+		$db = $f3->get('DB');
+		$users = $db->exec('SHOW TABLES LIKE \'users\'');
+
+		if(count($users)) {
+			$f3->reroute('/');
+		}
 	}
 
 	function migrate($f3, $args) {
@@ -15,8 +21,6 @@ class Migration {
 
 		$request_user = $f3->get('REQUEST')['username'];
 		$request_password = $f3->get('REQUEST')['password'];
-		error_log('ssssss: ');
-		error_log('ssssss: ');
 
 		if(!$request_user || !$request_password) {
 			$f3->push('v_errors', array(
@@ -31,20 +35,9 @@ class Migration {
 		
 		$migration = require_once(ROOT_DIR . '/migrations/Migration001.php');
 
+		$db->begin();
+
 		$db->exec($migration);
-
-		$db_users = new \DB\SQL\Mapper($db, 'users');
-		$user = $db_users->load(array('username=?', $request_user));
-
-		
-		if(!$user->dry()) {
-			$f3->push('v_errors', array(
-				'element_id' => 'installation_errors',
-				'message' => 'The database must be empty.'
-			));
-		}
-
-		Utils::reroute_with_errors($f3, $args, '/migration');
 
 		$db->exec(
 			'INSERT INTO users (username, password) VALUES (?, ?)',

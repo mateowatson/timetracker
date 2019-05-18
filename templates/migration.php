@@ -29,12 +29,12 @@
 	</form>
 
 	<?php if(in_array(
-		'migration_errors', $v_errors_element_ids ? : array()
+		'installation_errors', $v_errors_element_ids ? : array()
 	)) : ?>
 	<div class="errors" id="start_timer_bottom_errors">
 		<?php
 		foreach($v_errors as $error) :
-		if($error->element_id === 'migration_errors') :
+		if($error->element_id === 'installation_errors') :
 		?>
 		<p><?php echo $error->message; ?></p>
 		<?php endif; endforeach; ?>
