@@ -11,6 +11,17 @@ class Utils {
 		}
 	}
 
+	static function prevent_csrf_on_logout($f3, $args) {
+		$request_csrf = $f3->get('POST.csrf');
+		$session_csrf = $f3->get('SESSION.csrf');
+		if (empty($request_csrf) || empty($session_csrf) ||
+			$request_csrf !== $session_csrf)
+		{
+			$f3->reroute('/confirm-logout');
+			return;
+		}
+	}
+
 	static function send_csrf($f3, $args) {
 		$f3->set('CSRF', $f3->get('SESSION_INSTANCE')->csrf());
 		$f3->copy('CSRF','SESSION.csrf');

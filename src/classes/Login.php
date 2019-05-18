@@ -2,6 +2,7 @@
 
 class Login {
 	function show($f3, $args) {
+		Utils::redirect_logged_in_user($f3, $args);
 		$db = $f3->get('DB');
 		$session = $f3->get('SESSION_INSTANCE');
 		Utils::send_csrf($f3, $args);

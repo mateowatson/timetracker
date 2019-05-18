@@ -6,9 +6,9 @@
 
 	<div class="login">
 
-		<p><a class="login__button" href="/login">Login</a>
+		<p><a class="login__button login__button--link" href="/login">Login</a>
 		<span class="login__or-separator">or</span>
-		<a class="login__button" href="/register">Register</a></p>
+		<a class="login__button login__button--link" href="/register">Register</a></p>
 	
 	</div>
 	

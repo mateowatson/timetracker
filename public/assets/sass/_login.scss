@@ -3,7 +3,18 @@
 
 	&__button {
 		@include button($button-color);
-		@include button-is-link();
+
+		&--link {
+			@include button-is-link();
+		}
+
+		&--gray {
+			@include button($button-color-disabled);
+		}
+
+		&--all-caps {
+			text-transform: uppercase;
+		}
 	}
 
 	&__or-separator {
