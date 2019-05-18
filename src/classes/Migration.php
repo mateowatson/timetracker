@@ -1,8 +1,8 @@
 <?php
 class Migration {
 	function show($f3, $args) {
-		//echo 'Hello World';
 		Utils::send_csrf($f3, $args);
+		$f3->set('v_page_title', 'Install');
 		$view=new View;
         echo $view->render('migration.php');
 	}

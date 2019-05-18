@@ -1,0 +1,7 @@
+.login {
+	grid-area: login;
+
+	&__button {
+		@include button($button-color);
+	}
+}

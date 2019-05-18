@@ -24,8 +24,8 @@ $f3->set('DEBUG',3);
 $db = $f3->get('DB');
 $users = $db->exec('SHOW TABLES LIKE \'users\'');
 
-if(!count($users) && $_SERVER['REQUEST_URI'] !== '/migration') {
-	$f3->reroute('/migration');
+if(!count($users) && $_SERVER['REQUEST_URI'] !== '/install') {
+	$f3->reroute('/install');
 }
 
 // Capture errors in memory

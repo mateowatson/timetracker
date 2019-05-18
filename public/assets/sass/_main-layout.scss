@@ -36,4 +36,10 @@
 				"logs logs";
 		}
 	}
+
+	&--login {
+		grid-template-areas: 
+			"site-title"
+			"login";
+	}
 }
