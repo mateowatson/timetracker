@@ -13,7 +13,7 @@
 		<select id="search_by" name="search_by" class="search__select">
 			<option value="project" class="search__option">Project</option>
 			<option value="task" class="search__option">Task</option>
-			<option value="date" class="search__option">Date</option>
+			<option value="date" class="search__option">Date Started - MM/DD/YYYY</option>
 		</select>
 
 		<input type="submit" value="Search" class="search__submit">

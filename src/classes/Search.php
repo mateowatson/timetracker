@@ -67,6 +67,35 @@ class Search {
 
 				$sql_condition = 'AND task_id IN ('.$task_matches.')';
 			}
+		} else if($search_by === 'date') {
+			$formatted_date_search_str = explode('/', $search_term);
+			// VALIDATE DATE FIELDS
+			if(
+				count($formatted_date_search_str) === 3 &&
+				preg_match('/^\d\d\d\d$/', $formatted_date_search_str[2]) &&
+				preg_match('/^\d\d$/', $formatted_date_search_str[1]) &&
+				preg_match('/^\d\d$/', $formatted_date_search_str[0])
+			) {
+				$formatted_date_search_str = $formatted_date_search_str[2].'-'.
+				$formatted_date_search_str[0].'-'.$formatted_date_search_str[1];
+			} else {
+				$formatted_date_search_str = 'nodate';
+			}
+			$logs_matches_query = $db->exec('
+				SELECT
+					id
+				FROM logs
+				WHERE start_time LIKE ?
+			', array('%'.$formatted_date_search_str.'%'));
+			if(count($logs_matches_query) > 0) {
+				$logs_matches_array = array();
+				foreach ($logs_matches_query as $logs_match) {
+					array_push($logs_matches_array, $logs_match['id']);
+				}
+				$logs_matches = implode(', ', $logs_matches_array);
+
+				$sql_condition = 'AND logs.id IN ('.$logs_matches.')';
+			}
 		}
 
 		// SET NO MATCHES TO TRUE IF NO MATCHES FOUND

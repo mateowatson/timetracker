@@ -29,8 +29,7 @@ class Register {
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $request_user));
 
-		
-		if(!$user->dry()) {
+		if($user !== FALSE) {
 			$f3->push('v_errors', array(
 				'element_id' => 'registration_errors',
 				'message' => 'The username '.$request_user.' is already taken.'
