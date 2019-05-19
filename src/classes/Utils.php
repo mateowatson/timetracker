@@ -266,4 +266,39 @@ class Utils {
 
 		return true;
 	}
+
+	static function parse_search_by_date_input($input) {
+		$date_search_arr = explode('-', $input);
+		if(count($date_search_arr) > 2) {
+			return false;
+		}
+		for($i = 0; $i < count($date_search_arr); $i++) {
+			$date_search_arr[$i] = trim($date_search_arr[$i]);
+			$date_fields_arr = explode('/', $date_search_arr[$i]);
+			if(
+				count($date_fields_arr) !== 3 ||
+				!preg_match('/^\d\d\d\d$/', $date_fields_arr[2]) ||
+				!preg_match('/^\d\d$/', $date_fields_arr[1]) ||
+				!preg_match('/^\d\d$/', $date_fields_arr[0])
+			) {
+				return false;
+			}
+			$date_search_arr[$i] = $date_fields_arr[2].'-'.
+			$date_fields_arr[0].'-'.$date_fields_arr[1];
+
+			if($i === 0) {
+				$date_search_arr[$i] .= ' 00:00:00';
+			}
+
+			if($i === 1) {
+				$date_search_arr[$i] .= ' 23:59:59';
+			}
+		}
+
+		if(count($date_search_arr) === 1) {
+			$date_search_arr[1] = str_replace('00:00:00', '23:59:59', $date_search_arr[0]);
+		}
+
+		return $date_search_arr;
+	}
 }
