@@ -22,6 +22,23 @@ class Utils {
 		}
 	}
 
+	static function prevent_csrf_from_tab_conflict($f3, $args, $redirect_path) {
+		$request_csrf = $f3->get('POST.csrf');
+		$session_csrf = $f3->get('SESSION.csrf');
+		if (empty($request_csrf) || empty($session_csrf) ||
+			$request_csrf !== $session_csrf)
+		{
+			error_log('yellow');
+			//$f3->reroute('/dashboard');
+			$f3->push('v_errors', array(
+				'element_id' => 'csrf_error',
+				'message' => 'Your request may have failed due a conflict with tab or window being open. Simply refresh this tab and try again.'
+			));
+			self::reroute_with_errors($f3, $args, $redirect_path);
+			return;
+		}
+	}
+
 	static function send_csrf($f3, $args) {
 		$f3->set('CSRF', $f3->get('SESSION_INSTANCE')->csrf());
 		$f3->copy('CSRF','SESSION.csrf');

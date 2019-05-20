@@ -9,3 +9,16 @@
 	<link rel="stylesheet" href="/dist/app.css">
 </head>
 <body class="body">
+
+<?php if(in_array(
+	'csrf_error', $v_errors_element_ids ? : array()
+)) : ?>
+<div class="errors" id="csrf_error">
+	<?php
+	foreach($v_errors as $error) :
+	if($error->element_id === 'csrf_error') :
+	?>
+	<p><?php echo $error->message; ?></p>
+	<?php endif; endforeach; ?>
+</div>
+<?php endif; ?>

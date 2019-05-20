@@ -3,7 +3,7 @@
 class Timer {
 	function start_time($f3, $args) {
 		Utils::redirect_logged_out_user($f3, $args);
-		Utils::prevent_csrf($f3, $args);
+		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
 
 		$db = $f3->get('DB');
 		$session_username = $f3->get('SESSION.session_username');
@@ -159,7 +159,7 @@ class Timer {
 
 	function stop_time($f3, $args) {
 		Utils::redirect_logged_out_user($f3, $args);
-		Utils::prevent_csrf($f3, $args);
+		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
 
 		$db = $f3->get('DB');
 
