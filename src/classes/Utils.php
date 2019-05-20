@@ -32,7 +32,7 @@ class Utils {
 			//$f3->reroute('/dashboard');
 			$f3->push('v_errors', array(
 				'element_id' => 'csrf_error',
-				'message' => 'Your request may have failed due a conflict with tab or window being open. Simply refresh this tab and try again.'
+				'message' => 'Your request may have failed due a conflict with another tab or window. Simply refresh the page on this tab to renew your session and try again.'
 			));
 			self::reroute_with_errors($f3, $args, $redirect_path);
 			return;

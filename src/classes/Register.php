@@ -10,7 +10,7 @@ class Register {
 	}
 
 	function post_register($f3, $args) {
-		Utils::prevent_csrf($f3, $args);
+		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/register');
 
 		$request_user = $f3->get('REQUEST')['username'];
 		$request_password = $f3->get('REQUEST')['password'];

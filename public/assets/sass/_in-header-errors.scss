@@ -1,0 +1,8 @@
+.in-header-errors {
+	@include errors();
+	padding: 1em 5em;
+
+	@media (max-width: 900px) {
+		padding: 1em;
+	}
+}

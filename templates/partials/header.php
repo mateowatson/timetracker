@@ -13,7 +13,7 @@
 <?php if(in_array(
 	'csrf_error', $v_errors_element_ids ? : array()
 )) : ?>
-<div class="errors" id="csrf_error">
+<div class="in-header-errors" id="csrf_error">
 	<?php
 	foreach($v_errors as $error) :
 	if($error->element_id === 'csrf_error') :

@@ -50,3 +50,9 @@
 		color: $link-hover-color;
 	}
 }
+
+@mixin errors() {
+	padding: .2em 1em;
+	background-color: #fff;
+	border-bottom: 2px solid $button-color-end-time;
+}

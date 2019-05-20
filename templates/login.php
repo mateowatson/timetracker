@@ -16,6 +16,19 @@
 
 			<input class="login__button" type="submit" value="Login">
 		</form>
+
+		<?php if(in_array(
+			'login_errors', $v_errors_element_ids ? : array()
+		)) : ?>
+		<div class="errors" id="start_timer_bottom_errors">
+			<?php
+			foreach($v_errors as $error) :
+			if($error->element_id === 'login_errors') :
+			?>
+			<p><?php echo $error->message; ?></p>
+			<?php endif; endforeach; ?>
+		</div>
+		<?php endif; ?>
 	</div>
 
 </div>

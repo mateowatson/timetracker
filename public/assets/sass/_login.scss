@@ -4,6 +4,8 @@
 	&__button {
 		@include button($button-color);
 
+		margin-bottom: 1em;
+
 		&--link {
 			@include button-is-link();
 		}
