@@ -31,6 +31,9 @@ class Search {
 		$search_by = urldecode($req['search_by']);
 		$page = isset($req['page']) ? (int)urldecode($req['page']) : 0;
 		$f3->set('v_no_matches', false);
+
+		$f3->set('v_search_by', $search_by);
+		$f3->set('v_search_term', $search_term);
 		
 		$sql_condition = '';
 		$sql_offset = 10*($page);
@@ -69,6 +72,15 @@ class Search {
 			}
 		} else if($search_by === 'date') {
 			$formatted_date_search_arr = Utils::parse_search_by_date_input($search_term);
+
+			if(!$formatted_date_search_arr && $search_term) {
+				$f3->push('v_errors', array(
+					'element_id' => 'search_errors',
+					'message' => 'Your date input was not formatted properly. Please use "MM/DD/YYYY" for a single date and "MM/DD/YYYY" for a date range.'
+				));
+
+				Utils::reroute_with_errors($f3, $args, '/search?search_by=date');
+			}
 			// VALIDATE DATE FIELDS
 			if($formatted_date_search_arr !== FALSE) {
 				$logs_matches_query = $db->exec('

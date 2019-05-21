@@ -5,4 +5,8 @@
 	@media (max-width: 900px) {
 		padding: 1em;
 	}
+
+	&__heading {
+		@include visually-hidden();
+	}
 }

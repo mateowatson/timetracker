@@ -1,3 +1,7 @@
 .errors {
 	@include errors();
+
+	&__heading {
+		@include visually-hidden();
+	}
 }

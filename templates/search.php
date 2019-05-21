@@ -31,7 +31,17 @@
 			<?php require_once('partials/logs-table.php'); ?>
 
 			<?php else: ?>
-			<p class="logs__no-results-found">No results found.</p>
+			<p class="logs__no-results-found">
+				No results found.
+			</p>
+			<p>
+				<?php if(!$v_search_term): ?>
+				<?php if(!in_array(
+					'search_errors', $v_errors_element_ids ? : array()
+				)) : ?>
+				Enter a date or date range to see logs by date.
+				<?php endif; endif; ?>
+			</p>
 		<?php endif; ?>
 	</section>
 
