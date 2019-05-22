@@ -5,6 +5,15 @@
 	<?php require_once('partials/heading.php'); ?>
 
 	<div class="login">
+		<?php if(count($v_confirmations)) : ?>
+		<div class="confirmations">
+			<?php
+			foreach($v_confirmations as $confirmation) :
+			?>
+			<p><?php echo $confirmation->message; ?></p>
+			<?php endforeach; ?>
+		</div>
+		<?php endif; ?>
 		<form action="/login" method="POST">
 			<input type="text" name="csrf" value="<?php echo $CSRF; ?>" hidden>
 			

@@ -38,7 +38,7 @@ class Register {
 
 		Utils::reroute_with_errors($f3, $args, '/register');
 
-		$db->exec(
+		$new_user = $db->exec(
 			'INSERT INTO users (username, password) VALUES (?, ?)',
 			array(
 				$request_user,
@@ -46,6 +46,20 @@ class Register {
 			)
 		);
 
-		$f3->reroute('/login');
+		///error_log(print_r($new_user, true));
+
+		if($new_user === 1) {
+			$f3->push('v_confirmations', array(
+				'element_id' => 'registration_confirmations',
+				'message' => 'You have successfully registered!'
+			));
+			Utils::reroute_with_confirmations($f3, $args, '/login');
+		}
+
+		$f3->push('v_errors', array(
+			'element_id' => 'registration_errors',
+			'message' => 'Your registration request failed.'
+		));
+		Utils::reroute_with_errors($f3, $args, '/register');
 	}
 }

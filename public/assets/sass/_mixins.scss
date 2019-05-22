@@ -56,3 +56,9 @@
 	background-color: #fff;
 	border-bottom: 2px solid $button-color-end-time;
 }
+
+@mixin confirmations() {
+	padding: .2em 1em;
+	background-color: #fff;
+	border-bottom: 2px solid $button-color-start-time;
+}
