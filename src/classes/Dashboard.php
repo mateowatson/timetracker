@@ -30,17 +30,17 @@ class Dashboard {
 		foreach($projectsQuery as $query) {
 			array_push($projects, array(
 				'id' => $query['project_id'],
-				'name' => $query['name']
+				'name' => $query['name'],
+				'preselect_in_dropdown' => false
 			));
 		}
 		foreach($tasksQuery as $query) {
 			array_push($tasks, array(
 				'id' => $query['task_id'],
-				'name' => $query['name']
+				'name' => $query['name'],
+				'preselect_in_dropdown' => false
 			));
 		}
-		$f3->set('v_projects', $projects);
-		$f3->set('v_tasks', $tasks);
 
 		// GET CURRENTLY RUNNING LOG IF EXISTS
 		$db_logs = new \DB\SQL\Mapper($db, 'logs');
@@ -103,6 +103,21 @@ class Dashboard {
 		$did_set_v_logs_total_time = Utils::set_v_logs_total_time(
 			$f3, $user->id, $dashboard_time_filter
 		);
+
+		$logs = $f3->get('v_logs');
+		foreach($projects as $project_idx => $project) {
+			if($project['name'] === $logs[0]['project_name'] && !isset($req['new'])) {
+				$projects[$project_idx]['preselect_in_dropdown'] = true;
+			}
+		}
+		foreach($tasks as $task_idx => $task) {
+			if($task['name'] === $logs[0]['task_name'] && !isset($req['new'])) {
+				$tasks[$task_idx]['preselect_in_dropdown'] = true;
+			}
+		}
+
+		$f3->set('v_projects', $projects);
+		$f3->set('v_tasks', $tasks);
 		
 		// ADDITIONAL VIEW VARIABLES
 		$f3->set('v_page_title', 'Dashboard');

@@ -11,7 +11,9 @@
 				placeholder="Project" class="timer__select">
 				<option value="" selected="selected">Select Existing Project</option>
 				<?php foreach($v_projects as $project) : ?>
-				<option value="<?php echo $project['id']; ?>" class="timer__option">
+				<option value="<?php echo $project['id']; ?>"
+					class="timer__option"
+					<?php echo $project['preselect_in_dropdown'] ? 'selected' : ''; ?>>
 					<?php echo $project['name']; ?>
 				</option>
 				<?php endforeach; ?>
@@ -31,7 +33,9 @@
 				placeholder="task" class="timer__select">
 				<option value="" selected="selected">Select Existing Task</option>
 				<?php foreach($v_tasks as $task) : ?>
-				<option value="<?php echo $task['id']; ?>" class="timer__option">
+				<option value="<?php echo $task['id']; ?>"
+					class="timer__option"
+					<?php echo $task['preselect_in_dropdown'] ? 'selected' : ''; ?>>
 					<?php echo $task['name']; ?>
 				</option>
 				<?php endforeach; ?>
