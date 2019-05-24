@@ -3,39 +3,44 @@
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 		<h1 class="search__heading">Search</h1>
 
-		<label for="search_term_project" class="search__label search__label--hidden">
+		<label for="search_term_project" class="search__label search__label">
 			Project
 		</label>
 		<input type="text" class="search__term" id="search_term_project"
-			name="search_term_project" placeholder="Project">
+			name="search_term_project" placeholder="Search..."
+			value="<?php echo $v_search_term_project ? : ''; ?>">
 		</select>
 
-		<label for="search_term_task" class="search__label search__label--hidden">
+		<label for="search_term_task" class="search__label search__label">
 			Task
 		</label>
 		<input type="text" class="search__term" id="search_term_task"
-			name="search_term_task" placeholder="Task">
+			name="search_term_task" placeholder="Search..."
+			value="<?php echo $v_search_term_task ? : ''; ?>">
 		</select>
 
-		<label for="search_term_start_date" class="search__label search__label--hidden">
+		<label for="search_term_start_date" class="search__label search__label">
 			Start date (YYYY-MM-DD)
 		</label>
 		<input type="text" class="search__term" id="search_term_start_date"
-			name="search_term_start_date" placeholder="Start date (YYYY-MM-DD)">
+			name="search_term_start_date" placeholder="Search..."
+			value="<?php echo $v_search_term_start_date ? : ''; ?>">
 		</select>
 
-		<label for="search_term_end_date" class="search__label search__label--hidden">
+		<label for="search_term_end_date" class="search__label search__label">
 			End date (YYYY-MM-DD)
 		</label>
 		<input type="text" class="search__term" id="search_term_end_date"
-			name="search_term_end_date" placeholder="End date (YYYY-MM-DD)">
+			name="search_term_end_date" placeholder="Search..."
+			value="<?php echo $v_search_term_end_date ? : ''; ?>">
 		</select>
 
-		<label for="search_term_notes" class="search__label search__label--hidden">
+		<label for="search_term_notes" class="search__label search__label">
 			Notes
 		</label>
 		<input type="text" class="search__term" id="search_term_notes"
-			name="search_term_notes" placeholder="Notes">
+			name="search_term_notes" placeholder="Search..."
+			value="<?php echo $v_search_term_notes ? : ''; ?>">
 		</select>
 
 		<input type="submit" value="Search" class="search__submit">
