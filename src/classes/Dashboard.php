@@ -104,14 +104,17 @@ class Dashboard {
 			$f3, $user->id, $dashboard_time_filter
 		);
 
-		$logs = $f3->get('v_logs');
+		$last_log = $db->exec(
+			'SELECT * FROM logs WHERE user_id = ? ORDER BY start_time DESC LIMIT 1',
+			array($user->id)
+		);
 		foreach($projects as $project_idx => $project) {
-			if($project['name'] === $logs[0]['project_name'] && !isset($req['new'])) {
+			if($project['id'] === $last_log[0]['project_id'] && !isset($req['new'])) {
 				$projects[$project_idx]['preselect_in_dropdown'] = true;
 			}
 		}
 		foreach($tasks as $task_idx => $task) {
-			if($task['name'] === $logs[0]['task_name'] && !isset($req['new'])) {
+			if($task['id'] === $last_log[0]['task_id'] && !isset($req['new'])) {
 				$tasks[$task_idx]['preselect_in_dropdown'] = true;
 			}
 		}
