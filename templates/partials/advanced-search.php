@@ -20,7 +20,7 @@
 		</select>
 
 		<label for="search_term_start_date" class="search__label search__label">
-			Start date (YYYY-MM-DD)
+			Start date (MM/DD/YYYY)
 		</label>
 		<input type="text" class="search__term" id="search_term_start_date"
 			name="search_term_start_date" placeholder="Search..."
@@ -28,7 +28,7 @@
 		</select>
 
 		<label for="search_term_end_date" class="search__label search__label">
-			End date (YYYY-MM-DD)
+			End date (MM/DD/YYYY)
 		</label>
 		<input type="text" class="search__term" id="search_term_end_date"
 			name="search_term_end_date" placeholder="Search..."
