@@ -236,6 +236,16 @@ class AdvancedSearch {
 		$search_term_end_date = $req['search_term_end_date'];
 		$search_term_notes = $req['search_term_notes'];
 
+		if(
+			!$search_term_project &&
+			!$search_term_task &&
+			!$search_term_start_date &&
+			!$search_term_end_date &&
+			!$search_term_notes
+		) {
+			$f3->reroute('/advanced-search');
+		}
+
 		if($search_term_start_date) {
 			$formatted_date_search_arr = Utils::parse_search_by_date_input($search_term_start_date);
 

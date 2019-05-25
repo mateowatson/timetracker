@@ -9,6 +9,8 @@ class Search {
 		$search_term = $req['search_term'];
 		$search_by = $req['search_by'];
 
+		if(!$search_term) $f3->reroute('/search');
+
 		$f3->reroute('/search?search_term='.
 			urlencode($search_term).
 			'&search_by='.

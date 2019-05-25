@@ -3,45 +3,55 @@
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 		<h1 class="search__heading">Search</h1>
 
-		<label for="search_term_project" class="search__label search__label">
-			Project
-		</label>
-		<input type="text" class="search__term" id="search_term_project"
-			name="search_term_project" placeholder="Search..."
-			value="<?php echo $v_search_term_project ? : ''; ?>">
-		</select>
+		<div class="search__col-6">
+			<label for="search_term_project" class="search__label search__label">
+				Project:
+			</label>
+			<input type="text" class="search__term" id="search_term_project"
+				name="search_term_project" placeholder="Search..."
+				value="<?php echo $v_search_term_project ? : ''; ?>">
+			</select>
+		</div>
+		
+		<div class="search__col-6">
+			<label for="search_term_task" class="search__label search__label">
+				Task:
+			</label>
+			<input type="text" class="search__term" id="search_term_task"
+				name="search_term_task" placeholder="Search..."
+				value="<?php echo $v_search_term_task ? : ''; ?>">
+			</select>
+		</div>
 
-		<label for="search_term_task" class="search__label search__label">
-			Task
-		</label>
-		<input type="text" class="search__term" id="search_term_task"
-			name="search_term_task" placeholder="Search..."
-			value="<?php echo $v_search_term_task ? : ''; ?>">
-		</select>
+		<div class="search__col-6">
+			<label for="search_term_start_date" class="search__label search__label">
+				Start date (MM/DD/YYYY):
+			</label>
+			<input type="text" class="search__term" id="search_term_start_date"
+				name="search_term_start_date" placeholder="Search..."
+				value="<?php echo $v_search_term_start_date ? : ''; ?>">
+			</select>
+		</div>
 
-		<label for="search_term_start_date" class="search__label search__label">
-			Start date (MM/DD/YYYY)
-		</label>
-		<input type="text" class="search__term" id="search_term_start_date"
-			name="search_term_start_date" placeholder="Search..."
-			value="<?php echo $v_search_term_start_date ? : ''; ?>">
-		</select>
+		<div class="search__col-6">
+			<label for="search_term_end_date" class="search__label search__label">
+				End date (MM/DD/YYYY):
+			</label>
+			<input type="text" class="search__term" id="search_term_end_date"
+				name="search_term_end_date" placeholder="Search..."
+				value="<?php echo $v_search_term_end_date ? : ''; ?>">
+			</select>
+		</div>
 
-		<label for="search_term_end_date" class="search__label search__label">
-			End date (MM/DD/YYYY)
-		</label>
-		<input type="text" class="search__term" id="search_term_end_date"
-			name="search_term_end_date" placeholder="Search..."
-			value="<?php echo $v_search_term_end_date ? : ''; ?>">
-		</select>
-
-		<label for="search_term_notes" class="search__label search__label">
-			Notes
-		</label>
-		<input type="text" class="search__term" id="search_term_notes"
-			name="search_term_notes" placeholder="Search..."
-			value="<?php echo $v_search_term_notes ? : ''; ?>">
-		</select>
+		<div class="search__col-6">
+			<label for="search_term_notes" class="search__label search__label">
+				Notes:
+			</label>
+			<input type="text" class="search__term" id="search_term_notes"
+				name="search_term_notes" placeholder="Search..."
+				value="<?php echo $v_search_term_notes ? : ''; ?>">
+			</select>
+		</div>
 
 		<input type="submit" value="Search" class="search__submit">
 	</form>
