@@ -29,6 +29,8 @@
 		</select>
 
 		<input type="submit" value="Search" class="search__submit">
+
+		<a href="/advanced-search">Go to Advanced Search</a>
 	</form>
 
 	<?php if(in_array(
