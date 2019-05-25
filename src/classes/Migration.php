@@ -40,7 +40,7 @@ class Migration {
 		$db->exec($migration);
 
 		$db->exec(
-			'INSERT INTO users (username, password) VALUES (?, ?)',
+			'INSERT INTO users (username, password, admin) VALUES (?, ?, 1)',
 			array(
 				$request_user,
 				password_hash($request_password, PASSWORD_DEFAULT)
