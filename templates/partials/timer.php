@@ -120,5 +120,7 @@
 			<?php endif; ?>
 		</form>
 		<?php endif; ?>
+
+		<p>This is your personal timer. <a href="/teams">Select a Team</a></p>
 	</div>
 </section>

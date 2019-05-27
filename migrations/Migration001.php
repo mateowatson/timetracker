@@ -20,6 +20,7 @@ CREATE TABLE `logs` (
   KEY `user_id` (`user_id`),
   KEY `project_id` (`project_id`),
   KEY `task_id` (`task_id`),
+  KEY `team_id` (`team_id`),
   CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `logs_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`),
   CONSTRAINT `logs_ibfk_3` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`),
@@ -33,7 +34,6 @@ CREATE TABLE `projects` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 CREATE TABLE `tasks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
@@ -43,7 +43,10 @@ CREATE TABLE `tasks` (
 CREATE TABLE `teams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
-  PRIMARY KEY (`id`)
+  `creator` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `creator` (`creator`),
+  CONSTRAINT `teams_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `users` (
@@ -53,7 +56,6 @@ CREATE TABLE `users` (
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 CREATE TABLE `users_projects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

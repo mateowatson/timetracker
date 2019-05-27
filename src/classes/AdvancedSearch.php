@@ -1,7 +1,7 @@
 <?php
 
 class AdvancedSearch {
-	public function show($f3, $args) {
+	function show($f3, $args) {
 		Utils::redirect_logged_out_user($f3, $args);
 		Utils::send_csrf($f3, $args);
 
