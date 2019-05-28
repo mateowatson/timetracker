@@ -5,12 +5,14 @@
 </div>
 <h2>Select a Team</h2>
 <ul>
-	<li><a href="#">Team Name</a></li>
-	<li><a href="#">Team Name</a></li>
-	<li><a href="#">Team Name</a></li>
-	<li><a href="#">Team Name</a></li>
-	<li><a href="#">Team Name</a></li>
-	<li><a href="#">Team Name</a></li>
+	<?php foreach($v_teams as $v_team): ?>
+	<li>
+		<a href="/team/<?php echo $v_team['team_id']; ?>">
+			<?php echo $v_team['team_name']; ?>
+		</a>
+		<?php if($v_team['creator']): ?>- You created this team.<?php endif; ?>
+	</li>
+	<?php endforeach; ?>
 </ul>
 
 <h2>Create a Team</h2>
