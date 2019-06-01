@@ -12,6 +12,27 @@ class Dashboard {
 		$user = $db_users->load(array('username=?', $session_username));
 		$f3->set('v_username', $session_username);
 
+		$f3->set('v_page_title', 'Dashboard');
+		$is_team = false;
+		$team = false;
+		if(isset($args['team_url_id'])) {
+			$is_user_in_team = false;
+			$team_name = '';
+			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
+			foreach($available_teams as $av_t) {
+				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$args['team_url_id']) {
+					$is_user_in_team = true;
+					$is_team = true;
+					$team = $db->exec('SELECT name FROM teams WHERE id = ?', $av_t['team_id'])[0];
+					break;
+				}
+			}
+			if(!$is_user_in_team) {
+				return $f3->reroute('/dashboard');
+			}
+			$f3->set('v_page_title', 'Team: '.$team['name']);
+		}
+
 		// GET PROJECT AND TASK LISTS
 		$projectsQuery = $db->exec('
 			SELECT * FROM projects LEFT JOIN users_projects ON
@@ -123,7 +144,7 @@ class Dashboard {
 		$f3->set('v_tasks', $tasks);
 		
 		// ADDITIONAL VIEW VARIABLES
-		$f3->set('v_page_title', 'Dashboard');
+		
 
 		// RENDER
 		$view = new \View;

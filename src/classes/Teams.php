@@ -23,16 +23,19 @@ class Teams {
 			$db_teams->next();
 		}
 		$db_users_teams = new \DB\SQL\Mapper($db, 'users_teams');
-		$db_users_teams->load(array('user_id = ? AND team_id NOT IN (?)', $user->id, implode(', ', $team_ids)));
+		$db_users_teams->load(array('user_id = ?', $user->id,));
 		while(!$db_users_teams->dry()) {
 			$db_teams->reset();
 			$db_teams->load(array('id = ?', $db_users_teams->team_id));
-			array_push($teams, array(
-				'team_name' => $db_teams->name,
-				'team_id' => $db_users_teams->team_id,
-				'creator' => false
-			));
-			array_push($team_ids, $db_users_teams->id);
+			if(!in_array($db_users_teams->team_id, $team_ids)) {
+				array_push($teams, array(
+					'team_name' => $db_teams->name,
+					'team_id' => $db_users_teams->team_id,
+					'creator' => false
+				));
+				array_push($team_ids, $db_users_teams->id);
+			}
+			
 			$db_users_teams->next();
 		}
 		$f3->set('v_teams', $teams);
