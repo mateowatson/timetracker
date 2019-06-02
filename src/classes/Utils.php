@@ -172,7 +172,7 @@ class Utils {
 
 		$query_string = '
 			SELECT
-				logs.notes, logs.start_time, logs.end_time, logs.id,
+				logs.notes, logs.start_time, logs.end_time, logs.id, logs.team_id,
 				projects.name AS project_name,
 				tasks.name AS task_name,
 				users.username,

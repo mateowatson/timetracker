@@ -23,7 +23,7 @@ class Dashboard {
 				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$args['team_url_id']) {
 					$is_user_in_team = true;
 					$is_team = true;
-					$team = $db->exec('SELECT name FROM teams WHERE id = ?', $av_t['team_id'])[0];
+					$team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
 					break;
 				}
 			}
@@ -96,39 +96,48 @@ class Dashboard {
 		}
 
 		// GET LOGS LIST
+		$extra_conditions = '';
 		$is_week = isset($f3->get('REQUEST')['week']) ? true : false;
-		$dashboard_time_filter = 'null';
+		$dashboard_time_filter = '';
 		if($is_week) {
-			$dashboard_time_filter = '
-				AND (
+			$dashboard_time_filter = 'AND (
 					YEAR(CAST(logs.start_time AS DATE)) = YEAR(CAST(NOW() AS DATE))
 					AND
 					WEEK(CAST(logs.start_time AS DATE), 0) = WEEK(CAST(NOW() AS DATE), 0)
-				)
-			';
+				)';
 		} else {
-			$dashboard_time_filter = '
-				AND CAST(logs.start_time AS DATE) =
-				CAST(NOW() AS DATE)
-			';
+			$dashboard_time_filter = 'AND CAST(logs.start_time AS DATE) =
+				CAST(NOW() AS DATE)';
 		}
+		$team_filter = '';
+		if($is_team) {
+			$team_filter = ' AND logs.team_id = '.$team['id'];
+		}
+		$extra_conditions .= $dashboard_time_filter .= $team_filter;
 		$did_set_v_logs = Utils::set_v_logs(
 			$f3,
 			$user->id,
-			$dashboard_time_filter,
+			$extra_conditions,
 			false,
 			null
 		);
 
 		// SET TOTAL TIME
 		$did_set_v_logs_total_time = Utils::set_v_logs_total_time(
-			$f3, $user->id, $dashboard_time_filter
+			$f3, $user->id, $extra_conditions
 		);
 
-		$last_log = $db->exec(
-			'SELECT * FROM logs WHERE user_id = ? ORDER BY start_time DESC LIMIT 1',
-			array($user->id)
-		);
+		if($is_team) {
+			$last_log = $db->exec(
+				'SELECT * FROM logs WHERE user_id = ? AND team_id = ? ORDER BY start_time DESC LIMIT 1',
+				array($user->id, $team['id'])
+			);
+		} else {
+			$last_log = $db->exec(
+				'SELECT * FROM logs WHERE user_id = ? ORDER BY start_time DESC LIMIT 1',
+				array($user->id)
+			);
+		}
 		foreach($projects as $project_idx => $project) {
 			if($project['id'] === $last_log[0]['project_id'] && !isset($req['new'])) {
 				$projects[$project_idx]['preselect_in_dropdown'] = true;
