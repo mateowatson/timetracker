@@ -3,7 +3,6 @@
 class Timer {
 	function start_time($f3, $args) {
 		Utils::redirect_logged_out_user($f3, $args);
-		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
 
 		$db = $f3->get('DB');
 		$session_username = $f3->get('SESSION.session_username');
@@ -14,6 +13,36 @@ class Timer {
 		$db_tasks = new \DB\SQL\Mapper($db, 'tasks');
 		$db_users_tasks = new \DB\SQL\Mapper($db, 'users_tasks');
 		$db_logs = new \DB\SQL\Mapper($db, 'logs');
+
+		$is_team = false;
+		$team = false;
+		$referer_url = $f3->get('HEADERS')['Referer'];
+		$referer_url_parts = parse_url($referer_url);
+		$referer_path_parts = explode('/', $referer_url_parts['path']);
+		$referer_team_id = null;
+		if(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') {
+			$referer_team_id = $referer_path_parts[2];
+			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
+			$is_user_in_team = false;
+			foreach($available_teams as $av_t) {
+				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$referer_team_id) {
+					$is_user_in_team = true;
+					$is_team = true;
+					$team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
+					break;
+				}
+			}
+			if(!$is_user_in_team) {
+				return $f3->reroute('/dashboard');
+			}
+		}
+
+		if($is_team) {
+			Utils::prevent_csrf_from_tab_conflict($f3, $args, $referer_url_parts['path']);
+		} else {
+			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
+		}
+		
 
 		$req = $f3->get('REQUEST');
 		$req_new_proj = $req['start_time_new_project'];
