@@ -154,6 +154,11 @@ class Dashboard {
 		
 		// ADDITIONAL VIEW VARIABLES
 		
+		// SET SOME TEAM VIEW VARIABLES
+		$f3->set('v_is_team', $is_team);
+		if($is_team) {
+			$f3->set('v_team', $team);
+		}
 
 		// RENDER
 		$view = new \View;

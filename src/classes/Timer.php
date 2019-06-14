@@ -42,6 +42,7 @@ class Timer {
 		} else {
 			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
 		}
+
 		
 
 		$req = $f3->get('REQUEST');
@@ -74,7 +75,11 @@ class Timer {
 		}
 
 		// Finally redirect to page if need be, along with errors
-		Utils::reroute_with_errors($f3, $args, '/dashboard');
+		if($is_team) {
+			Utils::reroute_with_errors($f3, $args, $referer_url_parts['path']);
+		} else {
+			Utils::reroute_with_errors($f3, $args, '/dashboard');
+		}
 
 		// DECLARE VARIABLES FOR THE LOG RECORD LATER ON
 		$running_timer_project = null;
@@ -181,9 +186,16 @@ class Timer {
 		$db_logs->start_time = date("Y-m-d H:i:s");
 		$db_logs->end_time = null;
 		$db_logs->notes = $running_timer_notes;
+		if($is_team) {
+			$db_logs->team_id = $team['id'];
+		}
 		$db_logs->save();
-
-		$f3->reroute('/dashboard');
+		
+		if($is_team) {
+			$f3->reroute($referer_url_parts['path']);
+		} else {
+			$f3->reroute('/dashboard');
+		}
 	}
 
 	function stop_time($f3, $args) {

@@ -50,11 +50,18 @@
 				class="timer__text">
 			<?php endif; ?>
 
-			<?php if(!$v_timer_start_new): ?>
+			<?php
+			if(!$v_timer_start_new):
+				if($v_is_team):
+			?>
+			<a href="/team/<?php echo $v_team['id']; ?>?new" class="timer__start-new-link">
+				Start New Project or Task
+			</a>
+				<?php else: ?>
 			<a href="/dashboard?new" class="timer__start-new-link">
 				Start New Project or Task
 			</a>
-			<?php endif; ?>
+			<?php endif; endif; ?>
 
 			<label for="start_time_notes" class="timer__label">Notes</label>
 			<textarea id="start_time_notes" name="start_time_notes"
