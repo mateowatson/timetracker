@@ -118,13 +118,14 @@ class Dashboard {
 			$f3,
 			$user->id,
 			$extra_conditions,
+			$team_filter ? : false,
 			false,
 			null
 		);
 
 		// SET TOTAL TIME
 		$did_set_v_logs_total_time = Utils::set_v_logs_total_time(
-			$f3, $user->id, $extra_conditions
+			$f3, $user->id, $extra_conditions, $team_filter ? : false
 		);
 
 		if($is_team) {

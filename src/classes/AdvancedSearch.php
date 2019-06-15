@@ -173,6 +173,7 @@ class AdvancedSearch {
 				$f3,
 				$user->id,
 				$sql_condition,
+				false,
 				true,
 				$sql_offset
 			);
@@ -180,7 +181,7 @@ class AdvancedSearch {
 
 			// SET LOGS TOTAL TIME
 			$did_set_v_logs_total_time = Utils::set_v_logs_total_time(
-				$f3, $user->id, $sql_condition
+				$f3, $user->id, $sql_condition, false
 			);
 		}
 

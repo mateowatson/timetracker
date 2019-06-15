@@ -148,7 +148,8 @@ class Utils {
 	 * @param string $conditions Conditions to pass into the SQL statement. Must start
 	 * with 'AND'. It should be a valid clause, so you'll need to read the code for this
 	 * function in order to pass in a valid condition string.
-	 * @param bool $paginate Whether to paginate the SQL query by 10 per page..
+	 * @param bool $is_team_filter Is this for a team logs table?
+	 * @param bool $paginate Whether to paginate the SQL query by 10 per page.
 	 * @param int|null $page_offset How many records to offset. Only relevant if $paginate is
 	 * set to `true` and you need the offset to be more than 0.
 	 * @return bool true on success, false on failure.
@@ -157,6 +158,7 @@ class Utils {
 		$f3,
 		$user_id = null,
 		$conditions = '',
+		$is_team_filter = false,
 		$paginate = false,
 		$page_offset = null
 	) {
@@ -210,8 +212,9 @@ class Utils {
 				ON logs.task_id = tasks.id
 			LEFT JOIN users
 				ON logs.user_id = users.id
-			WHERE user_id = ? '.$conditions.'
-			ORDER BY start_time DESC';
+			WHERE '. (!$is_team_filter ? 'user_id = ? AND logs.team_id = NULL ' : 'TRUE ').
+			$conditions.
+			' ORDER BY start_time DESC';
 
 		if($paginate) {
 			$query_string .= ' LIMIT ?, 10';
@@ -250,12 +253,14 @@ class Utils {
 	 * @param string $conditions Conditions to pass into the SQL statement. Must start
 	 * with 'AND'. It should be a valid clause, so you'll need to read the code for this
 	 * function in order to pass in a valid condition string.
+	 * @param bool $is_team_filter Is this for a team logs table?
 	 * @return bool true on success, false on failure.
 	 */
 	static function set_v_logs_total_time(
 		$f3,
 		$user_id = null,
-		$conditions = ''
+		$conditions = '',
+		$is_team_filter = false
 	) {
 		if($user_id === null) {
 			return false;
@@ -272,8 +277,8 @@ class Utils {
 					)
 				) as total_time
 			FROM logs
-			WHERE user_id = ? '.$conditions.'
-			ORDER BY start_time DESC
+			WHERE '. (!$is_team_filter ? 'user_id = ? ' : 'TRUE ').
+			$conditions.' ORDER BY start_time DESC
 		', array($user_id));
 		
 		$f3->set(
