@@ -200,13 +200,41 @@ class Timer {
 
 	function stop_time($f3, $args) {
 		Utils::redirect_logged_out_user($f3, $args);
-		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
 
 		$db = $f3->get('DB');
 
 		$session_username = $f3->get('SESSION.session_username');
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $session_username));
+
+		$is_team = false;
+		$team = false;
+		$referer_url = $f3->get('HEADERS')['Referer'];
+		$referer_url_parts = parse_url($referer_url);
+		$referer_path_parts = explode('/', $referer_url_parts['path']);
+		$referer_team_id = null;
+		if(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') {
+			$referer_team_id = $referer_path_parts[2];
+			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
+			$is_user_in_team = false;
+			foreach($available_teams as $av_t) {
+				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$referer_team_id) {
+					$is_user_in_team = true;
+					$is_team = true;
+					$team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
+					break;
+				}
+			}
+			if(!$is_user_in_team) {
+				return $f3->reroute('/dashboard');
+			}
+		}
+
+		if($is_team) {
+			Utils::prevent_csrf_from_tab_conflict($f3, $args, $referer_url_parts['path']);
+		} else {
+			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
+		}
 
 		$db_logs = new \DB\SQL\Mapper($db, 'logs');
 
@@ -221,11 +249,19 @@ class Timer {
 				'message' => 'All logs are already stopped.'
 			));
 		}
-		Utils::reroute_with_errors($f3, $args, '/dashboard');
+		if($is_team) {
+			Utils::reroute_with_errors($f3, $args, $referer_url_parts['path']);
+		} else {
+			Utils::reroute_with_errors($f3, $args, '/dashboard');
+		}
 
 		$db_logs->end_time = date("Y-m-d H:i:s");
 		$db_logs->save();
 
-		$f3->reroute('/dashboard');
+		if($is_team) {
+			$f3->reroute($referer_url_parts['path']);
+		} else {
+			$f3->reroute('/dashboard');
+		}
 	}
 }
