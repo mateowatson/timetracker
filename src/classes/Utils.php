@@ -212,17 +212,24 @@ class Utils {
 				ON logs.task_id = tasks.id
 			LEFT JOIN users
 				ON logs.user_id = users.id
-			WHERE '. (!$is_team_filter ? 'user_id = ? AND logs.team_id = NULL ' : 'TRUE ').
+			WHERE '. (!$is_team_filter ? 'user_id = ? AND logs.team_id IS NULL ' : 'TRUE ').
 			$conditions.
 			' ORDER BY start_time DESC';
 
 		if($paginate) {
 			$query_string .= ' LIMIT ?, 10';
 
-			$logs = $db->exec($query_string, array(
-				$user_id,
-				$page_offset
-			));
+			if(!$is_team_filter) {
+				$logs = $db->exec($query_string, array(
+					$user_id,
+					$page_offset
+				));
+			} else {
+				$logs = $db->exec($query_string, array(
+					$page_offset
+				));
+			}
+			
 
 			foreach($logs as $idx => $log) {
 				$logs[$idx]['time_sum'] = self::timediff_from_seconds($log['time_sum']);

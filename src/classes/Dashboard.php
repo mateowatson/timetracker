@@ -113,7 +113,7 @@ class Dashboard {
 		if($is_team) {
 			$team_filter = ' AND logs.team_id = '.$team['id'];
 		}
-		$extra_conditions .= $dashboard_time_filter .= $team_filter;
+		$extra_conditions .= $dashboard_time_filter . $team_filter;
 		$did_set_v_logs = Utils::set_v_logs(
 			$f3,
 			$user->id,

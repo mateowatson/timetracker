@@ -16,7 +16,7 @@
 					class="logs__filter-li-a <?php
 						echo isset($REQUEST['week']) ? '' : 'logs__filter-li-a--current';
 					?>"
-					href="/dashboard">
+					href="<?php echo !$v_is_team ? '/dashboard' : '/team/'.$v_team['id']; ?>">
 					Today
 				</a>
 			</li>
@@ -25,7 +25,7 @@
 					class="logs__filter-li-a <?php
 						echo isset($REQUEST['week']) ? 'logs__filter-li-a--current' : '';
 					?>"
-					href="/dashboard?week">
+					href="<?php echo !$v_is_team ? '/dashboard?week' : '/team/'.$v_team['id'].'?week'; ?>">
 					This Week
 				</a>
 			</li>
