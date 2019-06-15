@@ -277,7 +277,7 @@ class Utils {
 					)
 				) as total_time
 			FROM logs
-			WHERE '. (!$is_team_filter ? 'user_id = ? ' : 'TRUE ').
+			WHERE '. (!$is_team_filter ? 'user_id = ? AND logs.team_id = NULL ' : 'TRUE ').
 			$conditions.' ORDER BY start_time DESC
 		', array($user_id));
 		

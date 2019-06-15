@@ -9,12 +9,49 @@ class Search {
 		$search_term = $req['search_term'];
 		$search_by = $req['search_by'];
 
+		// GET DB, SESSION AND USER
+		$db = $f3->get('DB');
+		$session_username = $f3->get('SESSION.session_username');
+		$db_users = new \DB\SQL\Mapper($db, 'users');
+		$user = $db_users->load(array('username=?', $session_username));
+		$f3->set('v_username', $session_username);
+
+		$is_team = false;
+		$team = false;
+		$referer_url = $f3->get('HEADERS')['Referer'];
+		$referer_url_parts = parse_url($referer_url);
+		$referer_path_parts = explode('/', $referer_url_parts['path']);
+		$referer_team_id = null;
+		if(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') {
+			$referer_team_id = $referer_path_parts[2];
+			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
+			$is_user_in_team = false;
+			foreach($available_teams as $av_t) {
+				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$referer_team_id) {
+					$is_user_in_team = true;
+					$is_team = true;
+					$team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
+					break;
+				}
+			}
+			if(!$is_user_in_team) {
+				return $f3->reroute('/dashboard');
+			}
+		}
+
+		if($is_team) {
+			Utils::prevent_csrf_from_tab_conflict($f3, $args, $referer_url_parts['path']);
+		} else {
+			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
+		}
+
 		if(!$search_term) $f3->reroute('/search');
 
 		$f3->reroute('/search?search_term='.
 			urlencode($search_term).
 			'&search_by='.
-			urlencode($search_by));
+			urlencode($search_by).
+			($is_team ? '&team='.$team['id'] : ''));
 	}
 
 	function show($f3, $args) {
@@ -31,11 +68,30 @@ class Search {
 		$req = $f3->get('REQUEST');
 		$search_term = urldecode($req['search_term']);
 		$search_by = urldecode($req['search_by']);
+		$team_id = urldecode($req['team']);
 		$page = isset($req['page']) ? (int)urldecode($req['page']) : 0;
 		$f3->set('v_no_matches', false);
 
 		$f3->set('v_search_by', $search_by);
 		$f3->set('v_search_term', $search_term);
+
+		$is_team = false;
+		//$team = false;
+		if($team_id) {
+			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
+			$is_user_in_team = false;
+			foreach($available_teams as $av_t) {
+				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$team_id) {
+					$is_user_in_team = true;
+					$is_team = true;
+					//$team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
+					break;
+				}
+			}
+			if(!$is_user_in_team) {
+				return $f3->reroute('/dashboard');
+			}
+		}
 		
 		$sql_condition = '';
 		$sql_offset = 10*($page);
@@ -106,6 +162,11 @@ class Search {
 			}
 		}
 
+		if($is_team) {
+			error_log(trim($team_id));
+			$sql_condition .= ' AND logs.team_id = ' . $team_id;
+		}
+
 		// SET NO MATCHES TO TRUE IF NO MATCHES FOUND
 		if(!$sql_condition) {
 			$f3->set('v_no_matches', true);
@@ -114,7 +175,7 @@ class Search {
 		// GET LOGS COUNT
 		$logs_count_query = $db->exec(
 			'
-				SELECT COUNT(*) as logs_count
+				SELECT COUNT(*) as logs_count, team_id
 				FROM logs WHERE user_id = ? '.$sql_condition.'
 			',
 			array(
@@ -129,7 +190,7 @@ class Search {
 			$f3,
 			$user->id,
 			$sql_condition,
-			false,
+			$is_team,
 			true,
 			$sql_offset
 		);
@@ -137,7 +198,7 @@ class Search {
 
 		// SET LOGS TOTAL TIME
 		$did_set_v_logs_total_time = Utils::set_v_logs_total_time(
-			$f3, $user->id, $sql_condition, false
+			$f3, $user->id, $sql_condition, $is_team
 		);
 
 		// SET NEXT AND PREV LINKS

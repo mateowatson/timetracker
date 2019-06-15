@@ -118,7 +118,7 @@ class Dashboard {
 			$f3,
 			$user->id,
 			$extra_conditions,
-			$team_filter ? : false,
+			$team_filter ? true : false,
 			false,
 			null
 		);
