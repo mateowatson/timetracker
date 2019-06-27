@@ -256,7 +256,7 @@ class Utils {
 	 * table.
 	 * 
 	 * @param Base $f3 The base Fat Free Framework instance.
-	 * @param int $user_id The base Fat Free Framework instance.
+	 * @param int $user_id The user id.
 	 * @param string $conditions Conditions to pass into the SQL statement. Must start
 	 * with 'AND'. It should be a valid clause, so you'll need to read the code for this
 	 * function in order to pass in a valid condition string.
@@ -284,7 +284,7 @@ class Utils {
 					)
 				) as total_time
 			FROM logs
-			WHERE '. (!$is_team_filter ? 'user_id = ? AND logs.team_id = NULL ' : 'TRUE ').
+			WHERE '. (!$is_team_filter ? 'user_id = ? AND logs.team_id IS NULL ' : 'TRUE ').
 			$conditions.' ORDER BY start_time DESC
 		', array($user_id));
 		
