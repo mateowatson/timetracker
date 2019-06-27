@@ -36,26 +36,32 @@ class Dashboard {
 		// GET PROJECT AND TASK LISTS
 		if(!$is_team) {
 			$projectsQuery = $db->exec('
-				SELECT * FROM projects LEFT JOIN users_projects ON
-				(users_projects.user_id = ? AND
-				users_projects.project_id = projects.id) WHERE
-				users_projects.user_id IS NOT NULL
+				SELECT * FROM projects
+				LEFT JOIN users_projects
+					ON (users_projects.user_id = ? AND
+					users_projects.project_id = projects.id)
+				LEFT JOIN logs ON TRUE
+				WHERE users_projects.user_id IS NOT NULL 
+					AND logs.team_id IS NULL AND
+					logs.project_id = projects.id
 			', array($user->id));
 			$tasksQuery = $db->exec('
-				SELECT * FROM tasks LEFT JOIN users_tasks ON
-				(users_tasks.user_id = ? AND
-				users_tasks.task_id = tasks.id) WHERE
-				users_tasks.user_id IS NOT NULL
+				SELECT * FROM tasks
+				LEFT JOIN users_tasks
+					ON (users_tasks.user_id = ? AND
+					users_tasks.task_id = tasks.id)
+				WHERE users_tasks.user_id IS NOT NULL
 			', array($user->id));
 		} else {
 			$projectsQuery = $db->exec('
 				SELECT * FROM projects
 				LEFT JOIN users_projects
 					ON users_projects.project_id = projects.id
-				LEFT JOIN logs
-					ON (logs.project_id = projects.id AND logs.team_id IS NOT NULL)
-				WHERE users_projects.user_id IS NOT NULL
-			');
+				LEFT JOIN logs ON TRUE
+				WHERE users_projects.user_id IS NOT NULL 
+					AND logs.team_id = ? AND
+					logs.project_id = projects.id
+			', array($team['id']));
 			$tasksQuery = $db->exec('
 				SELECT * FROM tasks LEFT JOIN users_tasks ON
 				(users_tasks.user_id = ? AND
@@ -79,6 +85,8 @@ class Dashboard {
 				'preselect_in_dropdown' => false
 			));
 		}
+		$projects = array_unique($projects);
+		$tasks = array_unique($tasks);
 
 		// GET CURRENTLY RUNNING LOG IF EXISTS
 		$db_logs = new \DB\SQL\Mapper($db, 'logs');
