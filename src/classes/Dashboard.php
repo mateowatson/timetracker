@@ -63,11 +63,14 @@ class Dashboard {
 					logs.project_id = projects.id
 			', array($team['id']));
 			$tasksQuery = $db->exec('
-				SELECT * FROM tasks LEFT JOIN users_tasks ON
-				(users_tasks.user_id = ? AND
-				users_tasks.task_id = tasks.id) WHERE
-				users_tasks.user_id IS NOT NULL
-			', array($user->id));
+				SELECT * FROM tasks
+				LEFT JOIN users_tasks
+					ON users_tasks.task_id = tasks.id
+				LEFT JOIN logs ON TRUE
+				WHERE users_tasks.user_id IS NOT NULL AND
+					logs.team_id = ? AND
+					logs.task_id = tasks.id
+			', array($team['id']));
 		}
 		$projects = array();
 		$tasks = array();
@@ -160,7 +163,7 @@ class Dashboard {
 			);
 		} else {
 			$last_log = $db->exec(
-				'SELECT * FROM logs WHERE user_id = ? ORDER BY start_time DESC LIMIT 1',
+				'SELECT * FROM logs WHERE user_id = ? AND team_id IS NULL ORDER BY start_time DESC LIMIT 1',
 				array($user->id)
 			);
 		}
