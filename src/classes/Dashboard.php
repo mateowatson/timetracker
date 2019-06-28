@@ -75,21 +75,35 @@ class Dashboard {
 		$projects = array();
 		$tasks = array();
 		foreach($projectsQuery as $query) {
-			array_push($projects, array(
-				'id' => $query['project_id'],
-				'name' => $query['name'],
-				'preselect_in_dropdown' => false
-			));
+			$is_dup = false;
+			foreach($projects as $project) {
+				if($project['id'] === $query['project_id']) {
+					$is_dup = true;
+				}
+			}
+			if(!$is_dup) {
+				array_push($projects, array(
+					'id' => $query['project_id'],
+					'name' => $query['name'],
+					'preselect_in_dropdown' => false
+				));
+			}
 		}
 		foreach($tasksQuery as $query) {
-			array_push($tasks, array(
-				'id' => $query['task_id'],
-				'name' => $query['name'],
-				'preselect_in_dropdown' => false
-			));
+			$is_dup = false;
+			foreach($tasks as $task) {
+				if($task['id'] === $query['task_id']) {
+					$is_dup = true;
+				}
+			}
+			if(!$is_dup) {
+				array_push($tasks, array(
+					'id' => $query['task_id'],
+					'name' => $query['name'],
+					'preselect_in_dropdown' => false
+				));
+			}
 		}
-		$projects = array_unique($projects);
-		$tasks = array_unique($tasks);
 
 		// GET CURRENTLY RUNNING LOG IF EXISTS
 		$db_logs = new \DB\SQL\Mapper($db, 'logs');
