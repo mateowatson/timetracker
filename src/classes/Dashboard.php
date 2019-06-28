@@ -17,7 +17,6 @@ class Dashboard {
 		$team = false;
 		if(isset($args['team_url_id'])) {
 			$is_user_in_team = false;
-			$team_name = '';
 			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
 			foreach($available_teams as $av_t) {
 				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$args['team_url_id']) {

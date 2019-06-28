@@ -60,7 +60,6 @@ class Teams {
 		foreach($req_team_invitees as $invitee) {
 			$db_users->reset();
 			$invited_user = $db_users->load(array('username=?', trim($invitee)));
-			error_log(print_r($invited_user, true));
 			if(!$invited_user) {
 				$f3->push('v_errors', array(
 					'element_id' => 'create_team_errors',

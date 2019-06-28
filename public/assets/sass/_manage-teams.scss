@@ -1,0 +1,40 @@
+.manage-teams {
+	&__heading {
+
+	}
+
+	&__team-list {
+
+	}
+
+	&__team-list-item {
+
+	}
+
+	&__team-list-item-link {
+
+	}
+
+	&__form {
+
+	}
+
+	&__form-label {
+		display: block;
+		margin-bottom: 1em;
+	}
+
+	&__form-text-input {
+		display: block;
+		margin-bottom: 2em;
+	}
+
+	&__form-textarea {
+		display: block;
+		margin-bottom: 2em;
+	}
+
+	&__form-button {
+		@include button();
+	}
+}
