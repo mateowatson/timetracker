@@ -21,6 +21,9 @@
 		@media (max-width: 900px) {
 			width: 100%;
 		}
+		.main-layout--team-page & {
+			width: 100%;
+		}
 	}
 
 	&__label {

@@ -1,10 +1,14 @@
 <?php require_once('partials/header.php'); ?>
-<div class="main-layout">
+<div class="main-layout <?php echo $v_is_team ? ' main-layout--team-page' : ''; ?>">
 	<?php require_once('partials/heading.php'); ?>
 
 	<?php require_once('partials/account.php'); ?>
 
 	<?php require_once('partials/timer.php'); ?>
+
+	<?php if($v_is_team) {
+		require_once('partials/team-members.php');
+	} ?>
 
 	<?php require_once('partials/search.php'); ?>
 

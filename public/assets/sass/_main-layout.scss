@@ -37,6 +37,24 @@
 		}
 	}
 
+	&--team-page {
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+
+		grid-template-areas: 
+			"site-title site-title account account"
+			"timer team-members search search"
+			"logs logs logs logs";
+		
+		@media (max-width: 900px) {
+			grid-template-areas: 
+				"account account account account"
+				"site-title site-title site-title site-title"
+				"timer timer timer timer"
+				"search search search search"
+				"logs logs logs logs";
+		}
+	}
+
 	&--login {
 		grid-template-areas: 
 			"site-title"
