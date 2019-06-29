@@ -31,6 +31,18 @@ class Dashboard {
 			}
 			$f3->set('v_page_title', 'Team: '.$team['name']);
 		}
+		$team_members = array();
+		$team_members_ids = $db->exec(
+			'SELECT user_id FROM users_teams WHERE team_id = ?',
+			array($team['id'])
+		);
+		foreach($team_members_ids as $id) {
+			array_push(
+				$team_members,
+				$db->exec('SELECT * FROM users WHERE id = ?', array($id['user_id']))[0]
+			);
+		}
+		$f3->set('v_team_members', $team_members);
 
 		// GET PROJECT AND TASK LISTS
 		if(!$is_team) {

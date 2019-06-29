@@ -17,6 +17,10 @@
 	&__form-text-input {
 		display: block;
 		margin-bottom: 2em;
+		position: relative;
+		width: 100%;
+		display: block;
+		padding: 1em;
 	}
 
 	&__form-button {
