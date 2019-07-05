@@ -13,6 +13,6 @@
 		<label class="team-members__form-label" for="team_member_name">Add another member</label>
 		<input class="team-members__form-text-input" type="text" name="team_member_name"
 			id="team_member_name" placeholder="Username...">
-		<input class="team-members__form-button" type="submit" value="Create Team">
+		<input class="team-members__form-button" type="submit" value="Add Member">
 	</form>
 </section>
