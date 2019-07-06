@@ -4,7 +4,9 @@
 		<?php foreach($v_team_members as $team_member): ?>
 			<li class="team-members__list-item">
 				<?php echo $team_member['username']; ?>
+				<?php if($v_show_remove_members): ?>
 				<a href="/remove-member?team=<?php echo $v_team['id']; ?>&user=<?php echo $team_member['id']; ?>" class="team-members__remove-link">remove</a>
+				<?php endif; ?>
 			</li>
 		<?php endforeach; ?>
 	</ul>

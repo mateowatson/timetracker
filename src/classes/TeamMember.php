@@ -46,11 +46,31 @@ class TeamMember {
 		$req_team = urldecode($req['team']);
 		$req_user = urldecode($req['user']);
 
-		// Check for team membership
-		$db_users_teams = new \DB\SQL\Mapper($db, 'users_teams');
-		$db_users_teams->load(array('user_id = ?', $user->id));
-		if($db_users_teams->dry()) {
+		$user_to_remove = new \DB\SQL\Mapper($db, 'users');
+		$user_to_remove->load(array('id = ?', $req_user));
+		$db_team = new \DB\SQL\Mapper($db, 'teams');
+		$db_team->load(array('id = ?', $req_team));
+
+		$db = $f3->get('DB');
+		$session_username = $f3->get('SESSION.session_username');
+		$db_users = new \DB\SQL\Mapper($db, 'users');
+		$user = $db_users->load(array('username=?', $session_username));
+
+		// Only team creators can delete members
+		if($db_team->creator === $user->id) {
 			$f3->reroute('/login');
 		}
+		$f3->set('v_team', $db_team);
+		$f3->set('v_user_to_remove', $user_to_remove);
+
+		$referer_url = $f3->get('HEADERS')['Referer'];
+		$referer_url_parts = parse_url($referer_url);
+		$f3->set('v_cancel_url', $referer_url_parts['path']);
+
+		$f3->set('v_page_title', 'Remove Member');
+
+		// RENDER
+		$view = new \View;
+		echo $view->render('remove-member.php');
 	}
 }

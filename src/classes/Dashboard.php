@@ -212,6 +212,7 @@ class Dashboard {
 		$f3->set('v_is_team', $is_team);
 		if($is_team) {
 			$f3->set('v_team', $team);
+			$f3->set('v_show_remove_members', $user->id === (int)$team['creator']);
 		}
 
 		// RENDER
