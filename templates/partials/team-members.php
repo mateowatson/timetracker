@@ -2,7 +2,10 @@
 	<h2 class="team-members__heading">Team Members</h2>
 	<ul class="team-members__list">
 		<?php foreach($v_team_members as $team_member): ?>
-			<li class="team-members__list-item"><?php echo $team_member['username']; ?></li>
+			<li class="team-members__list-item">
+				<?php echo $team_member['username']; ?>
+				<a href="/remove-member?team=<?php echo $v_team['id']; ?>&user=<?php echo $team_member['id']; ?>" class="team-members__remove-link">remove</a>
+			</li>
 		<?php endforeach; ?>
 	</ul>
 

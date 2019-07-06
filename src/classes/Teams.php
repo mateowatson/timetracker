@@ -23,7 +23,7 @@ class Teams {
 			$db_teams->next();
 		}
 		$db_users_teams = new \DB\SQL\Mapper($db, 'users_teams');
-		$db_users_teams->load(array('user_id = ?', $user->id,));
+		$db_users_teams->load(array('user_id = ?', $user->id));
 		while(!$db_users_teams->dry()) {
 			$db_teams->reset();
 			$db_teams->load(array('id = ?', $db_users_teams->team_id));
