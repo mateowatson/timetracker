@@ -46,21 +46,21 @@ class TeamMember {
 		$req_team = urldecode($req['team']);
 		$req_user = urldecode($req['user']);
 
+		$db = $f3->get('DB');
 		$user_to_remove = new \DB\SQL\Mapper($db, 'users');
 		$user_to_remove->load(array('id = ?', $req_user));
-		$db_team = new \DB\SQL\Mapper($db, 'teams');
-		$db_team->load(array('id = ?', $req_team));
+		$team = new \DB\SQL\Mapper($db, 'teams');
+		$team->load(array('id = ?', $req_team));
 
-		$db = $f3->get('DB');
 		$session_username = $f3->get('SESSION.session_username');
-		$db_users = new \DB\SQL\Mapper($db, 'users');
-		$user = $db_users->load(array('username=?', $session_username));
+		$user = new \DB\SQL\Mapper($db, 'users');
+		$user->load(array('username = ?', $session_username));
 
 		// Only team creators can delete members
-		if($db_team->creator === $user->id) {
+		if($team->creator !== $user->id) {
 			$f3->reroute('/login');
 		}
-		$f3->set('v_team', $db_team);
+		$f3->set('v_team', $team);
 		$f3->set('v_user_to_remove', $user_to_remove);
 
 		$referer_url = $f3->get('HEADERS')['Referer'];
@@ -72,5 +72,44 @@ class TeamMember {
 		// RENDER
 		$view = new \View;
 		echo $view->render('remove-member.php');
+	}
+
+	function remove($f3, $args) {
+		Utils::redirect_logged_out_user($f3, $args);
+		Utils::prevent_csrf($f3, $args);
+
+		$req = $f3->get('REQUEST');
+		$req_team = $req['team_id'];
+		$req_user = $req['user_id'];
+		//error_log('XXXXXXXX: '.print_r( $req, true));
+
+		$db = $f3->get('DB');
+		$user_to_remove = new \DB\SQL\Mapper($db, 'users');
+		$user_to_remove->load(array('id = ?', $req_user));
+		//error_log('XXXXXXXX: '.print_r( $user_to_remove, true));
+		$team = new \DB\SQL\Mapper($db, 'teams');
+		$team->load(array('id = ?', $req_team));
+
+		$session_username = $f3->get('SESSION.session_username');
+		$user = new \DB\SQL\Mapper($db, 'users');
+		$user->load(array('username = ?', $session_username));
+
+		// Only team creators can delete members
+		if($team->creator !== $user->id) {
+			$f3->reroute('/login');
+		}
+
+		// Reroute to screen that says they are already removed if necessary
+		$db_users_teams = new \DB\SQL\Mapper($db, 'users_teams');
+		$db_users_teams->load(array('user_id = ?', $user_to_remove->id));
+		if($db_users_teams->dry()) {
+			// Change below to team dashboard with errors
+			$f3->reroute('/login');
+		}
+
+		if(!$user_to_remove->dry()) {
+			$db_users_teams->erase();
+			$f3->reroute('/team/'.$team->id);
+		}
 	}
 }
