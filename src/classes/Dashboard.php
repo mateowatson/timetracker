@@ -61,7 +61,10 @@ class Dashboard {
 				LEFT JOIN users_tasks
 					ON (users_tasks.user_id = ? AND
 					users_tasks.task_id = tasks.id)
+				LEFT JOIN logs ON TRUE
 				WHERE users_tasks.user_id IS NOT NULL
+					AND logs.team_id IS NULL AND
+					logs.task_id = tasks.id
 			', array($user->id));
 		} else {
 			$projectsQuery = $db->exec('
