@@ -239,6 +239,9 @@
 
 				<input type="submit" value="Save">
 
+				<br><br><br><br>
+				<a class="timer__submit--stop" href="/delete-log?log=<?php echo urlencode($v_log_id); ?>">Delete This Log</a>
+
 				<?php if(in_array(
 					'edit_log_bottom_confirmations', $v_confirmations_element_ids ? : array()
 				)) : ?>
