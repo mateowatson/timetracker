@@ -20,4 +20,27 @@
 			id="team_member_name" placeholder="Username...">
 		<input class="team-members__form-button" type="submit" value="Add Member">
 	</form>
+
+	<?php if(in_array(
+		'add_member_errors', $v_errors_element_ids ? : array()
+	)) : ?>
+	<div class="errors" id="add_member_errors">
+		<?php
+		foreach($v_errors as $error) :
+		if($error->element_id === 'add_member_errors') :
+		?>
+		<p><?php echo $error->message; ?></p>
+		<?php endif; endforeach; ?>
+	</div>
+	<?php endif; ?>
+
+	<?php if(count($v_confirmations)) : ?>
+	<div class="confirmations">
+		<?php
+		foreach($v_confirmations as $confirmation) :
+		?>
+		<p><?php echo $confirmation->message; ?></p>
+		<?php endforeach; ?>
+	</div>
+	<?php endif; ?>
 </section>

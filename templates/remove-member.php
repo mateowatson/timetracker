@@ -16,6 +16,7 @@
 			<input class="remove-member__form-button" type="submit" value="Remove">
 			<a class="remove-member__form-cancel" href="<?php echo $v_cancel_url; ?>">Cancel</a>
 		</form>
+
 		<?php if(in_array(
 			'remove_member_errors', $v_errors_element_ids ? : array()
 		)) : ?>

@@ -33,9 +33,20 @@ class TeamMember {
 			$db_users_teams->user_id = $user_to_add->id;
 			$db_users_teams->team_id = $db_team->id;
 			$db_users_teams->save();
+
+			$f3->push('v_confirmations', array(
+				'element_id' => 'team_members_confirmations',
+				'message' => $user_to_add->username . ' has been added!'
+			));
+			Utils::reroute_with_confirmations($f3, $args, $referer_url_parts['path']);
 		}
-		//$referer_path_parts = explode('/', $referer_url_parts['path']);
-		$f3->reroute($referer_url_parts['path']);
+
+		$f3->push('v_errors', array(
+			'element_id' => 'add_member_errors',
+			'message' => 'We couldn\'t add that user. Make sure the username is spelled correctly.'
+		));
+
+		Utils::reroute_with_errors($f3, $args, $referer_url_parts['path']);
 	}
 
 	function show_remove($f3, $args) {
@@ -109,7 +120,11 @@ class TeamMember {
 
 		if(!$user_to_remove->dry()) {
 			$db_users_teams->erase();
-			$f3->reroute('/team/'.$team->id);
+			$f3->push('v_confirmations', array(
+				'element_id' => 'team_members_confirmations',
+				'message' => $user_to_remove->username . ' has been removed.'
+			));
+			Utils::reroute_with_confirmations($f3, $args, '/team/'.$team->id);
 		}
 	}
 }

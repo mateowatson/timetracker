@@ -1,6 +1,10 @@
 .team-members {
 	grid-area: team-members;
 
+	&__form {
+		margin-bottom: 1em;
+	}
+
 	&__heading {
 		margin-top: 0;
 	}
