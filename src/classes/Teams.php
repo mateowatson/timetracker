@@ -11,6 +11,7 @@ class Teams {
 		$session_username = $f3->get('SESSION.session_username');
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $session_username));
+		$f3->set('v_username', $user->username);
 		$db_teams = new \DB\SQL\Mapper($db, 'teams');
 		$db_teams->load(array('creator = ?', $user->id));
 		while(!$db_teams->dry()) {

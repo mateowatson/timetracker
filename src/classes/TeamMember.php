@@ -105,9 +105,13 @@ class TeamMember {
 		$user = new \DB\SQL\Mapper($db, 'users');
 		$user->load(array('username = ?', $session_username));
 
-		// Only team creators can delete members
-		if($team->creator !== $user->id) {
-			$f3->reroute('/login');
+		// Only team creators can delete members and can't delete themselves.
+		if($team->creator !== $user->id || $team->creator === $user_to_remove->id) {
+			$f3->push('v_errors', array(
+				'element_id' => 'add_member_errors',
+				'message' => 'Sorry, something went wrong'
+			));
+			Utils::reroute_with_errors($f3, $args, '/team/'.$team->id);
 		}
 
 		// Reroute to screen that says they are already removed if necessary

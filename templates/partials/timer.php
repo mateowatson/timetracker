@@ -131,7 +131,8 @@
 		<?php if(!$v_is_team): ?>
 		<p>This is your personal timer. <a href="/teams">Select a Team</a></p>
 		<?php else: ?>
-		<p><a href="/dashboard">Go to your personal dashboard.</a></p>
+		<p><a href="/dashboard">Go back to your personal dashboard.</a></p>
+		<p><a href="/teams">Select another team</a></p>
 		<?php endif; ?>
 	</div>
 </section>
