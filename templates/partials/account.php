@@ -1,11 +1,11 @@
-<section class="account">
-	<h1 class="account__heading">Account</h1>
-	<p class="account__username">User:
+<div class="col-sm text-right">
+	<h2 class="sr-only">Account</h2>
+	<p>User:
 		<?php echo $v_username; ?>
 	</p>
 
-	<form action="/logout" method="POST" class="account__logout">
+	<form action="/logout" method="POST">
 		<input type="text" name="csrf" id="csrf" value="<?php echo $CSRF; ?>" hidden>
-		<input class="account__button" type="submit" value="Logout">
+		<input class="btn btn-link" type="submit" value="Logout">
 	</form>
-</section>
+</div>

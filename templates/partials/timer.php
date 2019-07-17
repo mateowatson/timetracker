@@ -1,79 +1,91 @@
-<section class="timer">
-	<h1 class="timer__heading">Timer</h1>
+<section>
+	<h1 class="sr-only">Timer</h1>
 	
-	<div class="timer__start-time">
+	<div>
 		<?php if(!$v_current_log): ?>
-		<form action="/start-time" method="POST" class="timer__form">
+		<form action="/start-time" method="POST">
 			<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 
-			<label for="start_time_project" class="timer__label">Project</label>
-			<select id="start_time_project" name="start_time_project"
-				placeholder="Project" class="timer__select">
-				<option value="" selected="selected">Select Existing Project</option>
-				<?php foreach($v_projects as $project) : ?>
-				<option value="<?php echo $project['id']; ?>"
-					class="timer__option"
-					<?php echo $project['preselect_in_dropdown'] ? 'selected' : ''; ?>>
-					<?php echo $project['name']; ?>
-				</option>
-				<?php endforeach; ?>
-			</select>
+			<div class="form-group">
+				<label for="start_time_project">Project</label>
+				<select class="form-control" id="start_time_project" name="start_time_project"
+					placeholder="Project">
+					<option value="" selected="selected">Select Existing Project</option>
+					<?php foreach($v_projects as $project) : ?>
+					<option value="<?php echo $project['id']; ?>"
+						<?php echo $project['preselect_in_dropdown'] ? 'selected' : ''; ?>>
+						<?php echo $project['name']; ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+			</div>
 
 			<?php if($v_timer_start_new): ?>
-			<label for="start_time_new_project" class="timer__label">
-				Start New Project
-			</label>
-			<input type="text" id="start_time_new_project"
-				name="start_time_new_project" placeholder="Start New Project..."
-				class="timer__text">
+			<div class="form-group">
+				<label for="start_time_new_project">
+					Start New Project
+				</label>
+				<input class="form-control" type="text" id="start_time_new_project"
+					name="start_time_new_project" placeholder="Start New Project...">
+			</div>
 			<?php endif; ?>
 
-			<label for="start_time_task" class="timer__label">Task</label>
-			<select id="start_time_task" name="start_time_task"
-				placeholder="task" class="timer__select">
-				<option value="" selected="selected">Select Existing Task</option>
-				<?php foreach($v_tasks as $task) : ?>
-				<option value="<?php echo $task['id']; ?>"
-					class="timer__option"
-					<?php echo $task['preselect_in_dropdown'] ? 'selected' : ''; ?>>
-					<?php echo $task['name']; ?>
-				</option>
-				<?php endforeach; ?>
-			</select>
+			<div class="form-group">
+				<label for="start_time_task">Task</label>
+				<select class="form-control" id="start_time_task" name="start_time_task"
+					placeholder="task">
+					<option value="" selected="selected">Select Existing Task</option>
+					<?php foreach($v_tasks as $task) : ?>
+					<option value="<?php echo $task['id']; ?>"
+						<?php echo $task['preselect_in_dropdown'] ? 'selected' : ''; ?>>
+						<?php echo $task['name']; ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+			</div>
 
 			<?php if($v_timer_start_new): ?>
-			<label for="start_time_new_task" class="timer__label">
-				Start New Task
-			</label>
-			<input type="text" id="start_time_new_task"
-				name="start_time_new_task" placeholder="Start New Task..."
-				class="timer__text">
+			<div class="form-group">
+				<label for="start_time_new_task">
+					Start New Task
+				</label>
+				<input class="form-control" type="text" id="start_time_new_task"
+					name="start_time_new_task" placeholder="Start New Task...">
+			</div>
 			<?php endif; ?>
 
 			<?php
 			if(!$v_timer_start_new):
 				if($v_is_team):
 			?>
-			<a href="/team/<?php echo $v_team['id']; ?>?new" class="timer__start-new-link">
-				Start New Project or Task
-			</a>
+			<div class="form-group">
+				<p><a href="/team/<?php echo $v_team['id']; ?>?new">
+					Start New Project or Task
+				</a></p>
+			</div>
+			
 				<?php else: ?>
-			<a href="/dashboard?new" class="timer__start-new-link">
-				Start New Project or Task
-			</a>
+			<div class="form-group">
+				<p><a href="/dashboard?new">
+					Start New Project or Task
+				</a></p>
+			</div>
 			<?php endif; endif; ?>
 
-			<label for="start_time_notes" class="timer__label">Notes</label>
-			<textarea id="start_time_notes" name="start_time_notes"
-			placeholder="Optional notes..." class="timer__textarea"></textarea>
+			<div class="form-group">
+				<label for="start_time_notes">Notes</label>
+				<textarea class="form-control" id="start_time_notes" name="start_time_notes"
+				placeholder="Optional notes..."></textarea>
+			</div>
 
-			<input type="submit" value="Start" class="timer__submit timer__submit--start"
-				<?php echo $v_current_log ? 'disabled' : ' ' ?>>
+			<div class="form-group">
+				<input class="btn btn-success" type="submit" value="Start" <?php echo $v_current_log ? 'disabled' : ' ' ?>>
+			</div>
 
 			<?php if(in_array(
 				'start_timer_bottom_errors', $v_errors_element_ids ? : array()
 			)) : ?>
-			<div class="errors" id="start_timer_bottom_errors">
+			<div id="start_timer_bottom_errors">
 				<?php
 				foreach($v_errors as $error) :
 				if($error->element_id === 'start_timer_bottom_errors') :
