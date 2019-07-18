@@ -208,7 +208,7 @@ class Search {
 			$prev_link = "/search?search_term=".$req['search_term']."&search_by=".
 				$req['search_by']."&page=".(string)($page-1);
 		}
-		if($page+1 > $logs_count/10) {
+		if($page+1 > $logs_count/10 && $logs_count > 10) {
 			$next_link = null;
 		} else {
 			$next_link = "/search?search_term=".$req['search_term']."&search_by=".

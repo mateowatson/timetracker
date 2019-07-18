@@ -25,6 +25,24 @@
 
 			<div class="col-lg-6">
 				<h2>Create a Team</h2>
+
+				<?php if(in_array(
+					'create_team_errors', $v_errors_element_ids ? : array()
+				)) : ?>
+				<div class="p-3 mb-3 bg-danger text-white" id="create_team_errors">
+					<h3>Sorry, there were one or more errors :-(.</h3>
+					<p>The following errors occurred:</p>
+					<ul>
+						<?php
+						foreach($v_errors as $error) :
+						if($error->element_id === 'create_team_errors') :
+						?>
+						<li><?php echo $error->message; ?></li>
+						<?php endif; endforeach; ?>
+					</ul>
+				</div>
+				<?php endif; ?>
+
 				<form action="/teams" method="POST">
 					<input type="text" name="csrf" id="csrf_team" value="<?php echo $CSRF; ?>" hidden>
 
@@ -42,19 +60,6 @@
 						<input class="btn btn-primary" type="submit" value="Create Team">
 					</div>
 				</form>
-				<?php if(in_array(
-					'create_team_errors', $v_errors_element_ids ? : array()
-				)) : ?>
-				<div class="errors" id="create_team_errors">
-					<h1 class="errors__heading">The were errors in your request</h1>
-					<?php
-					foreach($v_errors as $error) :
-					if($error->element_id === 'create_team_errors') :
-					?>
-					<p><?php echo $error->message; ?></p>
-					<?php endif; endforeach; ?>
-				</div>
-				<?php endif; ?>
 			</div>
 		</div>
 	</div>

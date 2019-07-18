@@ -2,6 +2,23 @@
 
 <div>
 	<?php if(!$v_current_log): ?>
+	<?php if(in_array(
+		'start_timer_bottom_errors', $v_errors_element_ids ? : array()
+	)) : ?>
+	<div class="p-3 mb-3 bg-danger text-white" id="start_timer_bottom_errors">
+		<h3>Sorry, there were one or more errors :-(.</h3>
+		<p>The following errors occurred:</p>
+		<ul>
+			<?php
+			foreach($v_errors as $error) :
+			if($error->element_id === 'start_timer_bottom_errors') :
+			?>
+			<li><?php echo $error->message; ?></li>
+			<?php endif; endforeach; ?>
+		</ul>
+	</div>
+	<?php endif; ?>
+	
 	<form action="/start-time" method="POST">
 		<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 
@@ -57,14 +74,14 @@
 		if(!$v_timer_start_new):
 			if($v_is_team):
 		?>
-		<div class="form-group">
+		<div class="form-group text-center">
 			<p><a href="/team/<?php echo $v_team['id']; ?>?new">
 				Start New Project or Task
 			</a></p>
 		</div>
 		
 			<?php else: ?>
-		<div class="form-group">
+		<div class="form-group text-center">
 			<p><a href="/dashboard?new">
 				Start New Project or Task
 			</a></p>
@@ -80,19 +97,6 @@
 		<div class="form-group">
 			<input class="btn btn-success" type="submit" value="Start" <?php echo $v_current_log ? 'disabled' : ' ' ?>>
 		</div>
-
-		<?php if(in_array(
-			'start_timer_bottom_errors', $v_errors_element_ids ? : array()
-		)) : ?>
-		<div id="start_timer_bottom_errors">
-			<?php
-			foreach($v_errors as $error) :
-			if($error->element_id === 'start_timer_bottom_errors') :
-			?>
-			<p><?php echo $error->message; ?></p>
-			<?php endif; endforeach; ?>
-		</div>
-		<?php endif; ?>
 	</form>
 	<?php endif; ?>
 
@@ -119,25 +123,28 @@
 	<?php endif; ?>
 
 	<?php if($v_current_log): ?>
+	<?php if(in_array(
+		'stop_timer_bottom_errors', $v_errors_element_ids ? : array()
+	)) : ?>
+	<div class="p-3 mb-3 bg-danger text-white" id="stop_timer_bottom_errors">
+		<h3>Sorry, there were one or more errors :-(.</h3>
+		<p>The following errors occurred:</p>
+		<ul>
+			<?php
+			foreach($v_errors as $error) :
+			if($error->element_id === 'stop_timer_bottom_errors') :
+			?>
+			<li><?php echo $error->message; ?></li>
+			<?php endif; endforeach; ?>
+		</ul>
+	</div>
+	<?php endif; ?>
 	<form action="/stop-time" method="POST">
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 		<div class="form-group">
 			<input type="submit" value="Stop" class="btn btn-danger"
 			<?php echo $v_current_log ? ' ' : 'disabled' ?>>
 		</div>
-
-		<?php if(in_array(
-			'stop_timer_bottom_errors', $v_errors_element_ids ? : array()
-		)) : ?>
-		<div class="errors" id="stop_timer_bottom_errors">
-			<?php
-			foreach($v_errors as $error) :
-			if($error->element_id === 'stop_timer_bottom_errors') :
-			?>
-			<p><?php echo $error->message; ?></p>
-			<?php endif; endforeach; ?>
-		</div>
-		<?php endif; ?>
 	</form>
 	<?php endif; ?>
 
