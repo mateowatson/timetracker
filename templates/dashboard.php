@@ -1,23 +1,23 @@
 <?php require_once('partials/header.php'); ?>
 
-<div class="container">
+<div class="container mb-5">
 	<div class="row">
 		<?php require_once('partials/heading.php'); ?>
 		<?php require_once('partials/account.php'); ?>
 	</div>
 </div>
 
-<div class="container">
+<div class="container mb-5">
 	<div class="row">
-		<div class="col-lg-3">
+		<div class="col-lg-4">
 			<?php require_once('partials/timer.php'); ?>
 		</div>
 		<?php if($v_is_team): ?>
-		<div class="col-lg-3">
+		<div class="col-lg-4">
 			<?php require_once('partials/team-members.php'); ?>
 		</div>
 		<?php endif; ?>
-		<div class="col-lg-3">
+		<div class="col-lg-4">
 			<?php require_once('partials/search.php'); ?>
 		</div>
 	</div>

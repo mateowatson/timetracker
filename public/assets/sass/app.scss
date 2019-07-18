@@ -1,1 +1,20 @@
+/*!
+ * Bootstrap v4.3.1 (https://getbootstrap.com/)
+ * Copyright 2011-2019 The Bootstrap Authors
+ * Copyright 2011-2019 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+// Bootstrap variable overides
+$font-family-base: "Roboto", sans-serif;
+$primary: rgb(27, 51, 95);
+$table-bg: #fff;
+
 @import "bootstrap/bootstrap";
+ 
+body {
+	background-image: url('/assets/images/grey_cup.png');
+	background-repeat: repeat;
+	background-position: 0 0;
+	background-size: auto;
+}

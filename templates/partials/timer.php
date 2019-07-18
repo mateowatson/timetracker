@@ -119,10 +119,12 @@
 	<?php endif; ?>
 
 	<?php if($v_current_log): ?>
-	<form action="/stop-time" method="POST" class="timer__form">
+	<form action="/stop-time" method="POST">
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
-		<input type="submit" value="Stop" class="timer__submit timer__submit--stop"
+		<div class="form-group">
+			<input type="submit" value="Stop" class="btn btn-danger"
 			<?php echo $v_current_log ? ' ' : 'disabled' ?>>
+		</div>
 
 		<?php if(in_array(
 			'stop_timer_bottom_errors', $v_errors_element_ids ? : array()

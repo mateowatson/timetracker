@@ -4,7 +4,10 @@
 		<li>
 			<?php echo $team_member['username']; ?>
 			<?php if($v_show_remove_members): ?>
-			<a href="/remove-member?team=<?php echo $v_team['id']; ?>&user=<?php echo $team_member['id']; ?>">remove</a>
+			<a href="/remove-member?team=<?php echo $v_team['id']; ?>&user=<?php echo $team_member['id']; ?>"
+				class="px-3">
+				remove
+			</a>
 			<?php endif; ?>
 		</li>
 	<?php endforeach; ?>

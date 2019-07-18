@@ -12,7 +12,7 @@
 				<th>Time Logged</th>
 			</tr>
 			<tr>
-				<th colspan="7">Total</th>
+				<th colspan="7" class="text-right">Total</th>
 				<th><?php echo $v_logs_total_time; ?></th>
 			</tr>
 		</thead>
