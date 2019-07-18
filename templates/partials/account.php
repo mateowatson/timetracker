@@ -1,4 +1,4 @@
-<div class="col-sm text-right">
+<div class="col-lg-4 text-right">
 	<h2 class="sr-only">Account</h2>
 	<p>User:
 		<?php echo $v_username; ?>
