@@ -21,9 +21,13 @@ class Search {
 		$referer_url = $f3->get('HEADERS')['Referer'];
 		$referer_url_parts = parse_url($referer_url);
 		$referer_path_parts = explode('/', $referer_url_parts['path']);
+		parse_str(parse_url($referer_url, PHP_URL_QUERY), $referer_query_parts);
 		$referer_team_id = null;
-		if(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') {
-			$referer_team_id = $referer_path_parts[2];
+		if(
+			(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
+			(isset($referer_query_parts['team']))
+		) {
+			$referer_team_id = $referer_path_parts[2] ? : $referer_query_parts['team'];
 			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
 			$is_user_in_team = false;
 			foreach($available_teams as $av_t) {
@@ -44,8 +48,6 @@ class Search {
 		} else {
 			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
 		}
-
-		if(!$search_term) $f3->reroute('/search');
 
 		$f3->reroute('/search?search_term='.
 			urlencode($search_term).
@@ -184,6 +186,9 @@ class Search {
 		);
 		$logs_count = $logs_count_query[0]['logs_count'];
 		$f3->set('v_logs_count', $logs_count);
+		if(!$logs_count) {
+			$f3->set('v_no_matches', true);
+		}
 
 		// SET LOGS LIST
 		$did_set_v_logs = Utils::set_v_logs(
