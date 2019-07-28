@@ -1,4 +1,4 @@
-<h2>Timer</h2>
+<h2 class="sr-only">Timer</h2>
 
 <div>
 	<?php if(!$v_current_log): ?>
@@ -116,8 +116,8 @@
 			<?php echo $v_current_log_task; ?>
 		</p>
 		<?php if($v_current_log['notes']): ?>
-		<h3 class="timer__counter-subheading">Notes</h3>
-		<p class="timer__counter-paragraph"><?php echo $v_current_log['notes']; ?></p>
+		<h3>Notes</h3>
+		<p><?php echo $v_current_log['notes']; ?></p>
 		<?php endif; ?>
 	</div>
 	<?php endif; ?>
