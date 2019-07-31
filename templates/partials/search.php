@@ -33,7 +33,7 @@
 	</div>
 
 	<div class="form-group">
-		<a href="/advanced-search">Go to Advanced Search</a>
+		<a href="<?php echo $v_advanced_search_link; ?>">Go to Advanced Search</a>
 	</div>
 </form>
 

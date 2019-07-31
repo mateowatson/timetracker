@@ -86,7 +86,7 @@ class Search {
 				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$team_id) {
 					$is_user_in_team = true;
 					$is_team = true;
-					//$team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
+					$f3->set('v_search_team_id', $team_id);
 					break;
 				}
 			}
@@ -165,7 +165,6 @@ class Search {
 		}
 
 		if($is_team) {
-			error_log(trim($team_id));
 			$sql_condition .= ' AND logs.team_id = ' . $team_id;
 		}
 
@@ -175,16 +174,26 @@ class Search {
 		}
 
 		// GET LOGS COUNT
-		$logs_count_query = $db->exec(
-			'
-				SELECT COUNT(*) as logs_count, team_id
-				FROM logs WHERE user_id = ? '.$sql_condition.'
-			',
-			array(
-				$user->id
-			)
-		);
-		$logs_count = $logs_count_query[0]['logs_count'];
+		if($is_team) {
+			$logs_count_query = $db->exec(
+				'
+					SELECT COUNT(*) as logs_count, team_id
+					FROM logs WHERE true '.$sql_condition.'
+				'
+			);
+			$logs_count = $logs_count_query[0]['logs_count'];
+		} else {
+			$logs_count_query = $db->exec(
+				'
+					SELECT COUNT(*) as logs_count, team_id
+					FROM logs WHERE user_id = ? '.$sql_condition.'
+				',
+				array(
+					$user->id
+				)
+			);
+			$logs_count = $logs_count_query[0]['logs_count'];
+		}
 		$f3->set('v_logs_count', $logs_count);
 		if(!$logs_count) {
 			$f3->set('v_no_matches', true);
@@ -227,6 +236,13 @@ class Search {
 		
 		// ADDITIONAL VIEW VARIABLES
 		$f3->set('v_page_title', 'Search');
+
+		// SET ADVANCED SEARCH LINK
+		if($team_id) {
+			$f3->set('v_advanced_search_link', '/advanced-search?team='.$team_id);
+		} else {
+			$f3->set('v_advanced_search_link', '/advanced-search');
+		}
 
 		// RENDER
 		$view = new \View;

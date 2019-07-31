@@ -6,18 +6,31 @@
 	</div>
 </div>
 
-<?php if(count($v_confirmations)) : ?>
-<div class="confirmations">
-	<?php
-	foreach($v_confirmations as $confirmation) :
-	?>
-	<p><?php echo $confirmation->message; ?></p>
-	<?php endforeach; ?>
-</div>
-<?php endif; ?>
 <div class="container mb-5">
 	<div class="row">
 		<div class="col-lg-4">
+			<?php if(count($v_confirmations)) : ?>
+			<div class="alert alert-success">
+				<?php
+				foreach($v_confirmations as $confirmation) :
+				?>
+				<p><?php echo $confirmation->message; ?></p>
+				<?php endforeach; ?>
+			</div>
+			<?php endif; ?>
+
+			<?php if(in_array(
+				'login_errors', $v_errors_element_ids ? : array()
+			)) : ?>
+			<div class="alert alert-danger" id="start_timer_bottom_errors">
+				<?php
+				foreach($v_errors as $error) :
+				if($error->element_id === 'login_errors') :
+				?>
+				<p><?php echo $error->message; ?></p>
+				<?php endif; endforeach; ?>
+			</div>
+			<?php endif; ?>
 			<form action="/login" method="POST">
 				<input type="text" name="csrf" value="<?php echo $CSRF; ?>" hidden>
 				
@@ -35,19 +48,6 @@
 					<input class="btn btn-primary" type="submit" value="Login">
 				</div>
 			</form>
-
-			<?php if(in_array(
-				'login_errors', $v_errors_element_ids ? : array()
-			)) : ?>
-			<div class="p-3 mb-3 bg-danger text-white" id="start_timer_bottom_errors">
-				<?php
-				foreach($v_errors as $error) :
-				if($error->element_id === 'login_errors') :
-				?>
-				<p><?php echo $error->message; ?></p>
-				<?php endif; endforeach; ?>
-			</div>
-			<?php endif; ?>
 		</div>
 	</div>
 </div>

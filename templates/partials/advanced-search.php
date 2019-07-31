@@ -75,8 +75,7 @@
 <?php if(in_array(
 	'advanced_search_errors', $v_errors_element_ids ? : array()
 )) : ?>
-<div class="errors" id="advanced_search_errors">
-	<h1 class="errors__heading">The were errors in your request</h1>
+<div class="alert alert-danger" id="advanced_search_errors">
 	<?php
 	foreach($v_errors as $error) :
 	if($error->element_id === 'advanced_search_errors') :

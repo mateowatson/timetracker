@@ -218,6 +218,13 @@ class Dashboard {
 			$f3->set('v_show_remove_members', $user->id === (int)$team['creator']);
 		}
 
+		// SET ADVANCED SEARCH LINK
+		if($is_team) {
+			$f3->set('v_advanced_search_link', '/advanced-search?team='.$team['id']);
+		} else {
+			$f3->set('v_advanced_search_link', '/advanced-search');
+		}
+
 		// RENDER
 		$view = new \View;
 		if(isset($req['new'])) {
