@@ -11,7 +11,7 @@
 	<div class="row">
 		<div class="col-lg-6">
 			<?php if(count($v_confirmations)) : ?>
-			<div class="confirmations">
+			<div class="alert alert-success" role="alert">
 				<?php
 				foreach($v_confirmations as $confirmation) :
 				?>
@@ -31,7 +31,7 @@
 			<?php if(in_array(
 				'select_dashboard_errors', $v_errors_element_ids ? : array()
 			)) : ?>
-			<div class="errors" id="select_dashboard_errors">
+			<div class="alert alert-danger" role="alert">
 				<?php
 				foreach($v_errors as $error) :
 				if($error->element_id === 'select_dashboard_errors') :

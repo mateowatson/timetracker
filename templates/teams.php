@@ -29,7 +29,7 @@
 				<?php if(in_array(
 					'create_team_errors', $v_errors_element_ids ? : array()
 				)) : ?>
-				<div class="p-3 mb-3 bg-danger text-white" id="create_team_errors">
+				<div class="alert alert-danger" role="alert">
 					<h3>Sorry, there were one or more errors :-(.</h3>
 					<p>The following errors occurred:</p>
 					<ul>

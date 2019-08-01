@@ -32,7 +32,7 @@
 			<?php if(in_array(
 				'installation_errors', $v_errors_element_ids ? : array()
 			)) : ?>
-			<div class="errors">
+			<div class="alert alert-danger" role="alert">
 				<?php
 				foreach($v_errors as $error) :
 				if($error->element_id === 'installation_errors') :

@@ -40,8 +40,7 @@
 <?php if(in_array(
 	'search_errors', $v_errors_element_ids ? : array()
 )) : ?>
-<div class="errors" id="search_errors">
-	<h1 class="errors__heading">The were errors in your request</h1>
+<div class="alert alert-danger" role="alert">
 	<?php
 	foreach($v_errors as $error) :
 	if($error->element_id === 'search_errors') :

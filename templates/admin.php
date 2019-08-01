@@ -43,8 +43,7 @@
 			<?php if(in_array(
 				'admin_errors', $v_errors_element_ids ? : array()
 			)) : ?>
-			<div class="errors" id="admin_errors">
-				<h1 class="errors__heading">The were errors in your request</h1>
+			<div class="alert alert-danger" role="alert">
 				<?php
 				foreach($v_errors as $error) :
 				if($error->element_id === 'admin_errors') :

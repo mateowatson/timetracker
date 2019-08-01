@@ -42,7 +42,7 @@
 				<?php require_once('partials/logs-table.php'); ?>
 
 			<?php else: ?>
-			<p class="logs__no-results-found">
+			<p>
 				No results found.
 			</p>
 			<?php endif; ?>

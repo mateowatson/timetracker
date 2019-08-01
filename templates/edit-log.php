@@ -288,7 +288,7 @@
 				<?php if(in_array(
 					'edit_log_bottom_confirmations', $v_confirmations_element_ids ? : array()
 				)) : ?>
-				<div class="confirmations" id="edit_log_bottom_confirmations">
+				<div class="alert alert-success" role="alert">
 					<?php
 					foreach($v_confirmations as $confirmation) :
 					if($confirmation->element_id === 'edit_log_bottom_confirmations') :
@@ -301,7 +301,7 @@
 				<?php if(in_array(
 					'edit_log_bottom_errors', $v_errors_element_ids ? : array()
 				)) : ?>
-				<div class="errors" id="edit_log_bottom_errors">
+				<div class="alert alert-danger" role="alert">
 					<?php
 					foreach($v_errors as $error) :
 					if($error->element_id === 'edit_log_bottom_errors') :

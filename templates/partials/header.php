@@ -12,12 +12,19 @@
 <?php if(in_array(
 	'csrf_error', $v_errors_element_ids ? : array()
 )) : ?>
-<div class="in-header-errors" id="csrf_error">
-	<?php
-	foreach($v_errors as $error) :
-	if($error->element_id === 'csrf_error') :
-	?>
-	<p><?php echo $error->message; ?></p>
-	<?php endif; endforeach; ?>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="alert alert-danger" role="alert">
+				<?php
+				foreach($v_errors as $error) :
+				if($error->element_id === 'csrf_error') :
+				?>
+				<p><?php echo $error->message; ?></p>
+				<?php endif; endforeach; ?>
+			</div>
+		</div>
+	</div>
 </div>
+
 <?php endif; ?>

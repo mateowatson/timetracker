@@ -9,8 +9,7 @@
 	<?php if(in_array(
 		'start_timer_bottom_errors', $v_errors_element_ids ? : array()
 	)) : ?>
-	<div class="p-3 mb-3 bg-danger text-white" id="start_timer_bottom_errors">
-		<h3>Sorry, there were one or more errors :-(.</h3>
+	<div class="alert alert-danger" role="alert">
 		<p>The following errors occurred:</p>
 		<ul>
 			<?php
@@ -129,8 +128,7 @@
 	<?php if(in_array(
 		'stop_timer_bottom_errors', $v_errors_element_ids ? : array()
 	)) : ?>
-	<div class="p-3 mb-3 bg-danger text-white" id="stop_timer_bottom_errors">
-		<h3>Sorry, there were one or more errors :-(.</h3>
+	<div class="alert alert-danger" role="alert">
 		<p>The following errors occurred:</p>
 		<ul>
 			<?php

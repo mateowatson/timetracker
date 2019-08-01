@@ -26,7 +26,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12">
-			<h2 class="logs__heading">Recent Logs</h2>
+			<h2>Recent Logs</h2>
 			<ul class="nav nav-tabs">
 				<li class="nav-item">
 					<a

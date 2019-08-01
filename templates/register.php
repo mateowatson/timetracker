@@ -30,7 +30,7 @@
 			<?php if(in_array(
 				'registration_errors', $v_errors_element_ids ? : array()
 			)) : ?>
-			<div class="p-3 mb-3 bg-danger text-white" id="start_timer_bottom_errors">
+			<div class="alert alert-danger" role="alert">
 				<?php
 				foreach($v_errors as $error) :
 				if($error->element_id === 'registration_errors') :

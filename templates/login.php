@@ -10,7 +10,7 @@
 	<div class="row">
 		<div class="col-lg-4">
 			<?php if(count($v_confirmations)) : ?>
-			<div class="alert alert-success">
+			<div class="alert alert-success" role="alert">
 				<?php
 				foreach($v_confirmations as $confirmation) :
 				?>
@@ -22,7 +22,7 @@
 			<?php if(in_array(
 				'login_errors', $v_errors_element_ids ? : array()
 			)) : ?>
-			<div class="alert alert-danger" id="start_timer_bottom_errors">
+			<div class="alert alert-danger" role="alert">
 				<?php
 				foreach($v_errors as $error) :
 				if($error->element_id === 'login_errors') :

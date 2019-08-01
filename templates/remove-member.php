@@ -26,7 +26,7 @@
 			<?php if(in_array(
 				'remove_member_errors', $v_errors_element_ids ? : array()
 			)) : ?>
-			<div class="alert alert-danger" id="remove_member_errors">
+			<div class="alert alert-danger" role="alert">
 				<?php
 				foreach($v_errors as $error) :
 				if($error->element_id === 'remove_member_errors') :
