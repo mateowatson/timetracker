@@ -120,11 +120,19 @@ class Dashboard {
 		}
 
 		// GET CURRENTLY RUNNING LOG IF EXISTS
-		$db_logs = new \DB\SQL\Mapper($db, 'logs');
-		$db_logs->load(array(
-			'end_time="0000-00-00 00:00:00" AND user_id = ?',
-			$user->id
-		));
+		if(!$is_team) {
+			$db_logs = new \DB\SQL\Mapper($db, 'logs');
+			$db_logs->load(array(
+				'end_time="0000-00-00 00:00:00" AND user_id = ? AND team_id IS NULL',
+				$user->id
+			));
+		} else {
+			$db_logs = new \DB\SQL\Mapper($db, 'logs');
+			$db_logs->load(array(
+				'end_time="0000-00-00 00:00:00" AND user_id = ? AND team_id = ?',
+				$user->id, $team['id']
+			));
+		}
 		$f3->set('v_current_log', null);
 		$f3->set('v_current_log_diff', null);
 		$f3->set('v_current_log_project', null);

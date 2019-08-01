@@ -62,11 +62,19 @@ class Timer {
 		}
 
 		// Only proceed if the previous log entry has end_time
-		$nonfinished_logs = $db->exec('
-			SELECT end_time from logs
-			WHERE end_time IS NULL
-			AND user_id = ?
-		', array($user->id));
+		if(!$is_team) {
+			$nonfinished_logs = $db->exec('
+				SELECT end_time from logs
+				WHERE end_time IS NULL
+				AND user_id = ? AND team_id IS NULL
+			', array($user->id));
+		} else {
+			$nonfinished_logs = $db->exec('
+				SELECT end_time, team_id from logs
+				WHERE end_time IS NULL
+				AND user_id = ? AND team_id = ?
+			', array($user->id, $team['id']));
+		}
 		if(count($nonfinished_logs) > 0) {
 			$f3->push('v_errors', array(
 				'element_id' => 'start_timer_bottom_errors',
@@ -238,10 +246,17 @@ class Timer {
 
 		$db_logs = new \DB\SQL\Mapper($db, 'logs');
 
-		$db_logs->load(array(
-			'end_time="0000-00-00 00:00:00" AND user_id = ?',
-			$user->id
-		));
+		if(!$is_team) {
+			$db_logs->load(array(
+				'end_time="0000-00-00 00:00:00" AND user_id = ? AND team_id IS NULL',
+				$user->id
+			));
+		} else {
+			$db_logs->load(array(
+				'end_time="0000-00-00 00:00:00" AND user_id = ? AND team_id = ?',
+				array($user->id, $team['id'])
+			));
+		}
 		
 		if($db_logs->dry()) {
 			$f3->push('v_errors', array(
