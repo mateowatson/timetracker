@@ -139,7 +139,13 @@ class Search {
 					'message' => 'Your date input was not formatted properly. Please use "MM/DD/YYYY" for a single date and "MM/DD/YYYY - MM/DD/YYYY" for a date range.'
 				));
 
-				Utils::reroute_with_errors($f3, $args, '/search?search_by=date');
+				//Utils::reroute_with_errors($f3, $args, '/search?search_by=date');
+
+				if($is_team) {
+					Utils::reroute_with_errors($f3, $args, '/search?search_by=date&team='.$team_id);
+				} else {
+					Utils::reroute_with_errors($f3, $args, '/search?search_by=date');
+				}
 			}
 			// VALIDATE DATE FIELDS
 			if($formatted_date_search_arr !== FALSE) {
@@ -164,7 +170,7 @@ class Search {
 			}
 		}
 
-		if($is_team) {
+		if($is_team && $sql_condition) {
 			$sql_condition .= ' AND logs.team_id = ' . $team_id;
 		}
 
