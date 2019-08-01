@@ -32,7 +32,7 @@
 <?php if(in_array(
 	'add_member_errors', $v_errors_element_ids ? : array()
 )) : ?>
-<div class="errors" id="add_member_errors">
+<div class="alert alert-danger" id="add_member_errors">
 	<?php
 	foreach($v_errors as $error) :
 	if($error->element_id === 'add_member_errors') :
@@ -43,7 +43,7 @@
 <?php endif; ?>
 
 <?php if(count($v_confirmations)) : ?>
-<div class="confirmations">
+<div class="alert alert-success">
 	<?php
 	foreach($v_confirmations as $confirmation) :
 	?>

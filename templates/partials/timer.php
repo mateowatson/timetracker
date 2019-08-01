@@ -1,4 +1,8 @@
-<h2 class="sr-only">Timer</h2>
+<?php if($v_current_log): ?>
+	<h2>Timer Running</h2>
+<?php else: ?>
+	<h2>Timer</h2>
+<?php endif; ?>
 
 <div>
 	<?php if(!$v_current_log): ?>
@@ -101,18 +105,17 @@
 	<?php endif; ?>
 
 	<?php if($v_current_log): ?>
-	<div class="timer__counter">
-		<h2 class="timer__counter-heading">Timer Running</h2>
-		<p class="timer__counter-paragraph">
-			<span class="timer__running-total">
+	<div>
+		<p>
+			<span>
 				<?php echo $v_current_log_diff; ?>
 			</span>
-			<a class="timer__refresh" href="/">Refresh</a>
+			<a href="/">Refresh</a>
 		</p>
-		<p class="timer__counter-paragraph">
+		<p>
 			Project: <?php echo $v_current_log_project; ?>
 		</p>
-		<p class="timer__counter-paragraph">Task:
+		<p>Task:
 			<?php echo $v_current_log_task; ?>
 		</p>
 		<?php if($v_current_log['notes']): ?>
