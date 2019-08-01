@@ -11,8 +11,30 @@
 <div class="container mb-5">
 	<div class="row">
 		<div class="col-lg-6">
+			<?php if(count($v_confirmations)) : ?>
+			<div class="alert alert-success" role="alert">
+				<?php
+				foreach($v_confirmations as $confirmation) :
+				?>
+				<p><?php echo $confirmation->message; ?></p>
+				<?php endforeach; ?>
+			</div>
+			<?php endif; ?>
 
-			<form action="/search" method="POST">
+			<?php if(in_array(
+				'admin_errors', $v_errors_element_ids ? : array()
+			)) : ?>
+			<div class="alert alert-danger" role="alert">
+				<?php
+				foreach($v_errors as $error) :
+				if($error->element_id === 'admin_errors') :
+				?>
+				<p><?php echo $error->message; ?></p>
+				<?php endif; endforeach; ?>
+			</div>
+			<?php endif; ?>
+
+			<form action="/admin" method="POST">
 				<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 
 				<div class="form-group">
@@ -39,19 +61,6 @@
 					<input type="submit" value="Save" class="btn btn-primary">
 				</div>
 			</form>
-
-			<?php if(in_array(
-				'admin_errors', $v_errors_element_ids ? : array()
-			)) : ?>
-			<div class="alert alert-danger" role="alert">
-				<?php
-				foreach($v_errors as $error) :
-				if($error->element_id === 'admin_errors') :
-				?>
-				<p><?php echo $error->message; ?></p>
-				<?php endif; endforeach; ?>
-			</div>
-			<?php endif; ?>
 		</div>
 	</div>
 </div>

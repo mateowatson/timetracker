@@ -330,4 +330,23 @@ class Utils {
 
 		return $date_search_arr;
 	}
+
+	/**
+	 * Validates username
+	 * 
+	 * @param Base $f3 The base Fat Free Framework instance.
+	 * @param string $username The desired username
+	 * @return bool|string Returns false on valid, error message on invalid
+	 */
+	static function username_invalid_check($f3, $username) {
+		$db = $f3->get('DB');
+		$session_username = $f3->get('SESSION.session_username');
+		$db_users = new \DB\SQL\Mapper($db, 'users');
+		$user = $db_users->load(array('username=?', $session_username));
+		$req_user = $db_users->load(array('username=?', $username));
+
+		if($req_user !== FALSE) {
+			return 'The username '.$username.' is already taken.';
+		}
+	}
 }
