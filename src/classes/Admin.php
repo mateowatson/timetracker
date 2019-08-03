@@ -50,6 +50,14 @@ class Admin {
 
 			$user->username = $req_username;
 			$user->save();
+		}
+
+		if($req_password) {
+			$user->password = password_hash($req_password, PASSWORD_DEFAULT);
+			$user->save();
+		}
+
+		if($req_username) {
 			// Update the session name so user doesn't get auto logged out.
 			$f3->set('SESSION.session_username', $req_username);
 		}
