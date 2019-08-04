@@ -1,11 +1,11 @@
 <?php
 
-class Admin {
+class Account {
 	function show($f3, $args) {
 		Utils::redirect_logged_out_user($f3, $args);
 		Utils::send_csrf($f3, $args);
 
-		$f3->set('v_page_title', 'Admin');
+		$f3->set('v_page_title', 'Account');
 		
 		// GET DB, SESSION AND USER
 		$db = $f3->get('DB');
@@ -29,17 +29,17 @@ class Admin {
 		
 		// RENDER
 		$view = new \View;
-        echo $view->render('admin.php');
+        echo $view->render('account.php');
 	}
 
-	function post_admin_settings($f3, $args) {
+	function post_account_settings($f3, $args) {
 		Utils::redirect_logged_out_user($f3, $args);
-		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/admin');
+		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/account');
 
 		$req = $f3->get('REQUEST');
-		$req_username = $req['admin_username'];
-		$req_password = $req['admin_password'];
-		$req_registration = $req['admin_registration'];
+		$req_username = $req['account_username'];
+		$req_password = $req['account_password'];
+		$req_registration = $req['account_registration'];
 
 		$db = $f3->get('DB');
 		$session_username = $f3->get('SESSION.session_username');
@@ -51,11 +51,11 @@ class Admin {
 
 			if($is_invalid) {
 				$f3->push('v_errors', array(
-					'element_id' => 'admin_errors',
+					'element_id' => 'account_errors',
 					'message' => $is_invalid
 				));
 
-				Utils::reroute_with_errors($f3, $args, '/admin');
+				Utils::reroute_with_errors($f3, $args, '/account');
 			}
 
 			$user->username = $req_username;
@@ -73,10 +73,10 @@ class Admin {
 			$open_registration->option_value = 'true';
 		} else if($req_registration) {
 			$f3->push('v_errors', array(
-				'element_id' => 'admin_errors',
+				'element_id' => 'account_errors',
 				'message' => 'Sorry, you did not submit a valid "Registration of new users" option.'
 			));
-			Utils::reroute_with_errors($f3, $args, '/admin');
+			Utils::reroute_with_errors($f3, $args, '/account');
 		}
 
 
@@ -87,9 +87,9 @@ class Admin {
 		$open_registration->save();
 		$user->save();
 		$f3->push('v_confirmations', array(
-			'element_id' => 'admin_confirmations',
+			'element_id' => 'account_confirmations',
 			'message' => 'Your settings have been saved.'
 		));
-		Utils::reroute_with_confirmations($f3, $args, '/admin');
+		Utils::reroute_with_confirmations($f3, $args, '/account');
 	}
 }

@@ -22,25 +22,25 @@
 			<?php endif; ?>
 
 			<?php if(in_array(
-				'admin_errors', $v_errors_element_ids ? : array()
+				'account_errors', $v_errors_element_ids ? : array()
 			)) : ?>
 			<div class="alert alert-danger" role="alert">
 				<?php
 				foreach($v_errors as $error) :
-				if($error->element_id === 'admin_errors') :
+				if($error->element_id === 'account_errors') :
 				?>
 				<p><?php echo $error->message; ?></p>
 				<?php endif; endforeach; ?>
 			</div>
 			<?php endif; ?>
 
-			<form action="/admin" method="POST">
+			<form action="/account" method="POST">
 				<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 				
 				<?php if($v_is_user_admin): ?>
 				<div class="form-group">
-					<label for="admin_registration">Registration of new users</label>
-					<select name="admin_registration" id="admin_registration" class="form-control">
+					<label for="account_registration">Registration of new users</label>
+					<select name="account_registration" id="account_registration" class="form-control">
 						
 						<option value="open"
 							<?php echo $v_open_registration ? 'selected' : ''; ?>>
@@ -55,15 +55,15 @@
 				<?php endif; ?>
 
 				<div class="form-group">
-					<label for="admin_username">New user username</label>
-					<input type="text" placeholder="username" id="admin_username"
-						name="admin_username" class="form-control">
+					<label for="account_username">New user username</label>
+					<input type="text" placeholder="username" id="account_username"
+						name="account_username" class="form-control">
 				</div>
 
 				<div class="form-group">
-					<label for="admin_password">New user password</label>
-					<input type="password" placeholder="password" id="admin_password"
-						name="admin_password" class="form-control">
+					<label for="account_password">New user password</label>
+					<input type="password" placeholder="password" id="account_password"
+						name="account_password" class="form-control">
 				</div>
 
 				<div class="form-group">
