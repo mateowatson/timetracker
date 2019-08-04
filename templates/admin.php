@@ -36,14 +36,23 @@
 
 			<form action="/admin" method="POST">
 				<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
-
+				
+				<?php if($v_is_user_admin): ?>
 				<div class="form-group">
 					<label for="admin_registration">Registration of new users</label>
 					<select name="admin_registration" id="admin_registration" class="form-control">
-						<option value="open">Open</option>
-						<option value="closed">Closed</option>
+						
+						<option value="open"
+							<?php echo $v_open_registration ? 'selected' : ''; ?>>
+							Open
+						</option>
+						<option value="closed"
+							<?php echo !$v_open_registration ? 'selected' : ''; ?>>
+							Closed
+						</option>
 					</select>
 				</div>
+				<?php endif; ?>
 
 				<div class="form-group">
 					<label for="admin_username">New user username</label>

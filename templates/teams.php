@@ -30,16 +30,12 @@
 					'create_team_errors', $v_errors_element_ids ? : array()
 				)) : ?>
 				<div class="alert alert-danger" role="alert">
-					<h3>Sorry, there were one or more errors :-(.</h3>
-					<p>The following errors occurred:</p>
-					<ul>
-						<?php
-						foreach($v_errors as $error) :
-						if($error->element_id === 'create_team_errors') :
-						?>
-						<li><?php echo $error->message; ?></li>
-						<?php endif; endforeach; ?>
-					</ul>
+					<?php
+					foreach($v_errors as $error) :
+					if($error->element_id === 'create_team_errors') :
+					?>
+					<p><?php echo $error->message; ?></p>
+					<?php endif; endforeach; ?>
 				</div>
 				<?php endif; ?>
 

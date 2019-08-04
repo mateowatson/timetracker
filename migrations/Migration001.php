@@ -7,6 +7,13 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 USE `timetracker`;
 
+CREATE TABLE `site_options` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `option_key` text NOT NULL,
+  `option_value` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,

@@ -47,6 +47,10 @@ class Migration {
 			)
 		);
 
+		$db->exec(
+			'INSERT INTO site_options (option_key, option_value) VALUES (\'open_registration\', \'false\')'
+		);
+
 		$db->commit();
 
 		$f3->push('v_confirmations', array(

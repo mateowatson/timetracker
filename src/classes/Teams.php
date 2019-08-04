@@ -54,6 +54,15 @@ class Teams {
 		$req_team_invitees = $req['team_invitees'];
 		$req_team_invitees = explode(',', $req_team_invitees);
 
+		// VALIDATE TEAM NAME
+		if(!$req_team_name) {
+			$f3->push('v_errors', array(
+				'element_id' => 'create_team_errors',
+				'message' => 'Team name required.'
+			));
+			Utils::reroute_with_errors($f3, $args, '/teams');
+		}
+
 		$db = $f3->get('DB');
 		$session_username = $f3->get('SESSION.session_username');
 		$db_users = new \DB\SQL\Mapper($db, 'users');

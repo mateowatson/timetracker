@@ -2,6 +2,13 @@
 
 class Register {
 	function show($f3, $args) {
+		$db = $f3->get('DB');
+		$site_options = new \DB\SQL\Mapper($db, 'site_options');
+		$open_registration = $site_options->load(array('option_key = \'open_registration\''));
+		if($open_registration->option_value === 'false') {
+			$f3->reroute('/login');
+		}
+
 		Utils::send_csrf($f3, $args);
 
 		$f3->set('v_page_title', 'Register');
@@ -11,6 +18,13 @@ class Register {
 
 	function post_register($f3, $args) {
 		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/register');
+
+		$db = $f3->get('DB');
+		$site_options = new \DB\SQL\Mapper($db, 'site_options');
+		$open_registration = $site_options->load(array('option_key = \'open_registration\''));
+		if($open_registration->option_value === 'false') {
+			$f3->reroute('/login');
+		}
 
 		$request_user = $f3->get('REQUEST')['username'];
 		$request_password = $f3->get('REQUEST')['password'];
@@ -23,8 +37,6 @@ class Register {
 		}
 
 		Utils::reroute_with_errors($f3, $args, '/register');
-
-		$db = $f3->get('DB');
 
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $request_user));
