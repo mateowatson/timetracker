@@ -38,10 +38,11 @@
 				<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 				
 				<?php if($v_is_user_admin): ?>
+				<h2>Registration availability</h2>
+				<p>Currently, registration is <?php echo $v_open_registration ? 'open' : 'closed'; ?>.</p>
 				<div class="form-group">
 					<label for="account_registration">Registration of new users</label>
 					<select name="account_registration" id="account_registration" class="form-control">
-						
 						<option value="open"
 							<?php echo $v_open_registration ? 'selected' : ''; ?>>
 							Open
@@ -52,16 +53,30 @@
 						</option>
 					</select>
 				</div>
-				<?php endif; ?>
+
+				<h2>Add a user</h2>
+				<div class="form-group">
+					<label for="account_add_username">Username</label>
+					<input type="text" placeholder="username" id="account_add_username"
+						name="account_add_username" class="form-control">
+				</div>
 
 				<div class="form-group">
-					<label for="account_username">New user username</label>
+					<label for="account_add_password">Password</label>
+					<input type="password" placeholder="password" id="account_add_password"
+						name="account_add_password" class="form-control">
+				</div>
+				<?php endif; ?>
+
+				<h2>Change username and/or password</h2>
+				<div class="form-group">
+					<label for="account_username">Username</label>
 					<input type="text" placeholder="username" id="account_username"
 						name="account_username" class="form-control">
 				</div>
 
 				<div class="form-group">
-					<label for="account_password">New user password</label>
+					<label for="account_password">Password</label>
 					<input type="password" placeholder="password" id="account_password"
 						name="account_password" class="form-control">
 				</div>
