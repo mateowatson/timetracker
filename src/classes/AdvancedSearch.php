@@ -253,7 +253,7 @@ class AdvancedSearch {
 			urlencode($search_term_notes).
 			'&page='.(string)($page-1);
 		}
-		if($page+1 > $logs_count/10) {
+		if($page+1 > $logs_count/10 || $logs_count <= 10) {
 			$next_link = null;
 		} else {
 			$next_link = '/advanced-search?stp='.
