@@ -47,6 +47,8 @@ class AdvancedSearch {
 				return $f3->reroute('/dashboard');
 			}
 		}
+
+		
 		
 		$sql_condition = '';
 		$sql_offset = 10*($page);
@@ -54,6 +56,16 @@ class AdvancedSearch {
 
 		if($is_team) {
 			$sql_condition .= ' AND logs.team_id = ' . $team_id;
+		}
+		
+		if(
+			!$search_term_project &&
+			!$search_term_task &&
+			!$search_term_start_date &&
+			!$search_term_end_date &&
+			!$search_term_notes
+		) {
+			$sql_condition = '';
 		}
 
 		if($search_term_project) {
@@ -336,7 +348,7 @@ class AdvancedSearch {
 			!$search_term_end_date &&
 			!$search_term_notes
 		) {
-			$f3->reroute('/advanced-search');
+			$f3->reroute('/advanced-search'.($is_team ? '?team='.$team['id'] : ''));
 		}
 
 		if($search_term_start_date) {

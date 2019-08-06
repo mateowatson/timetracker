@@ -49,6 +49,10 @@ class Search {
 			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
 		}
 
+		if(!$search_term) {
+			$f3->reroute('/search'.($is_team ? '?team='.$team['id'] : ''));
+		}
+
 		$f3->reroute('/search?search_term='.
 			urlencode($search_term).
 			'&search_by='.
@@ -174,13 +178,17 @@ class Search {
 			$sql_condition .= ' AND logs.team_id = ' . $team_id;
 		}
 
+		if(!$search_term) {
+			$sql_condition = '';
+		}
+
 		// SET NO MATCHES TO TRUE IF NO MATCHES FOUND
 		if(!$sql_condition) {
 			$f3->set('v_no_matches', true);
 		}
 
 		// GET LOGS COUNT
-		if($is_team) {
+		if($is_team && $sql_condition) {
 			$logs_count_query = $db->exec(
 				'
 					SELECT COUNT(*) as logs_count, team_id
@@ -188,7 +196,7 @@ class Search {
 				'
 			);
 			$logs_count = $logs_count_query[0]['logs_count'];
-		} else {
+		} else if($sql_condition) {
 			$logs_count_query = $db->exec(
 				'
 					SELECT COUNT(*) as logs_count, team_id
@@ -200,26 +208,35 @@ class Search {
 			);
 			$logs_count = $logs_count_query[0]['logs_count'];
 		}
-		$f3->set('v_logs_count', $logs_count);
+		if($sql_condition) {
+			$f3->set('v_logs_count', $logs_count);
+		} else {
+			$f3->set('v_logs_count', 0);
+		}
+		
 		if(!$logs_count) {
 			$f3->set('v_no_matches', true);
 		}
 
 		// SET LOGS LIST
-		$did_set_v_logs = Utils::set_v_logs(
-			$f3,
-			$user->id,
-			$sql_condition,
-			$is_team,
-			true,
-			$sql_offset
-		);
+		if($logs_count) {
+			$did_set_v_logs = Utils::set_v_logs(
+				$f3,
+				$user->id,
+				$sql_condition,
+				$is_team,
+				true,
+				$sql_offset
+			);
+		}
 
 
 		// SET LOGS TOTAL TIME
-		$did_set_v_logs_total_time = Utils::set_v_logs_total_time(
-			$f3, $user->id, $sql_condition, $is_team
-		);
+		if($logs_count) {
+			$did_set_v_logs_total_time = Utils::set_v_logs_total_time(
+				$f3, $user->id, $sql_condition, $is_team
+			);
+		}
 
 		// SET NEXT AND PREV LINKS
 		if($page === 0) {

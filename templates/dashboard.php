@@ -55,6 +55,9 @@
 			<?php require_once('partials/logs-no-logs.php'); ?>
 			<?php endif; ?>
 		</div>
+		<div class="col-lg-12">
+			<p><a href="/all-logs">See all logs ever</a></p>
+		</div>
 </section>
 
 
