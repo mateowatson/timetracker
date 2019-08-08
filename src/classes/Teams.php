@@ -5,40 +5,8 @@ class Teams {
 		Utils::redirect_logged_out_user($f3, $args);
 		Utils::send_csrf($f3, $args);
 		$f3->set('v_page_title', 'Teams');
-		$teams = array();
-		$team_ids = array();
-		$db = $f3->get('DB');
-		$session_username = $f3->get('SESSION.session_username');
-		$db_users = new \DB\SQL\Mapper($db, 'users');
-		$user = $db_users->load(array('username=?', $session_username));
-		$f3->set('v_username', $user->username);
-		$db_teams = new \DB\SQL\Mapper($db, 'teams');
-		$db_teams->load(array('creator = ?', $user->id));
-		while(!$db_teams->dry()) {
-			array_push($teams, array(
-				'team_name' => $db_teams->name,
-				'team_id' => $db_teams->id,
-				'creator' => true
-			));
-			array_push($team_ids, $db_teams->id);
-			$db_teams->next();
-		}
-		$db_users_teams = new \DB\SQL\Mapper($db, 'users_teams');
-		$db_users_teams->load(array('user_id = ?', $user->id));
-		while(!$db_users_teams->dry()) {
-			$db_teams->reset();
-			$db_teams->load(array('id = ?', $db_users_teams->team_id));
-			if(!in_array($db_users_teams->team_id, $team_ids)) {
-				array_push($teams, array(
-					'team_name' => $db_teams->name,
-					'team_id' => $db_users_teams->team_id,
-					'creator' => false
-				));
-				array_push($team_ids, $db_users_teams->id);
-			}
-			
-			$db_users_teams->next();
-		}
+		
+		$teams = Utils::get_all_teams_of_logged_in_user($f3);
 		$f3->set('v_teams', $teams);
 		// RENDER
 		$view = new \View;

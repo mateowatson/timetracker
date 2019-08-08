@@ -11,7 +11,20 @@
 	<div class="row">
 		<?php if($v_is_team): ?>
 		<div class="col-lg-4">
-			<?php require_once('partials/team-members.php'); ?>
+			<h2>Team Members</h2>
+			<ul>
+				<?php foreach($v_team_members as $team_member): ?>
+				<li>
+					<?php echo $team_member['username']; ?>
+					<?php if($v_show_remove_members): ?>
+					<a href="/remove-member?team=<?php echo $v_team['id']; ?>&user=<?php echo $team_member['id']; ?>"
+						class="px-3">
+						remove
+					</a>
+					<?php endif; ?>
+				</li>
+				<?php endforeach; ?>
+			</ul>
 		</div>
 		<?php endif; ?>
 	</div>
@@ -21,15 +34,14 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h2>Logs</h2>
-		</div>
-		<div class="col-lg-12">
 			<?php if($v_logs): ?>
 			<?php require_once('partials/logs-table.php'); ?>
 			<?php else: ?>
 			<?php require_once('partials/logs-no-logs.php'); ?>
 			<?php endif; ?>
 		</div>
-</section>
+	</div>
+</div>
 
 
 <?php require_once('partials/footer.php'); ?>

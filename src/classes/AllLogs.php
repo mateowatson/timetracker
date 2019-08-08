@@ -22,7 +22,29 @@ class AllLogs {
         }
 
         if($personal) {
-            //$f3->reroute('/all-logs?personal');
+            $extra_conditions = '';
+            $dashboard_time_filter = '';
+            $team_filter = '';
+
+            $did_set_v_logs = Utils::set_v_logs(
+                $f3,
+                $user->id,
+                $extra_conditions,
+                $team_filter ? true : false,
+                false,
+                null
+            );
+
+            // SET TOTAL TIME
+            $did_set_v_logs_total_time = Utils::set_v_logs_total_time(
+                $f3, $user->id, $extra_conditions, $team_filter ? : false
+            );
+
+            $f3->set('v_page_title', 'All Logs: '.$user->username);
+            // RENDER
+            $view = new \View;
+            echo $view->render('all-logs.php');
+            return;
         }
 
         if($team_id !== false) {
@@ -41,7 +63,7 @@ class AllLogs {
             if(!$is_user_in_team) {
                 return $f3->reroute('/all-logs');
             }
-            $f3->set('v_page_title', 'All Logs of Team '.$team['name']);
+            $f3->set('v_page_title', $team['name']);
             $team_members = array();
             $team_members_ids = $db->exec(
                 'SELECT user_id FROM users_teams WHERE team_id = ?',
@@ -60,8 +82,8 @@ class AllLogs {
             // GET LOGS LIST
             $extra_conditions = '';
             $dashboard_time_filter = '';
-            $dashboard_time_filter = 'AND CAST(logs.start_time AS DATE) =
-                    CAST(NOW() AS DATE)';
+            /* $dashboard_time_filter = 'AND CAST(logs.start_time AS DATE) =
+                    CAST(NOW() AS DATE)'; */
             $team_filter = '';
             if($is_team) {
                 $team_filter = ' AND logs.team_id = '.$team['id'];
@@ -96,6 +118,14 @@ class AllLogs {
             // RENDER
             $view = new \View;
             echo $view->render('all-logs.php');
+            return;
         }
+
+
+        $teams = Utils::get_all_teams_of_logged_in_user($f3);
+        $f3->set('v_teams', $teams);
+        // RENDER
+        $view = new \View;
+        echo $view->render('all-logs-home.php');
     }
 }
