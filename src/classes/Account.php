@@ -48,6 +48,18 @@ class Account {
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $session_username));
 
+		if($req_add_username || $req_add_password || $req_registration) {
+			// Kick out fake admins
+			if($user->admin !== 1) {
+				$f3->push('v_errors', array(
+					'element_id' => 'account_errors',
+					'message' => 'You do not have permissions to perform this action.'
+				));
+
+				Utils::reroute_with_errors($f3, $args, '/account');
+			}
+		}
+
 		if($req_add_username || $req_add_password) {
 			if(!$req_add_username || !$req_add_password) {
 				$f3->push('v_errors', array(
@@ -92,33 +104,42 @@ class Account {
 		}
 
 
-		$new_user = $db->exec(
-			'INSERT INTO users (username, password) VALUES (?, ?)',
-			array(
-				$req_add_username,
-				password_hash($req_add_password, PASSWORD_DEFAULT)
-			)
-		);
+		if($req_add_username && $req_add_password) {
+			$new_user = $db->exec(
+				'INSERT INTO users (username, password) VALUES (?, ?)',
+				array(
+					$req_add_username,
+					password_hash($req_add_password, PASSWORD_DEFAULT)
+				)
+			);
 
-		if($new_user === 1) {
-			$f3->push('v_confirmations', array(
-				'element_id' => 'account_confirmations',
-				'message' => 'You have successfully added a new user!'
-			));
-		} else {
-			$f3->push('v_errors', array(
-				'element_id' => 'account_errors',
-				'message' => 'Your request failed.'
-			));
-			Utils::reroute_with_errors($f3, $args, '/account');
+			if($new_user === 1) {
+				$f3->push('v_confirmations', array(
+					'element_id' => 'account_confirmations',
+					'message' => 'You have successfully added a new user!'
+				));
+			} else {
+				$f3->push('v_errors', array(
+					'element_id' => 'account_errors',
+					'message' => 'Your request failed.'
+				));
+				Utils::reroute_with_errors($f3, $args, '/account');
+			}
 		}
 
 		if($req_username) {
 			// Update the session name so user doesn't get auto logged out.
 			$f3->set('SESSION.session_username', $req_username);
 		}
-		$open_registration->save();
-		$user->save();
+
+		if($req_registration) {
+			$open_registration->save();
+		}
+
+		if($req_username || $req_password) {
+			$user->save();
+		}
+
 		$f3->push('v_confirmations', array(
 			'element_id' => 'account_confirmations',
 			'message' => 'Your settings have been saved.'
