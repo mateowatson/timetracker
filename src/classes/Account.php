@@ -58,58 +58,22 @@ class Account {
 				Utils::reroute_with_errors($f3, $args, '/account');
 			}
 
-			$db_users2 = new \DB\SQL\Mapper($db, 'users');
-			$user2 = $db_users2->load(array('username=?', $req_add_username));
+			Utils::validate_username($f3, $req_add_username, 'account_errors');
 
-			if($user2 !== FALSE) {
-				$f3->push('v_errors', array(
-					'element_id' => 'account_errors',
-					'message' => 'The username '.$req_add_username.' is already taken.'
-				));
-			}
+			Utils::validate_password($f3, $req_add_password, 'account_errors');
 
 			Utils::reroute_with_errors($f3, $args, '/account');
-
-			$new_user = $db->exec(
-				'INSERT INTO users (username, password) VALUES (?, ?)',
-				array(
-					$req_add_username,
-					password_hash($req_add_password, PASSWORD_DEFAULT)
-				)
-			);
-
-			///error_log(print_r($new_user, true));
-
-			if($new_user === 1) {
-				$f3->push('v_confirmations', array(
-					'element_id' => 'account_confirmations',
-					'message' => 'You have successfully added a new user!'
-				));
-			} else {
-				$f3->push('v_errors', array(
-					'element_id' => 'account_errors',
-					'message' => 'Your request failed.'
-				));
-				Utils::reroute_with_errors($f3, $args, '/account');
-			}
 		}
 
 		if($req_username) {
-			$is_invalid = Utils::username_invalid_check($f3, $req_username);
-
-			if($is_invalid) {
-				$f3->push('v_errors', array(
-					'element_id' => 'account_errors',
-					'message' => $is_invalid
-				));
-
-				Utils::reroute_with_errors($f3, $args, '/account');
-			}
-
+			Utils::validate_username($f3, $req_username, 'account_errors');
+			Utils::reroute_with_errors($f3, $args, '/account');
 			$user->username = $req_username;
 		}
 
 		if($req_password) {
+			Utils::validate_password($f3, $req_password, 'account_errors');
+			Utils::reroute_with_errors($f3, $args, '/account');
 			$user->password = password_hash($req_password, PASSWORD_DEFAULT);
 		}
 
@@ -127,6 +91,27 @@ class Account {
 			Utils::reroute_with_errors($f3, $args, '/account');
 		}
 
+
+		$new_user = $db->exec(
+			'INSERT INTO users (username, password) VALUES (?, ?)',
+			array(
+				$req_add_username,
+				password_hash($req_add_password, PASSWORD_DEFAULT)
+			)
+		);
+
+		if($new_user === 1) {
+			$f3->push('v_confirmations', array(
+				'element_id' => 'account_confirmations',
+				'message' => 'You have successfully added a new user!'
+			));
+		} else {
+			$f3->push('v_errors', array(
+				'element_id' => 'account_errors',
+				'message' => 'Your request failed.'
+			));
+			Utils::reroute_with_errors($f3, $args, '/account');
+		}
 
 		if($req_username) {
 			// Update the session name so user doesn't get auto logged out.

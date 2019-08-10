@@ -38,15 +38,9 @@ class Register {
 
 		Utils::reroute_with_errors($f3, $args, '/register');
 
-		$db_users = new \DB\SQL\Mapper($db, 'users');
-		$user = $db_users->load(array('username=?', $request_user));
+		Utils::validate_username($f3, $request_user, 'registration_errors');
 
-		if($user !== FALSE) {
-			$f3->push('v_errors', array(
-				'element_id' => 'registration_errors',
-				'message' => 'The username '.$request_user.' is already taken.'
-			));
-		}
+		Utils::validate_password($f3, $request_password, 'registration_errors');
 
 		Utils::reroute_with_errors($f3, $args, '/register');
 

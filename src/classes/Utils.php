@@ -67,6 +67,7 @@ class Utils {
 	static function reroute_with_errors($f3, $args, $reroute_path) {
 		if(count($f3->get('v_errors'))>0) {
 			$f3->set('SESSION.errors', json_encode($f3->get('v_errors')));
+			$f3->set('SESSION.confirmations', json_encode($f3->get('v_confirmations')));
 			$f3->reroute($reroute_path);
 		}
 	}
@@ -74,6 +75,7 @@ class Utils {
 	static function reroute_with_confirmations($f3, $args, $reroute_path) {
 		if(count($f3->get('v_confirmations'))>0) {
 			$f3->set('SESSION.confirmations', json_encode($f3->get('v_confirmations')));
+			$f3->set('SESSION.errors', json_encode($f3->get('v_errors')));
 			$f3->reroute($reroute_path);
 		}
 	}
@@ -296,6 +298,13 @@ class Utils {
 		return true;
 	}
 
+	/**
+	 * Parses user date or date range input for use in SQL
+	 * 
+	 * @param string $input The user date or date range input.
+	 * @return array Returns array where first element is begin date and second is end
+	 * date
+	 */
 	static function parse_search_by_date_input($input) {
 		$date_search_arr = explode('-', $input);
 		if(count($date_search_arr) > 2) {
@@ -332,24 +341,13 @@ class Utils {
 	}
 
 	/**
-	 * Validates username
+	 * Returns team list associative array of current session user:
+	 * ['team_name', 'team_id', 'creator'].
 	 * 
 	 * @param Base $f3 The base Fat Free Framework instance.
-	 * @param string $username The desired username
-	 * @return bool|string Returns false on valid, error message on invalid
+	 * @return array Returns team list associative array of current session user:
+	 * ['team_name', 'team_id', 'creator']
 	 */
-	static function username_invalid_check($f3, $username) {
-		$db = $f3->get('DB');
-		$session_username = $f3->get('SESSION.session_username');
-		$db_users = new \DB\SQL\Mapper($db, 'users');
-		$user = $db_users->load(array('username=?', $session_username));
-		$req_user = $db_users->load(array('username=?', $username));
-
-		if($req_user !== FALSE) {
-			return 'The username '.$username.' is already taken.';
-		}
-	}
-
 	static function get_all_teams_of_logged_in_user($f3) {
 		$teams = array();
 		$team_ids = array();
@@ -387,5 +385,66 @@ class Utils {
 		}
 
 		return $teams;
+	}
+
+	/**
+	 * Validates username by adding any errors to the 'v_errors' global F3 variable. It
+	 * does not call reroute_with_errors; that is up to you.
+	 * 
+	 * @param Base $f3 The base Fat Free Framework instance.
+	 * @param string $username The desired username.
+	 * @param string $error_type What v_errors element_id to use.
+	 * @return null Returns NULL
+	 */
+	static function validate_username($f3, $username, $error_type) {
+		$db = $f3->get('DB');
+		$db_users = new \DB\SQL\Mapper($db, 'users');
+		$user = $db_users->load(array('username=?', $username));
+
+		if($user !== FALSE) {
+			$f3->push('v_errors', array(
+				'element_id' => $error_type,
+				'message' => 'The username '.$username.' is already taken.'
+			));
+		}
+
+		if(!ctype_alnum($username)) {
+			$f3->push('v_errors', array(
+				'element_id' => $error_type,
+				'message' => 'The username must use only alphanumeric characters. You provided '.$username.'.'
+			));
+		}
+
+		if(strlen($username) > 25) {
+			$f3->push('v_errors', array(
+				'element_id' => $error_type,
+				'message' => 'The username must not be more than 25 characters long.'
+			));
+		}
+	}
+
+	/**
+	 * Validates password by adding any errors to the 'v_errors' global F3 variable. It
+	 * does not call reroute_with_errors; that is up to you.
+	 * 
+	 * @param Base $f3 The base Fat Free Framework instance.
+	 * @param string $password The desired password.
+	 * @param string $error_type What v_errors element_id to use.
+	 * @return null Returns NULL
+	 */
+	static function validate_password($f3, $password, $error_type) {
+		if(strlen($password) > 75) {
+			$f3->push('v_errors', array(
+				'element_id' => $error_type,
+				'message' => 'The password must not be more than 75 characters long.'
+			));
+		}
+
+		if(strlen($password) < 8) {
+			$f3->push('v_errors', array(
+				'element_id' => $error_type,
+				'message' => 'The password must be at least 8 characters long.'
+			));
+		}
 	}
 }
