@@ -109,7 +109,7 @@
 			<span>
 				<?php echo $v_current_log_diff; ?>
 			</span>
-			<a href="/">Refresh</a>
+			<a href="<?php echo $v_refresh_link; ?>">Refresh</a>
 		</p>
 		<p>
 			Project: <?php echo $v_current_log_project; ?>
