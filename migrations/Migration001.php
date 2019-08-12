@@ -59,8 +59,11 @@ CREATE TABLE `teams` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL DEFAULT '0',
   `password` varchar(255) NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT '0',
+  `email_verified` tinyint(1) NOT NULL DEFAULT '0',
+  `email_verification_hash` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -20,6 +20,11 @@
 				</div>
 
 				<div class="form-group">
+					<label for="email">Email (optional, required if you forget your password):</label>
+					<input class="form-control" type="text" id="email" name="email">
+				</div>
+
+				<div class="form-group">
 					<label for="password">Password:</label><br>
 					<input class="form-control" type="password" id="password" name="password">
 				</div>

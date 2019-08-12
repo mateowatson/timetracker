@@ -27,6 +27,7 @@ class Register {
 		}
 
 		$request_user = $f3->get('REQUEST')['username'];
+		$request_email = $f3->get('REQUEST')['email'];
 		$request_password = $f3->get('REQUEST')['password'];
 
 		if(!$request_user || !$request_password) {
@@ -45,10 +46,11 @@ class Register {
 		Utils::reroute_with_errors($f3, $args, '/register');
 
 		$new_user = $db->exec(
-			'INSERT INTO users (username, password) VALUES (?, ?)',
+			'INSERT INTO users (username, password, email) VALUES (?, ?, ?)',
 			array(
 				$request_user,
-				password_hash($request_password, PASSWORD_DEFAULT)
+				password_hash($request_password, PASSWORD_DEFAULT),
+				$request_email ? : ''
 			)
 		);
 

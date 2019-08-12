@@ -20,6 +20,7 @@ class Migration {
 		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/install');
 
 		$request_user = $f3->get('REQUEST')['username'];
+		$request_email = $f3->get('REQUEST')['email'];
 		$request_password = $f3->get('REQUEST')['password'];
 
 		if(!$request_user || !$request_password) {
@@ -32,6 +33,12 @@ class Migration {
 		Utils::reroute_with_errors($f3, $args, '/migration');
 
 		$db = $f3->get('DB');
+
+		Utils::validate_username($f3, $request_user, 'registration_errors');
+
+		Utils::validate_password($f3, $request_password, 'registration_errors');
+
+		Utils::reroute_with_errors($f3, $args, '/install');
 		
 		$migration = require_once(ROOT_DIR . '/migrations/Migration001.php');
 
@@ -40,10 +47,11 @@ class Migration {
 		$db->exec($migration);
 
 		$db->exec(
-			'INSERT INTO users (username, password, admin) VALUES (?, ?, 1)',
+			'INSERT INTO users (username, password, admin, email) VALUES (?, ?, 1, ?)',
 			array(
 				$request_user,
-				password_hash($request_password, PASSWORD_DEFAULT)
+				password_hash($request_password, PASSWORD_DEFAULT),
+				$request_email ? : ''
 			)
 		);
 
