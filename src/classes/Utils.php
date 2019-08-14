@@ -447,4 +447,17 @@ class Utils {
 			));
 		}
 	}
+
+	/**
+	 * Validates email by adding any errors to the 'v_errors' global F3 variable. It
+	 * does not call reroute_with_errors; that is up to you.
+	 * 
+	 * @param Base $f3 The base Fat Free Framework instance.
+	 * @param string $email The desired email.
+	 * @param string $error_type What v_errors element_id to use.
+	 * @return null Returns NULL
+	 */
+	static function validate_email($f3, $email, $error_type) {
+
+	}
 }

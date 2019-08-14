@@ -43,6 +43,8 @@ class Register {
 
 		Utils::validate_password($f3, $request_password, 'registration_errors');
 
+		Utils::validate_email($f3, $request_email, 'registration_errors');
+
 		Utils::reroute_with_errors($f3, $args, '/register');
 
 		$new_user = $db->exec(
