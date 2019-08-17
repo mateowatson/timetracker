@@ -43,16 +43,21 @@ class Register {
 
 		Utils::validate_password($f3, $request_password, 'registration_errors');
 
-		Utils::validate_email($f3, $request_email, 'registration_errors');
+		$email_verification_hash = '';
+		if($request_email) {
+			Utils::validate_email($f3, $request_email, 'registration_errors');
+			$email_verification_hash = Utils::send_email_verification($f3, $request_email, 'registration_errors');
+		}
 
 		Utils::reroute_with_errors($f3, $args, '/register');
 
 		$new_user = $db->exec(
-			'INSERT INTO users (username, password, email) VALUES (?, ?, ?)',
+			'INSERT INTO users (username, password, email, email_verification_hash) VALUES (?, ?, ?, ?)',
 			array(
 				$request_user,
 				password_hash($request_password, PASSWORD_DEFAULT),
-				$request_email ? : ''
+				$request_email ? : '',
+				$email_verification_hash
 			)
 		);
 

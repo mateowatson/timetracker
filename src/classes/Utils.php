@@ -458,6 +458,48 @@ class Utils {
 	 * @return null Returns NULL
 	 */
 	static function validate_email($f3, $email, $error_type) {
+		if(filter_var($email, FILTER_VALIDATE_EMAIL) === FALSE) {
+			$f3->push('v_errors', array(
+				'element_id' => $error_type,
+				'message' => 'Not a valid email address.'
+			));
+		}
+	}
 
+	static function send_email_verification($f3, $email, $error_type) {
+		if($f3->get('SMTP_SCHEME') !== 'tls' || $f3->get('SMTP_SCHEME') !== 'ssl') {
+			$scheme = null;
+		} else {
+			$scheme = $f3->get('SMTP_SCHEME');
+		}
+
+		$smtp = new SMTP (
+			$f3->get('SMTP_HOST'),
+			$f3->get('SMTP_PORT'),
+			$scheme,
+			$f3->get('SMTP_USERNAME'),
+			$f3->get('SMTP_PASSWORD')
+		);
+
+		$smtp->set('From', '<'.$f3->get('SMTP_USERNAME').'>');
+		$smtp->set('To', '<'.$email.'>');
+		$smtp->set('Subject', 'Timetracker email verification');
+
+		$email_verification = '1234';
+
+		$email_verification_hash = password_hash($email_verification, PASSWORD_DEFAULT);
+
+		$message = <<<MESSAGE
+Your email verification code is: $email_verification
+MESSAGE;
+
+		if($smtp->send($message)) {
+			return $email_verification_hash;
+		}
+
+		$f3->push('v_errors', array(
+			'element_id' => $error_type,
+			'message' => 'Could not send email verification. Registration failed.'
+		));
 	}
 }
