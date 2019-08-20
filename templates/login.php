@@ -47,6 +47,8 @@
 				<div class="form-group">
 					<input class="btn btn-primary" type="submit" value="Login">
 				</div>
+
+				<a href="/forgot-password">Forgot Password?</a>
 			</form>
 		</div>
 	</div>

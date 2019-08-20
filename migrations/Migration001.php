@@ -64,6 +64,7 @@ CREATE TABLE `users` (
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `email_verified` tinyint(1) NOT NULL DEFAULT '0',
   `email_verification_hash` text NOT NULL,
+  `password_reset_verification_hash` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

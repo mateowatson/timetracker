@@ -400,9 +400,14 @@ class Utils {
 	 */
 	static function validate_username($f3, $username, $error_type) {
 		$db = $f3->get('DB');
-		$db_users = new \DB\SQL\Mapper($db, 'users');
-		$user = $db_users->load(array('username=?', $username));
-
+		$users = $db->exec('SHOW TABLES LIKE \'users\'');
+		if(count($users)) {
+			$db_users = new \DB\SQL\Mapper($db, 'users');
+			$user = $db_users->load(array('username=?', $username));
+		} else {
+			$user === FALSE;
+		}
+		
 		if($user !== FALSE) {
 			$f3->push('v_errors', array(
 				'element_id' => $error_type,
@@ -503,6 +508,46 @@ MESSAGE;
 		$f3->push('v_errors', array(
 			'element_id' => $error_type,
 			'message' => 'Could not send email verification. Registration failed.'
+		));
+	}
+
+	static function send_password_reset_verification($f3, $email, $error_type) {
+		if($f3->get('SMTP_SCHEME') !== 'tls' || $f3->get('SMTP_SCHEME') !== 'ssl') {
+			$scheme = null;
+		} else {
+			$scheme = $f3->get('SMTP_SCHEME');
+		}
+
+		$smtp = new SMTP (
+			$f3->get('SMTP_HOST'),
+			$f3->get('SMTP_PORT'),
+			$scheme,
+			$f3->get('SMTP_USERNAME'),
+			$f3->get('SMTP_PASSWORD')
+		);
+
+		$smtp->set('From', '<'.$f3->get('SMTP_USERNAME').'>');
+		$smtp->set('To', '<'.$email.'>');
+		$smtp->set('Subject', 'Timetracker password reset verification');
+
+		// creates 12 digit random string
+		$pasword_reset_verification = bin2hex( random_bytes(6) );
+
+		$password_reset_verification_hash = password_hash($pasword_reset_verification, PASSWORD_DEFAULT);
+
+		$message = <<<MESSAGE
+Your password reset verification is code is: $pasword_reset_verification
+
+Go to YOUR_APP_DOMAIN/reset-password and enter the verification code and new password you would like to use.
+MESSAGE;
+
+		if($smtp->send($message)) {
+			return $password_reset_verification_hash;
+		}
+
+		$f3->push('v_errors', array(
+			'element_id' => $error_type,
+			'message' => 'Could not send email verification. Password reset process failed.'
 		));
 	}
 }
