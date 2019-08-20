@@ -70,6 +70,8 @@ class Search {
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $session_username));
 		$f3->set('v_username', $session_username);
+		$f3->set('v_user_email', $user->email);
+		$f3->set('v_user_email_verified', $user->email_verified);
 
 		$req = $f3->get('REQUEST');
 		$search_term = urldecode($req['search_term']);

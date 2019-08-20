@@ -356,6 +356,8 @@ class Utils {
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $session_username));
 		$f3->set('v_username', $user->username);
+		$f3->set('v_user_email', $user->email);
+		$f3->set('v_user_email_verified', $user->email_verified);
 		$db_teams = new \DB\SQL\Mapper($db, 'teams');
 		$db_teams->load(array('creator = ?', $user->id));
 		while(!$db_teams->dry()) {
@@ -485,7 +487,8 @@ class Utils {
 		$smtp->set('To', '<'.$email.'>');
 		$smtp->set('Subject', 'Timetracker email verification');
 
-		$email_verification = '1234';
+		// creates 12 digit random string
+		$email_verification = bin2hex( random_bytes(6) );
 
 		$email_verification_hash = password_hash($email_verification, PASSWORD_DEFAULT);
 

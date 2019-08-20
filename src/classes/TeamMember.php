@@ -67,6 +67,8 @@ class TeamMember {
 		$user = new \DB\SQL\Mapper($db, 'users');
 		$user->load(array('username = ?', $session_username));
 		$f3->set('v_username', $session_username);
+		$f3->set('v_user_email', $user->email);
+		$f3->set('v_user_email_verified', $user->email_verified);
 
 		// Only team creators can delete members
 		if($team->creator !== $user->id) {

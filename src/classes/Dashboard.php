@@ -11,6 +11,8 @@ class Dashboard {
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $session_username));
 		$f3->set('v_username', $session_username);
+		$f3->set('v_user_email', $user->email);
+		$f3->set('v_user_email_verified', $user->email_verified);
 
 		$f3->set('v_page_title', 'Dashboard');
 		$is_team = false;

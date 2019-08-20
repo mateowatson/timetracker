@@ -34,7 +34,7 @@
 			</div>
 			<?php endif; ?>
 
-            <?php if(!$v_email_verified): ?>
+            <?php if(!$v_user_email_verified): ?>
 			<form action="/verify-email" method="POST">
 				<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 				

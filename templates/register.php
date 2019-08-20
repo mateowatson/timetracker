@@ -14,17 +14,17 @@
 				
 				<div class="form-group">
 					<label for="username">Username:</label>
-					<input class="form-control" type="text" id="username" name="username">
+					<input class="form-control" type="text" id="username" name="username" placeholder="example11">
 				</div>
 
 				<div class="form-group">
 					<label for="email">Email:</label>
-					<input class="form-control" type="text" id="email" name="email">
+					<input class="form-control" type="text" id="email" name="email" placeholder="example@fastmail.com">
 				</div>
 				
 				<div class="form-group">
 					<label for="password">Password:</label><br>
-					<input class="form-control" type="password" id="password" name="password">
+					<input class="form-control" type="password" id="password" name="password" placeholder="At least 8 characters">
 				</div>
 				
 				<div class="form-group">

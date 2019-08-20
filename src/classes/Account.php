@@ -13,6 +13,8 @@ class Account {
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $session_username));
 		$f3->set('v_username', $session_username);
+		$f3->set('v_user_email', $user->email);
+		$f3->set('v_user_email_verified', $user->email_verified);
 
 		$f3->set('v_is_user_admin', true);
 		if(!$user->admin) {
@@ -39,6 +41,7 @@ class Account {
 		$req = $f3->get('REQUEST');
 		$req_username = $req['account_username'];
 		$req_password = $req['account_password'];
+		$req_email = $req['account_email'];
 		$req_registration = $req['account_registration'];
 		$req_add_username = $req['account_add_username'];
 		$req_add_password = $req['account_add_password'];
@@ -89,6 +92,15 @@ class Account {
 			$user->password = password_hash($req_password, PASSWORD_DEFAULT);
 		}
 
+		if($req_email) {
+			Utils::validate_email($f3, $req_email, 'account_errors');
+			Utils::reroute_with_errors($f3, $args, '/account');
+			$user->email = $req_email;
+			$user->email_verified = 0;
+			$email_verification_hash = Utils::send_email_verification($f3, $req_email, 'account_errors');
+			$user->email_verification_hash = $email_verification_hash;
+		}
+
 		$site_options = new \DB\SQL\Mapper($db, 'site_options');
 		$open_registration = $site_options->load(array('option_key = \'open_registration\''));
 		if($req_registration && $req_registration === 'closed') {
@@ -136,7 +148,7 @@ class Account {
 			$open_registration->save();
 		}
 
-		if($req_username || $req_password) {
+		if($req_username || $req_password || $req_email) {
 			$user->save();
 		}
 

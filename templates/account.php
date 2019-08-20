@@ -68,16 +68,22 @@
 				</div>
 				<?php endif; ?>
 
-				<h2>Change username and/or password</h2>
+				<h2>Change profile info</h2>
 				<div class="form-group">
 					<label for="account_username">Username</label>
-					<input type="text" placeholder="username" id="account_username"
+					<input type="text" placeholder="example11" id="account_username"
 						name="account_username" class="form-control">
 				</div>
 
 				<div class="form-group">
+					<label for="account_email">Email</label>
+					<input type="text" placeholder="example@fastmail.com" id="account_email"
+						name="account_email" class="form-control">
+				</div>
+
+				<div class="form-group">
 					<label for="account_password">Password</label>
-					<input type="password" placeholder="password" id="account_password"
+					<input type="password" placeholder="At least 8 characters" id="account_password"
 						name="account_password" class="form-control">
 				</div>
 

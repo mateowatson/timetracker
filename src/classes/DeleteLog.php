@@ -11,6 +11,8 @@ class DeleteLog {
 		$user = new \DB\SQL\Mapper($db, 'users');
 		$user->load(array('username = ?', $session_username));
 		$f3->set('v_username', $session_username);
+		$f3->set('v_user_email', $user->email);
+		$f3->set('v_user_email_verified', $user->email_verified);
 
 		$req = $f3->get('REQUEST');
 		$req_log = urldecode($req['log']);
