@@ -405,9 +405,9 @@ class Utils {
 			$db_users = new \DB\SQL\Mapper($db, 'users');
 			$user = $db_users->load(array('username=?', $username));
 		} else {
-			$user === FALSE;
+			$user = FALSE;
 		}
-		
+
 		if($user !== FALSE) {
 			$f3->push('v_errors', array(
 				'element_id' => $error_type,

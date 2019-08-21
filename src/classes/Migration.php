@@ -34,9 +34,9 @@ class Migration {
 
 		$db = $f3->get('DB');
 
-		Utils::validate_username($f3, $request_user, 'registration_errors');
+		Utils::validate_username($f3, $request_user, 'installation_errors');
 
-		Utils::validate_password($f3, $request_password, 'registration_errors');
+		Utils::validate_password($f3, $request_password, 'installation_errors');
 
 		Utils::reroute_with_errors($f3, $args, '/install');
 		
