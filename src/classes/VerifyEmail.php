@@ -13,7 +13,7 @@ class VerifyEmail {
 		$user = $db_users->load(array('username=?', $session_username));
         $f3->set('v_username', $session_username);
         $f3->set('v_user_email_verified', $user->email_verified);
-        $f3->set('v_user_email', $user->email ? : 'no email address on record');
+        $f3->set('v_user_email', $user->email);
         // RENDER
 		$view = new \View;
         echo $view->render('verify-email.php');

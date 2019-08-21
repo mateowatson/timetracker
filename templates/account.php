@@ -70,13 +70,13 @@
 
 				<h2>Change profile info</h2>
 				<div class="form-group">
-					<label for="account_username">Username</label>
+					<label for="account_username">Username (currently <strong><?php echo $v_username; ?>)</strong></label>
 					<input type="text" placeholder="example11" id="account_username"
 						name="account_username" class="form-control">
 				</div>
 
 				<div class="form-group">
-					<label for="account_email">Email</label>
+					<label for="account_email">Email (currently <strong><?php echo $v_user_email; ?></strong>)</label>
 					<input type="text" placeholder="example@fastmail.com" id="account_email"
 						name="account_email" class="form-control">
 				</div>

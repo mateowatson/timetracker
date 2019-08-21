@@ -34,14 +34,15 @@
 			</div>
 			<?php endif; ?>
 
-            <?php if(!$v_user_email_verified): ?>
+            <?php if(!$v_user_email_verified && $v_user_email): ?>
 			<form action="/verify-email" method="POST">
 				<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
-				
-                <h2>Verify Email</h2>
                 
 				<div class="form-group">
-					<label for="email_verification_code">Enter in the email verification code you received.</label>
+					<label for="email_verification_code">
+						Enter in the email verification code you received at
+						<strong><?php echo $v_user_email; ?></strong>.
+					</label>
 					<input class="form-control"type="text" name="email_verification_code" id="email_verification_code">
                 </div>
                 
@@ -49,9 +50,15 @@
 					<input type="submit" value="Submit" class="btn btn-primary">
 				</div>
             </form>
-            <?php else: ?>
-            <p>Your email address <strong><?php echo $v_user_email; ?></strong> has already been verified.</p>
-            <?php endif; ?>
+			<?php endif; ?>
+			
+			<?php if($v_user_email_verified && $v_user_email): ?>
+			<p>Your verified email address is <strong><?php echo $v_user_email; ?></strong>.</p>
+			<?php endif; ?>
+
+			<?php if(!$v_user_email): ?>
+			<p>You have not submitted an email address yet. <a href="/account">Edit your profile</a> to add an address.</p>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>

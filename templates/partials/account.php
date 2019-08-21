@@ -1,7 +1,7 @@
 <div class="col-lg-4 d-flex flex-row justify-content-end align-items-center">
 	<h2 class="sr-only">Account</h2>
 	
-	<?php if(!$v_user_email_verified): ?>
+	<?php if(!$v_user_email_verified && $v_user_email): ?>
 		<a class="btn btn-link" href="/verify-email">Verify Email</a>
 	<?php endif; ?>
 	
