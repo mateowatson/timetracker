@@ -3,13 +3,14 @@
 class ForgotPassword {
     function show($f3, $args) {
         Utils::redirect_logged_in_user($f3, $args);
+        Utils::send_csrf($f3, $args);
 
 		$f3->set('v_page_title', 'Reset Password');
 		$view=new \View;
         echo $view->render('forgot-password.php');
     }
 
-    function start_email_reset($f3, $args) {
+    function start_password_reset($f3, $args) {
         $db = $f3->get('DB');
         Utils::prevent_csrf_from_tab_conflict($f3, $args, '/forgot-password');
         
@@ -21,6 +22,7 @@ class ForgotPassword {
             $password_reset_verification_hash = Utils::send_password_reset_verification(
                 $f3, $user->email, 'forgot_password_errors'
             );
+            Utils::reroute_with_errors($f3, $args, '/reset-password');
             $user->password_reset_verification_hash = $password_reset_verification_hash;
             $user->save();
 

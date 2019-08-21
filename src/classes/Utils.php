@@ -28,8 +28,6 @@ class Utils {
 		if (empty($request_csrf) || empty($session_csrf) ||
 			$request_csrf !== $session_csrf)
 		{
-			error_log('yellow');
-			//$f3->reroute('/dashboard');
 			$f3->push('v_errors', array(
 				'element_id' => 'csrf_error',
 				'message' => 'Your request may have failed due a conflict with another tab or window. Simply refresh the page on this tab to renew your session and try again.'
