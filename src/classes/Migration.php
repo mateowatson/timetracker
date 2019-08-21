@@ -26,7 +26,7 @@ class Migration {
 		if(!$request_user || !$request_password) {
 			$f3->push('v_errors', array(
 				'element_id' => 'installation_errors',
-				'message' => 'Please fill out all the user creation fields.'
+				'message' => 'Please fill out at least the username and password fields.'
 			));
 		}
 
@@ -37,7 +37,7 @@ class Migration {
 		Utils::validate_username($f3, $request_user, 'installation_errors');
 
 		Utils::validate_password($f3, $request_password, 'installation_errors');
-
+		
 		Utils::reroute_with_errors($f3, $args, '/install');
 		
 		$migration = require_once(ROOT_DIR . '/migrations/Migration001.php');
@@ -60,6 +60,18 @@ class Migration {
 		);
 
 		$db->commit();
+
+		if($request_email) {
+			Utils::validate_email($f3, $request_email, 'installation_errors');
+			Utils::reroute_with_errors($f3, $args, '/install');
+			$email_verification_hash = Utils::send_email_verification($f3, $request_email, 'installation_errors');
+			Utils::reroute_with_errors($f3, $args, '/install');
+			$db = $f3->get('DB');
+			$user = new \DB\SQL\Mapper($db, 'users');
+			$user->load(array('username=?', $request_user));
+			$user->email_verification_hash = $email_verification_hash;
+			$user->save();
+		}
 
 		$f3->push('v_confirmations', array(
 			'element_id' => 'installation_confirmations',
