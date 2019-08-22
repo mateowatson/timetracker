@@ -1,3 +1,3 @@
 <div class="col-lg-8">
-	<h1><a href="/" class="font-weight-bold">Time Tracker</a> - <?php echo $v_page_title; ?></h1>
+	<h1><a href="<?php echo $SITE_URL; ?>/" class="font-weight-bold"><?php echo $SITE_NAME; ?></a> - <?php echo $v_page_title; ?></h1>
 </div>

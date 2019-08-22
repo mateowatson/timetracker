@@ -14,10 +14,10 @@
 			Are you sure you want to log out? If so, be sure to close all other tabs or windows
 			after clicking YES below.</p>
 
-			<form action="/logout" method="POST">
+			<form action="<?php echo $SITE_URL; ?>/logout" method="POST">
 				<input type="text" name="csrf" id="csrf" value="<?php echo $CSRF; ?>" hidden>
 				<input class="btn btn-primary" type="submit" value="Yes">
-				<a href="/" class="btn">No</a>
+				<a href="<?php echo $SITE_URL; ?>/" class="btn">No</a>
 			</form>
 		</div>
 	</div>

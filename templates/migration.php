@@ -9,7 +9,7 @@
 <div class="container mb-5">
 	<div class="row">
 		<div class="col-lg-6">
-			<form action="/install" method="POST" id="migration">
+			<form action="<?php echo $SITE_URL; ?>/install" method="POST" id="migration">
 				<input type="text" name="csrf" value="<?php echo $CSRF; ?>" hidden>
 
 				<p>Create the initial user.</p>

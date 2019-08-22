@@ -32,7 +32,7 @@
 				<?php endif; endforeach; ?>
 			</div>
 			<?php endif; ?>
-            <form action="/reset-password" method="POST">
+            <form action="<?php echo $SITE_URL; ?>/reset-password" method="POST">
                 <input type="text" name="csrf" value="<?php echo $CSRF; ?>" hidden>
                 <p>Enter your current username, the password reset code we sent you, and your new desired password.</p>
 

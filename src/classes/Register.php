@@ -46,7 +46,7 @@ class Register {
 		$email_verification_hash = '';
 		if($request_email) {
 			Utils::validate_email($f3, $request_email, 'registration_errors');
-			$email_verification_hash = Utils::send_email_verification($f3, $request_email, 'registration_errors');
+			$email_verification_hash = Utils::send_email_verification($f3, $request_email, $request_user, 'registration_errors');
 		}
 
 		Utils::reroute_with_errors($f3, $args, '/register');

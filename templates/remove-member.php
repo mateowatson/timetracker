@@ -12,7 +12,7 @@
 		<div class="col-lg-12">
 
 			<h2>Confirm</h2>
-			<form action="/remove-member" method="POST">
+			<form action="<?php echo $SITE_URL; ?>/remove-member" method="POST">
 				<input type="text" name="csrf" id="csrf_team" value="<?php echo $CSRF; ?>" hidden>
 				<input type="text" name="user_id" id="user_id" value="<?php echo $v_user_to_remove->id; ?>" hidden>
 				<input type="text" name="team_id" id="team_id" value="<?php echo $v_team->id; ?>" hidden>
@@ -20,7 +20,7 @@
 				<strong><?php echo $v_user_to_remove->username; ?></strong> from
 				<strong><?php echo $v_team->name; ?></strong>?</p>
 				<input class="btn btn-primary" type="submit" value="Remove">
-				<a class="btn btn-link" href="<?php echo $v_cancel_url; ?>">Cancel</a>
+				<a class="btn btn-link" href="<?php echo $SITE_URL . $v_cancel_url; ?>">Cancel</a>
 			</form>
 
 			<?php if(in_array(

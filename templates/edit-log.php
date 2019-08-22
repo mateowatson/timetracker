@@ -11,7 +11,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<?php if($v_log_id): ?>
-			<form action="/edit-log" method="POST">
+			<form action="<?php echo $SITE_URL; ?>/edit-log" method="POST">
 				<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 				<input type="text" name="edit_log_log_id" id="edit_log_log_id" value="<?php echo $v_log_id; ?>" hidden>
 
@@ -67,7 +67,7 @@
 
 						<?php if(!$v_timer_start_new): ?>
 						<div class="form-group">
-							<a href="/edit-log?id=<?php echo $v_log_id; ?>&new">
+							<a href="<?php echo $SITE_URL; ?>/edit-log?id=<?php echo $v_log_id; ?>&new">
 								Start New Project or Task
 							</a>
 						</div>
@@ -282,7 +282,7 @@
 				</div>
 
 				<div class="form-group">
-					<a class="text-danger" href="/delete-log?log=<?php echo urlencode($v_log_id); ?>">Delete This Log</a>
+					<a class="text-danger" href="<?php echo $SITE_URL; ?>/delete-log?log=<?php echo urlencode($v_log_id); ?>">Delete This Log</a>
 				</div>
 
 				<?php if(in_array(

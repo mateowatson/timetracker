@@ -22,7 +22,7 @@
 	</div>
 	<?php endif; ?>
 	
-	<form action="/start-time" method="POST">
+	<form action="<?php echo $SITE_URL; ?>/start-time" method="POST">
 		<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 
 		<div class="form-group">
@@ -78,14 +78,14 @@
 			if($v_is_team):
 		?>
 		<div class="form-group text-center">
-			<p><a href="/team/<?php echo $v_team['id']; ?>?new">
+			<p><a href="<?php echo $SITE_URL; ?>/team/<?php echo $v_team['id']; ?>?new">
 				Start New Project or Task
 			</a></p>
 		</div>
 		
 			<?php else: ?>
 		<div class="form-group text-center">
-			<p><a href="/dashboard?new">
+			<p><a href="<?php echo $SITE_URL; ?>/dashboard?new">
 				Start New Project or Task
 			</a></p>
 		</div>
@@ -152,7 +152,7 @@
 	<?php if(!$v_is_team): ?>
 	<p>This is your personal timer. <a href="/teams">Select a Team</a></p>
 	<?php else: ?>
-	<p><a href="/dashboard">Go back to your personal dashboard.</a></p>
-	<p><a href="/teams">Select another team</a></p>
+	<p><a href="<?php echo $SITE_URL; ?>/dashboard">Go back to your personal dashboard.</a></p>
+	<p><a href="<?php echo $SITE_URL; ?>/teams">Select another team</a></p>
 	<?php endif; ?>
 </div>

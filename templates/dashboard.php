@@ -33,7 +33,7 @@
 						class="nav-link <?php
 							echo isset($REQUEST['week']) ? '' : 'active';
 						?>"
-						href="<?php echo !$v_is_team ? '/dashboard' : '/team/'.$v_team['id']; ?>">
+						href="<?php echo $SITE_URL; ?><?php echo !$v_is_team ? '/dashboard' : '/team/'.$v_team['id']; ?>">
 						Today
 					</a>
 				</li>
@@ -42,7 +42,7 @@
 						class="nav-link <?php
 							echo isset($REQUEST['week']) ? 'active' : '';
 						?>"
-						href="<?php echo !$v_is_team ? '/dashboard?week' : '/team/'.$v_team['id'].'?week'; ?>">
+						href="<?php echo $SITE_URL; ?><?php echo !$v_is_team ? '/dashboard?week' : '/team/'.$v_team['id'].'?week'; ?>">
 						This Week
 					</a>
 				</li>
@@ -56,7 +56,7 @@
 			<?php endif; ?>
 		</div>
 		<div class="col-lg-12">
-			<p><a href="/all-logs">See all logs ever</a></p>
+			<p><a href="<?php echo $SITE_URL; ?>/all-logs">See all logs ever</a></p>
 		</div>
 </section>
 

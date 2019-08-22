@@ -14,7 +14,7 @@
 				<ul>
 					<?php foreach($v_teams as $v_team): ?>
 					<li>
-						<a href="/team/<?php echo $v_team['team_id']; ?>">
+						<a href="<?php echo $SITE_URL; ?>/team/<?php echo $v_team['team_id']; ?>">
 							<?php echo $v_team['team_name']; ?>
 						</a>
 						<?php if($v_team['creator']): ?>- You created this team.<?php endif; ?>
@@ -39,7 +39,7 @@
 				</div>
 				<?php endif; ?>
 
-				<form action="/teams" method="POST">
+				<form action="<?php echo $SITE_URL; ?>/teams" method="POST">
 					<input type="text" name="csrf" id="csrf_team" value="<?php echo $CSRF; ?>" hidden>
 
 					<div class="form-group">

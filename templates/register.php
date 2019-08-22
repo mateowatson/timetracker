@@ -9,7 +9,7 @@
 <div class="container mb-5">
 	<div class="row">
 		<div class="col-lg-4">
-			<form action="/register" method="POST">
+			<form action="<?php echo $SITE_URL; ?>/register" method="POST">
 				<input type="text" name="csrf" value="<?php echo $CSRF; ?>" hidden>
 				
 				<div class="form-group">

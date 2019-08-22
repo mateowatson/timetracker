@@ -31,7 +31,7 @@
 				<?php endif; endforeach; ?>
 			</div>
 			<?php endif; ?>
-			<form action="/login" method="POST">
+			<form action="<?php echo $SITE_URL; ?>/login" method="POST">
 				<input type="text" name="csrf" value="<?php echo $CSRF; ?>" hidden>
 				
 				<div class="form-group">
@@ -48,7 +48,7 @@
 					<input class="btn btn-primary" type="submit" value="Login">
 				</div>
 
-				<a href="/forgot-password">Forgot Password?</a>
+				<a href="<?php echo $SITE_URL; ?>/forgot-password">Forgot Password?</a>
 			</form>
 		</div>
 	</div>

@@ -32,7 +32,7 @@
 				<?php endif; endforeach; ?>
 			</div>
 			<?php endif; ?>
-            <form action="/forgot-password" method="POST">
+            <form action="<?php echo $SITE_URL; ?>/forgot-password" method="POST">
                 <input type="text" name="csrf" value="<?php echo $CSRF; ?>" hidden>
 				
 				<div class="form-group">

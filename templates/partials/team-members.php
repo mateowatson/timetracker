@@ -4,7 +4,7 @@
 		<li>
 			<?php echo $team_member['username']; ?>
 			<?php if($v_show_remove_members): ?>
-			<a href="/remove-member?team=<?php echo $v_team['id']; ?>&user=<?php echo $team_member['id']; ?>"
+			<a href="<?php echo $SITE_URL; ?>/remove-member?team=<?php echo $v_team['id']; ?>&user=<?php echo $team_member['id']; ?>"
 				class="px-3">
 				remove
 			</a>
@@ -14,7 +14,7 @@
 </ul>
 
 <h3 class="sr-only">Add Another Member</h3>
-<form class="team-members__form" action="/team-member" method="POST">
+<form class="team-members__form" action="<?php echo $SITE_URL; ?>/team-member" method="POST">
 	<input type="text" name="csrf" id="csrf_new_team_member" value="<?php echo $CSRF; ?>" hidden>
 	<input type="text" name="team_member_team_id" id="team_member_team_id" value="<?php echo $v_team['id']; ?>" hidden>
 	

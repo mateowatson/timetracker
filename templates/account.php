@@ -34,7 +34,7 @@
 			</div>
 			<?php endif; ?>
 
-			<form action="/account" method="POST">
+			<form action="<?php echo $SITE_URL; ?>/account" method="POST">
 				<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 				
 				<?php if($v_is_user_admin): ?>

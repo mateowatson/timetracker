@@ -21,6 +21,10 @@ $f3->set('UI', ROOT_DIR . '/templates/');
 $f3->set('AUTOLOAD', ROOT_DIR . '/src/classes/');
 $f3->set('DEBUG',3);
 
+// Remove trailing slash(es) of site name
+$original_site_url = $f3->get('SITE_URL');
+$f3->set('SITE_URL', rtrim($original_site_url, '/'));
+
 $db = $f3->get('DB');
 $users = $db->exec('SHOW TABLES LIKE \'users\'');
 

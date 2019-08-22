@@ -1,5 +1,5 @@
 <h2>Search</h2>
-<form action="/search" method="POST">
+<form action="<?php echo $SITE_URL; ?>/search" method="POST">
 	<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 
 	<div class="form-group">
@@ -33,7 +33,7 @@
 	</div>
 
 	<div class="form-group">
-		<a href="<?php echo $v_advanced_search_link; ?>">Go to Advanced Search</a>
+		<a href="<?php echo $SITE_URL . $v_advanced_search_link; ?>">Go to Advanced Search</a>
 	</div>
 </form>
 

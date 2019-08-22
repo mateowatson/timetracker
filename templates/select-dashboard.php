@@ -23,8 +23,8 @@
 			<h2>Go to...</h2>
 
 			<ul class="list-unstyled">
-				<li><a href="/dashboard">Pearsonal Dashboard</a></li>
-				<li><a href="/teams">Teams</a></li>
+				<li><a href="<?php echo $SITE_URL; ?>/dashboard">Pearsonal Dashboard</a></li>
+				<li><a href="<?php echo $SITE_URL; ?>/teams">Teams</a></li>
 			</ul>
 			
 

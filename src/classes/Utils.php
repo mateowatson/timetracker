@@ -471,7 +471,7 @@ class Utils {
 		}
 	}
 
-	static function send_email_verification($f3, $email, $error_type) {
+	static function send_email_verification($f3, $email, $username, $error_type) {
 		if($f3->get('SMTP_SCHEME') !== 'tls' || $f3->get('SMTP_SCHEME') !== 'ssl') {
 			$scheme = null;
 		} else {
@@ -499,7 +499,7 @@ class Utils {
 		$site_url = $f3->get('SITE_URL');
 
 		$message = <<<MESSAGE
-Hello $site_name user!
+Hello $username,
 
 Your email verification code is: $email_verification
 
@@ -520,7 +520,7 @@ MESSAGE;
 		));
 	}
 
-	static function send_password_reset_verification($f3, $email, $error_type) {
+	static function send_password_reset_verification($f3, $email, $username, $error_type) {
 		if($f3->get('SMTP_SCHEME') !== 'tls' || $f3->get('SMTP_SCHEME') !== 'ssl') {
 			$scheme = null;
 		} else {
@@ -548,7 +548,7 @@ MESSAGE;
 		$site_url = $f3->get('SITE_URL');
 
 		$message = <<<MESSAGE
-Hello $site_name user!
+Hello $username,
 
 Your password reset verification is code is: $pasword_reset_verification
 

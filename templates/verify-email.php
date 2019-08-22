@@ -35,7 +35,7 @@
 			<?php endif; ?>
 
             <?php if(!$v_user_email_verified && $v_user_email): ?>
-			<form action="/verify-email" method="POST">
+			<form action="<?php echo $SITE_URL; ?>/verify-email" method="POST">
 				<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
                 
 				<div class="form-group">
@@ -57,7 +57,7 @@
 			<?php endif; ?>
 
 			<?php if(!$v_user_email): ?>
-			<p>You have not submitted an email address yet. <a href="/account">Edit your profile</a> to add an address.</p>
+			<p>You have not submitted an email address yet. <a href="<?php echo $SITE_URL; ?>/account">Edit your profile</a> to add an address.</p>
 			<?php endif; ?>
 		</div>
 	</div>

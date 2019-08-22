@@ -66,7 +66,7 @@ class Migration {
 		$db->commit();
 
 		if($request_email) {
-			$email_verification_hash = Utils::send_email_verification($f3, $request_email, 'installation_errors');
+			$email_verification_hash = Utils::send_email_verification($f3, $request_email, $request_user, 'installation_errors');
 			Utils::reroute_with_errors($f3, $args, '/install');
 			$db = $f3->get('DB');
 			$user = new \DB\SQL\Mapper($db, 'users');

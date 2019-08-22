@@ -1,5 +1,5 @@
 <h2>Search</h2>
-<form action="/advanced-search" method="POST">
+<form action="<?php echo $SITE_URL; ?>/advanced-search" method="POST">
 	<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 
 	<div class="form-row">

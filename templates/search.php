@@ -24,7 +24,7 @@
 				<?php if($v_prev_link || $v_next_link): ?>
 				<div class="mb-3">
 					<?php if($v_prev_link): ?>
-					<a class="mr-2" href="<?php echo $v_prev_link; ?>">
+					<a class="mr-2" href="<?php echo $SITE_URL . $v_prev_link; ?>">
 						&larr;
 					</a>
 					<?php endif; ?>
@@ -32,7 +32,7 @@
 						<?php echo 'Page ' . $v_curr_page . '/' . $v_num_pages; ?>
 					</span>
 					<?php if($v_next_link): ?>
-					<a class="ml-2" href="<?php echo $v_next_link; ?>">
+					<a class="ml-2" href="<?php echo $SITE_URL . $v_next_link; ?>">
 						&rarr;
 					</a>
 					<?php endif; ?>
@@ -48,7 +48,7 @@
 			<?php endif; ?>
 		</div>
 		<div class="col-lg-12">
-			<p><a href="/all-logs">See all logs ever</a></p>
+			<p><a href="<?php echo $SITE_URL; ?>/all-logs">See all logs ever</a></p>
 		</div>
 	</div>
 </div>

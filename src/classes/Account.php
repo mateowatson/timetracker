@@ -97,7 +97,7 @@ class Account {
 			Utils::reroute_with_errors($f3, $args, '/account');
 			$user->email = $req_email;
 			$user->email_verified = 0;
-			$email_verification_hash = Utils::send_email_verification($f3, $req_email, 'account_errors');
+			$email_verification_hash = Utils::send_email_verification($f3, $req_email, $user->username, 'account_errors');
 			$user->email_verification_hash = $email_verification_hash;
 		}
 

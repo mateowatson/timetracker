@@ -10,10 +10,10 @@
 	<div class="row">
 		<div class="col-lg-4">
 
-			<p><a class="login__button login__button--link" href="/login">Login</a>
+			<p><a class="login__button login__button--link" href="<?php echo $SITE_URL; ?>/login">Login</a>
 			<?php if($v_open_registration): ?>
 			<span class="login__or-separator">or</span>
-			<a class="login__button login__button--link" href="/register">Register</a></p>
+			<a class="login__button login__button--link" href="<?php echo $SITE_URL; ?>/register">Register</a></p>
 			<?php endif; ?>
 
 		</div>

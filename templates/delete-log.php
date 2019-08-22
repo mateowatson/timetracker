@@ -12,7 +12,7 @@
 		<div class="col-lg-12">
 
 			<h2>Confirm</h2>
-			<form action="/delete-log" method="POST">
+			<form action="<?php echo $SITE_URL; ?>/delete-log" method="POST">
 				<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 				<p>Are you sure you want to delete this log?</p>
 				<input type="text" name="log" id="log" value="<?php echo $v_log->id; ?>" hidden>

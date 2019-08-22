@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Time Tracker - <?php echo $v_page_title; ?></title>
+	<title><?php echo $SITE_NAME; ?> - <?php echo $v_page_title; ?></title>
 	<link rel="stylesheet" href="/dist/app.css">
 </head>
 <body class="my-5">
