@@ -55,11 +55,11 @@
 					<label for="password">
                         New Password
                     </label>
-					<input class="form-control" type="text" id="password" name="password">
+					<input class="form-control" type="password" id="password" name="password">
                 </div>
 
                 <div class="form-group">
-					<input class="btn btn-primary" type="submit" value="Login">
+					<input class="btn btn-primary" type="submit" value="Submit">
 				</div>
             </form>
 
