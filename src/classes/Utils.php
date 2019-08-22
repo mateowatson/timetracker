@@ -495,8 +495,19 @@ class Utils {
 
 		$email_verification_hash = password_hash($email_verification, PASSWORD_DEFAULT);
 
+		$site_name = $f3->get('SITE_NAME');
+		$site_url = $f3->get('SITE_URL');
+
 		$message = <<<MESSAGE
+Hello $site_name user!
+
 Your email verification code is: $email_verification
+
+Once logged in, go to $site_url/verify-email and enter the verification code.
+This will allow you to reset your password if you ever forget it.
+
+Sincerely,
+The $site_name Team
 MESSAGE;
 
 		if($smtp->send($message)) {
@@ -533,10 +544,18 @@ MESSAGE;
 
 		$password_reset_verification_hash = password_hash($pasword_reset_verification, PASSWORD_DEFAULT);
 
+		$site_name = $f3->get('SITE_NAME');
+		$site_url = $f3->get('SITE_URL');
+
 		$message = <<<MESSAGE
+Hello $site_name user!
+
 Your password reset verification is code is: $pasword_reset_verification
 
-Go to YOUR_APP_DOMAIN/reset-password and enter the verification code and new password you would like to use.
+Go to $site_url/reset-password and enter the verification code and new password you would like to use.
+
+Sincerely,
+The $site_name Team
 MESSAGE;
 
 		if($smtp->send($message)) {

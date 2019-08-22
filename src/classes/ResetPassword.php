@@ -18,6 +18,14 @@ class ResetPassword {
         $request_password_reset_code = $f3->get('REQUEST')['password_reset_code'];
         $request_password = $f3->get('REQUEST')['password'];
 
+        if(!$request_username || !$request_password_reset_code || !$request_password) {
+            $f3->push('v_errors', array(
+				'element_id' => 'reset_password_errors',
+				'message' => 'You must fill in all the fields.'
+            ));
+            Utils::reroute_with_errors($f3, $args, '/reset-password');
+        }
+
         $user = new \DB\SQL\Mapper($db, 'users');
         $user->load(array('username=?', $request_username));
 
@@ -38,6 +46,12 @@ class ResetPassword {
 				'message' => 'You have successfully reset your password! You may now login.'
 			));
 			Utils::reroute_with_confirmations($f3, $args, '/login');
+        } else {
+            $f3->push('v_errors', array(
+				'element_id' => 'reset_password_errors',
+				'message' => 'Your password reset verification code was incorrect.'
+            ));
+            Utils::reroute_with_errors($f3, $args, '/reset-password');
         }
     }
 }
