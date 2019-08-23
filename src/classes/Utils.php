@@ -501,10 +501,19 @@ class Utils {
 		$message = <<<MESSAGE
 Hello $username,
 
-Your email verification code is: $email_verification
+Your email verification code is:
+	
+	$email_verification
 
-Once logged in, go to $site_url/verify-email and enter the verification code.
-This will allow you to reset your password if you ever forget it.
+Log in at $site_url/login with the username:
+
+	$username
+
+If you registered yourself, log in with the password you signed up with.
+
+If you were added by the site administrator and do not know your password, go to $site_url/forgot-password and follow the steps to reset your password.
+
+If you registered yourself, be sure to log in and go to $site_url/verify-email and enter the verification code. This will allow you to reset your password if you ever forget it.
 
 Sincerely,
 The $site_name Team

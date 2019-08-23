@@ -44,6 +44,7 @@ class Account {
 		$req_email = $req['account_email'];
 		$req_registration = $req['account_registration'];
 		$req_add_username = $req['account_add_username'];
+		$req_add_email = $req['account_add_email'];
 		$req_add_password = $req['account_add_password'];
 
 		$db = $f3->get('DB');
@@ -63,13 +64,18 @@ class Account {
 			}
 		}
 
-		if($req_add_username || $req_add_password) {
+		if($req_add_username || $req_add_password || $req_add_email) {
 			if(!$req_add_username || !$req_add_password) {
 				$f3->push('v_errors', array(
 					'element_id' => 'account_errors',
-					'message' => 'Could not add new user because all relevant fields were not completed.'
+					'message' => 'Could not add new user because all relevant fields were not completed. At least Username and Password are required.'
 				));
 
+				Utils::reroute_with_errors($f3, $args, '/account');
+			}
+
+			if($req_add_email) {
+				Utils::validate_email($f3, $req_add_email, 'account_errors');
 				Utils::reroute_with_errors($f3, $args, '/account');
 			}
 
@@ -117,11 +123,18 @@ class Account {
 
 
 		if($req_add_username && $req_add_password) {
+			if($req_add_email) {
+				$req_add_email_hash = Utils::send_email_verification($f3, $req_add_email, $req_add_username, 'account_errors');
+				Utils::reroute_with_errors($f3, $args, '/account');
+			}
+
 			$new_user = $db->exec(
-				'INSERT INTO users (username, password) VALUES (?, ?)',
+				'INSERT INTO users (username, password, email_verification_hash, email_verified) VALUES (?, ?, ?, ?)',
 				array(
 					$req_add_username,
-					password_hash($req_add_password, PASSWORD_DEFAULT)
+					password_hash($req_add_password, PASSWORD_DEFAULT),
+					$req_add_email_hash,
+					1
 				)
 			);
 

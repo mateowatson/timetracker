@@ -62,6 +62,12 @@
 				</div>
 
 				<div class="form-group">
+					<label for="account_email">Email</label>
+					<input type="text" placeholder="example@fastmail.com" id="account_email"
+						name="account_add_email" class="form-control">
+				</div>
+
+				<div class="form-group">
 					<label for="account_add_password">Password</label>
 					<input type="password" placeholder="password" id="account_add_password"
 						name="account_add_password" class="form-control">

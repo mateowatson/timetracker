@@ -20,7 +20,7 @@ class ForgotPassword {
         
         if($user->email && $user->email_verified) {
             $password_reset_verification_hash = Utils::send_password_reset_verification(
-                $f3, $user->email, 'forgot_password_errors'
+                $f3, $user->email,$user->username, 'forgot_password_errors'
             );
             Utils::reroute_with_errors($f3, $args, '/reset-password');
             $user->password_reset_verification_hash = $password_reset_verification_hash;

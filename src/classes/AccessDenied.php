@@ -1,5 +1,5 @@
 <?php
-
+/* Not actually using this at the moment. */
 class AccessDenied {
 	function show($f3, $args) {
 		Utils::redirect_logged_in_user($f3, $args);
