@@ -54,7 +54,7 @@
 					</select>
 				</div>
 
-				<h2>Add a user</h2>
+				<h2 class="mt-5">Add a user</h2>
 				<div class="form-group">
 					<label for="account_add_username">Username</label>
 					<input type="text" placeholder="username" id="account_add_username"
@@ -74,7 +74,7 @@
 				</div>
 				<?php endif; ?>
 
-				<h2>Change profile info</h2>
+				<h2 class="<?php echo $v_is_user_admin ? 'mt-5' : ''; ?>">Change profile info</h2>
 				<div class="form-group">
 					<label for="account_username">Username (currently <strong><?php echo $v_username; ?>)</strong></label>
 					<input type="text" placeholder="example11" id="account_username"
