@@ -174,7 +174,7 @@ RewriteCond %{HTTP_USER_AGENT} WEP\ Search [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} XoviBot [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} YisouSpider [NC,OR]
 RewriteCond %{HTTP_USER_AGENT} zermelo [NC,OR]
-RewriteCond %{HTTP_USER_AGENT} ZyBorg [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ZyBorg [NC]
 RewriteRule ^.* - [F,L]
 # Abuse bot blocking rule end
 
