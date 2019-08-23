@@ -9,6 +9,7 @@ $f3 = \Base::instance();
 $f3->config(ROOT_DIR . '/setup.cfg');
 $f3->config(ROOT_DIR . '/routes.cfg');
 
+
 $f3->set('DB', new \DB\SQL(
 	'mysql:host='.$f3->get('DB_HOST').
 		';port='.$f3->get('DB_PORT').
@@ -19,7 +20,17 @@ $f3->set('DB', new \DB\SQL(
 $f3->set('SESSION_INSTANCE', new \DB\SQL\Session($f3->get('DB')));
 $f3->set('UI', ROOT_DIR . '/templates/');
 $f3->set('AUTOLOAD', ROOT_DIR . '/src/classes/');
-$f3->set('DEBUG',3);
+
+if($f3->get('SITE_ENV') === 'development') {
+	$f3->set('DEBUG',3);
+} else {
+	$f3->set('DEBUG',0);
+}
+
+$f3->set('ONERROR', function($f3){
+	$f3->set('v_page_title', 'Error');
+	echo \View::instance()->render('error.php');
+});
 
 // Remove trailing slash(es) of site name
 $original_site_url = $f3->get('SITE_URL');
