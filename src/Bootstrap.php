@@ -25,7 +25,22 @@ $f3->set('DEBUG',3);
 $original_site_url = $f3->get('SITE_URL');
 $f3->set('SITE_URL', rtrim($original_site_url, '/'));
 
+
 $db = $f3->get('DB');
+
+// Sync PHP and db timezone to admin-defined global
+// Credit: https://www.sitepoint.com/synchronize-php-mysql-timezone-configuration/
+define('TIMEZONE', $f3->get('SITE_TIMEZONE'));
+date_default_timezone_set(TIMEZONE);
+$tz_now = new DateTime();
+$tz_mins = $tz_now->getOffset() / 60;
+$tz_sgn = ($tz_mins < 0 ? -1 : 1);
+$tz_mins = abs($tz_mins);
+$tz_hrs = floor($tz_mins / 60);
+$tz_mins -= $tz_hrs * 60;
+$tz_offset = sprintf('%+d:%02d', $tz_hrs*$tz_sgn, $tz_mins);
+$db->exec("SET time_zone='$tz_offset';");
+
 $users = $db->exec('SHOW TABLES LIKE \'users\'');
 
 if(!count($users) && $_SERVER['REQUEST_URI'] !== '/install') {

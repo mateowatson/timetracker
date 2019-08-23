@@ -15,17 +15,17 @@
 				<p>Create the initial user.</p>
 
 				<div class="form-group">
-					<label for="username">Username:</label>
+					<label for="username">Username</label>
 					<input class="form-control" type="text" id="username" name="username">
 				</div>
 
 				<div class="form-group">
-					<label for="email">Email (optional, required if you forget your password):</label>
+					<label for="email">Email (optional, required if you forget your password)</label>
 					<input class="form-control" type="text" id="email" name="email">
 				</div>
 
 				<div class="form-group">
-					<label for="password">Password:</label><br>
+					<label for="password">Password</label><br>
 					<input class="form-control" type="password" id="password" name="password">
 				</div>
 				
