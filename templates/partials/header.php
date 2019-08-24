@@ -7,6 +7,16 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title><?php echo $SITE_NAME; ?> - <?php echo $v_page_title; ?></title>
 	<link rel="stylesheet" href="/dist/app.css">
+
+
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#1b335f">
+	<meta name="theme-color" content="#e4e4e4">
 </head>
 <body class="my-5">
 
