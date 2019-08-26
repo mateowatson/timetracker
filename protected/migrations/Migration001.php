@@ -63,8 +63,8 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `email_verified` tinyint(1) NOT NULL DEFAULT '0',
-  `email_verification_hash` text NOT NULL,
-  `password_reset_verification_hash` text NOT NULL,
+  `email_verification_hash` text,
+  `password_reset_verification_hash` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -129,12 +129,13 @@ class Account {
 			}
 
 			$new_user = $db->exec(
-				'INSERT INTO users (username, password, email_verification_hash, email_verified) VALUES (?, ?, ?, ?)',
+				'INSERT INTO users (username, password, email, email_verification_hash, email_verified) VALUES (?, ?, ?, ?, ?)',
 				array(
 					$req_add_username,
 					password_hash($req_add_password, PASSWORD_DEFAULT),
-					$req_add_email_hash,
-					1
+					$req_add_email ? : '0',
+					$req_add_email_hash ? : null,
+					$req_add_email_hash ? 1 : 0
 				)
 			);
 
