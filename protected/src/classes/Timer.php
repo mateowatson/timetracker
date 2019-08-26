@@ -192,7 +192,6 @@ class Timer {
 		$db_logs->project_id = $running_timer_project;
 		$db_logs->task_id = $running_timer_task;
 		$db_logs->start_time = date("Y-m-d H:i:s");
-		$db_logs->end_time = null;
 		$db_logs->notes = $running_timer_notes;
 		if($is_team) {
 			$db_logs->team_id = $team['id'];
