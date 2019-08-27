@@ -20,6 +20,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "cross-env": "^5.2.0",
     "laravel-mix": "^4.0.0",
     "sass": "^1.18.0",
@@ -27,6 +28,6 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
-    "jquery": "^3.3.1"
+    "stimulus": "^1.1.1"
   }
 }

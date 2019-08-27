@@ -105,11 +105,11 @@
 
 	<?php if($v_current_log): ?>
 	<div>
-		<p>
-			<span>
+		<p data-controller="timer" data-timer-elapsed="<?php echo $v_current_log_diff; ?>">
+			<span data-target="timer.elapsed">
 				<?php echo $v_current_log_diff; ?>
 			</span>
-			<a href="<?php echo $v_refresh_link; ?>">Refresh</a>
+			<a data-target="timer.refresh" href="<?php echo $v_refresh_link; ?>">Refresh</a>
 		</p>
 		<p>
 			Project: <?php echo $v_current_log_project; ?>
