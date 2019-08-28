@@ -22,7 +22,9 @@
 	</div>
 	<?php endif; ?>
 	
-	<form action="<?php echo $SITE_URL; ?>/start-time" method="POST" data-controller="start-new fragment-loader" data-fragment-loader-id="start-new">
+	<form action="<?php echo $SITE_URL; ?>/start-time" method="POST"
+		data-controller="start-new fragment-loader ajax-form" data-action="ajax-form#submit"
+		data-fragment-loader-id="start-new">
 		<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 
 		<?php if($v_timer_start_new !== 'project'): ?>
@@ -145,7 +147,7 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-	<form action="/stop-time" method="POST">
+	<form action="/stop-time" method="POST" data-controller="ajax-form" data-action="ajax-form#submit">
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 		<div class="form-group">
 			<input type="submit" value="Stop" class="btn btn-danger"

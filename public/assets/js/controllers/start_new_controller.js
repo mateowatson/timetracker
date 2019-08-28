@@ -49,7 +49,6 @@ export default class extends Controller {
         if(hasTask) {
             task = this.taskTarget.value ? this.taskTarget.value : task;
         }
-        console.log(task);
 
         // if no task, disable start button
         submitEnabled = task && submitEnabled ? true : false;
