@@ -228,19 +228,28 @@ class Dashboard {
 			$f3->set('v_show_remove_members', $user->id === (int)$team['creator']);
 		}
 
-		// SET ADVANCED SEARCH LINK AND REFRESH LINK
+		// SET ADVANCED SEARCH LINK, REFRESH LINK, AND START NEW LINK
 		if($is_team) {
 			$f3->set('v_advanced_search_link', '/advanced-search?team='.$team['id']);
 			$f3->set('v_refresh_link', '/team/'.$team['id']);
+			$f3->set('v_start_new_link', sprintf('%s/team/%s?new', $f3->get('SITE_URL'), $team['id']));
 		} else {
 			$f3->set('v_advanced_search_link', '/advanced-search');
 			$f3->set('v_refresh_link', '/dashboard');
+			$f3->set('v_start_new_link', sprintf('%s/dashboard?new', $f3->get('SITE_URL')));
 		}
+
+		// SET VARIABLES FOR NEW PROJECT AND NEW TASK LINKS
+		$f3->set('v_new_project_link', sprintf('%s=project', $f3->get('v_start_new_link')));
+		$f3->set('v_new_task_link', sprintf('%s=task', $f3->get('v_start_new_link')));
 
 		// RENDER
 		$view = new \View;
 		if(isset($req['new'])) {
 			$f3->set('v_timer_start_new', true);
+			if($req['new'] === 'project' || $req['new'] === 'task') {
+				$f3->set('v_timer_start_new', $req['new']);
+			}
 		} else {
 			$f3->set('v_timer_start_new', false);
 		}

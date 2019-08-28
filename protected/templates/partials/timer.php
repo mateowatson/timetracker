@@ -25,6 +25,7 @@
 	<form action="<?php echo $SITE_URL; ?>/start-time" method="POST">
 		<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 
+		<?php if($v_timer_start_new !== 'project'): ?>
 		<div class="form-group">
 			<label for="start_time_project">Project</label>
 			<select class="form-control" id="start_time_project" name="start_time_project"
@@ -38,8 +39,9 @@
 				<?php endforeach; ?>
 			</select>
 		</div>
+		<?php endif; ?>
 
-		<?php if($v_timer_start_new): ?>
+		<?php if($v_timer_start_new && $v_timer_start_new !== 'task'): ?>
 		<div class="form-group">
 			<label for="start_time_new_project">
 				Start New Project
@@ -49,6 +51,13 @@
 		</div>
 		<?php endif; ?>
 
+		<?php if(!$v_timer_start_new): ?>
+		<div class="form-group">
+			<p><a href="<?php echo $v_new_project_link; ?>">New Project</a></p>
+		</div>
+		<?php endif; ?>
+
+		<?php if($v_timer_start_new !== 'task'): ?>
 		<div class="form-group">
 			<label for="start_time_task">Task</label>
 			<select class="form-control" id="start_time_task" name="start_time_task"
@@ -62,6 +71,7 @@
 				<?php endforeach; ?>
 			</select>
 		</div>
+		<?php endif; ?>
 
 		<?php if($v_timer_start_new): ?>
 		<div class="form-group">
@@ -73,23 +83,11 @@
 		</div>
 		<?php endif; ?>
 
-		<?php
-		if(!$v_timer_start_new):
-			if($v_is_team):
-		?>
-		<div class="form-group text-center">
-			<p><a href="<?php echo $SITE_URL; ?>/team/<?php echo $v_team['id']; ?>?new">
-				Start New Project or Task
-			</a></p>
+		<?php if(!$v_timer_start_new): ?>
+		<div class="form-group">
+			<p><a href="<?php echo $v_new_task_link; ?>">New Task</a></p>
 		</div>
-		
-			<?php else: ?>
-		<div class="form-group text-center">
-			<p><a href="<?php echo $SITE_URL; ?>/dashboard?new">
-				Start New Project or Task
-			</a></p>
-		</div>
-		<?php endif; endif; ?>
+		<?php endif; ?>
 
 		<div class="form-group">
 			<label for="start_time_notes">Notes</label>
@@ -99,6 +97,9 @@
 
 		<div class="form-group">
 			<input class="btn btn-success" type="submit" value="Start" <?php echo $v_current_log ? 'disabled' : ' ' ?>>
+			<?php if($v_timer_start_new): ?>
+			<a href="<?php echo $v_refresh_link ?>" class="btn btn-link">Cancel</a>
+			<?php endif; ?>
 		</div>
 	</form>
 	<?php endif; ?>
