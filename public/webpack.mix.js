@@ -11,11 +11,15 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('assets/js/app.js', 'dist/')
-	.sass('assets/sass/app.scss', 'dist/')
-	.options({
+mix
+    .js('assets/js/app.js', 'dist/')
+    .sass('assets/sass/app.scss', 'dist/')
+    .babelConfig({
+        plugins: [ "@babel/plugin-proposal-class-properties" ]
+    })
+    .options({
         processCssUrls: false
-   });
+    });
 
 // Full API
 // mix.js(src, output);
