@@ -279,6 +279,7 @@
 
 				<div class="form-group">
 					<input class="btn btn-primary" type="submit" value="Save">
+					<a href="<?php echo $v_edit_log_cancel_link; ?>" class="btn btn-link">Cancel</a>
 				</div>
 
 				<div class="form-group">

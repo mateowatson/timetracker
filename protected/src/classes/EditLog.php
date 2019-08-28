@@ -80,6 +80,46 @@ class EditLog {
 		$f3->set('v_projects', $projects);
 		$f3->set('v_tasks', $tasks);
 
+		// DETERMINE CANCEL LINK
+		$is_team = false;
+		$team = false;
+		$referer_url = $f3->get('HEADERS')['Referer'];
+		$referer_url_parts = parse_url($referer_url);
+		$referer_path_parts = explode('/', $referer_url_parts['path']);
+		parse_str(parse_url($referer_url, PHP_URL_QUERY), $referer_query_parts);
+		$referer_team_id = null;
+		if(
+			(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
+			(isset($referer_query_parts['team']))
+		) {
+			$referer_team_id = $referer_path_parts[2] ? : $referer_query_parts['team'];
+			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
+			$is_user_in_team = false;
+			foreach($available_teams as $av_t) {
+				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$referer_team_id) {
+					$is_user_in_team = true;
+					$is_team = true;
+					$team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
+					break;
+				}
+			}
+			if(!$is_user_in_team) {
+				return $f3->reroute('/dashboard');
+			}
+		}
+
+		if($is_team) {
+			$f3->set(
+				'v_edit_log_cancel_link',
+				$f3->get('SITE_URL') . '/team/' . $team['id']
+			);
+		} else {
+			$f3->set(
+				'v_edit_log_cancel_link',
+				$f3->get('SITE_URL') . '/dashboard'
+			);
+		}
+
 		// RENDER
 		$view = new \View;
         echo $view->render('edit-log.php');
