@@ -31,8 +31,8 @@
 		<div class="form-group">
 			<label for="start_time_project">Project</label>
 			<select class="form-control" id="start_time_project" name="start_time_project"
-				placeholder="Project" data-target="start-new.projectSelect" data-action="start-new#inputChange">
-				<option value="" selected="selected">Select Existing Project</option>
+				data-target="start-new.projectSelect" data-action="start-new#inputChange">
+				<option value="">Select Existing Project</option>
 				<?php foreach($v_projects as $project) : ?>
 				<option value="<?php echo $project['id']; ?>"
 					<?php echo $project['preselect_in_dropdown'] ? 'selected' : ''; ?>>
@@ -64,8 +64,8 @@
 		<div class="form-group">
 			<label for="start_time_task">Task</label>
 			<select class="form-control" id="start_time_task" name="start_time_task"
-				placeholder="task" data-target="start-new.taskSelect" data-action="start-new#inputChange">
-				<option value="" selected="selected">Select Existing Task</option>
+				data-target="start-new.taskSelect" data-action="start-new#inputChange">
+				<option value="">Select Existing Task</option>
 				<?php foreach($v_tasks as $task) : ?>
 				<option value="<?php echo $task['id']; ?>"
 					<?php echo $task['preselect_in_dropdown'] ? 'selected' : ''; ?>>

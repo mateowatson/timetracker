@@ -18,11 +18,11 @@
 		</div>
 		<?php if($v_is_team): ?>
 		<div class="col-lg-4">
-					<?php require_once('partials/team-members.php'); ?>
+			<?php require_once('partials/team-members.php'); ?>
 		</div>
 		<?php endif; ?>
 		<div class="col-lg-4">
-					<?php require_once('partials/search.php'); ?>
+			<?php require_once('partials/search.php'); ?>
 		</div>
 	</div>
 </div>
@@ -62,7 +62,8 @@
 		<div class="col-lg-12">
 			<p><a href="<?php echo $SITE_URL; ?>/all-logs">See all logs ever</a></p>
 		</div>
-</section>
+	</div>
+</div>
 
 
 <?php require_once('partials/footer.php'); ?>
