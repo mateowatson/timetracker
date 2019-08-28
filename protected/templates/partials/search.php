@@ -4,7 +4,7 @@
 
 	<div class="form-group">
 		<label for="search_term">
-			Search
+			Search for
 		</label>
 		<input type="text" id="search_term" class="form-control"
 			name="search_term" placeholder="Search...">

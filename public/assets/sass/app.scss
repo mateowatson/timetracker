@@ -13,6 +13,14 @@ $red: #ce3d4b;
 $green: #2d9145;
 $enable-responsive-font-sizes: true;
 
+$font-size-base: 1rem;
+$h1-font-size: $font-size-base * 2;
+$h2-font-size: $font-size-base * 1.5;
+$h3-font-size: $font-size-base * 1.25;
+$h4-font-size: $font-size-base;
+$h5-font-size: $font-size-base;
+$h6-font-size: $font-size-base;
+
 @import "bootstrap/bootstrap";
  
 body {

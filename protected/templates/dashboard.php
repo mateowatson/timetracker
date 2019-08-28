@@ -10,15 +10,19 @@
 <div class="container mb-5">
 	<div class="row">
 		<div class="col-lg-4">
-			<?php require_once('partials/timer.php'); ?>
+			<div class="card">
+				<div class="card-body">
+					<?php require_once('partials/timer.php'); ?>
+				</div>
+			</div>
 		</div>
 		<?php if($v_is_team): ?>
 		<div class="col-lg-4">
-			<?php require_once('partials/team-members.php'); ?>
+					<?php require_once('partials/team-members.php'); ?>
 		</div>
 		<?php endif; ?>
 		<div class="col-lg-4">
-			<?php require_once('partials/search.php'); ?>
+					<?php require_once('partials/search.php'); ?>
 		</div>
 	</div>
 </div>
