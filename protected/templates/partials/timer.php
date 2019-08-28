@@ -22,14 +22,16 @@
 	</div>
 	<?php endif; ?>
 	
-	<form action="<?php echo $SITE_URL; ?>/start-time" method="POST">
+	<form action="<?php echo $SITE_URL; ?>/start-time" method="POST"
+		data-controller="start-new fragment-loader ajax-form" data-action="ajax-form#submit"
+		data-fragment-loader-id="start-new">
 		<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 
 		<?php if($v_timer_start_new !== 'project'): ?>
 		<div class="form-group">
 			<label for="start_time_project">Project</label>
 			<select class="form-control" id="start_time_project" name="start_time_project"
-				placeholder="Project">
+				placeholder="Project" data-target="start-new.projectSelect" data-action="start-new#inputChange">
 				<option value="" selected="selected">Select Existing Project</option>
 				<?php foreach($v_projects as $project) : ?>
 				<option value="<?php echo $project['id']; ?>"
@@ -47,13 +49,14 @@
 				Start New Project
 			</label>
 			<input class="form-control" type="text" id="start_time_new_project"
-				name="start_time_new_project" placeholder="Start New Project...">
+				name="start_time_new_project" placeholder="Start New Project..."
+				data-target="start-new.project" data-action="input->start-new#inputChange">
 		</div>
 		<?php endif; ?>
 
 		<?php if(!$v_timer_start_new): ?>
 		<div class="form-group">
-			<p><a href="<?php echo $v_new_project_link; ?>">New Project</a></p>
+			<p><a href="<?php echo $v_new_project_link; ?>" data-action="fragment-loader#load">New Project</a></p>
 		</div>
 		<?php endif; ?>
 
@@ -61,7 +64,7 @@
 		<div class="form-group">
 			<label for="start_time_task">Task</label>
 			<select class="form-control" id="start_time_task" name="start_time_task"
-				placeholder="task">
+				placeholder="task" data-target="start-new.taskSelect" data-action="start-new#inputChange">
 				<option value="" selected="selected">Select Existing Task</option>
 				<?php foreach($v_tasks as $task) : ?>
 				<option value="<?php echo $task['id']; ?>"
@@ -79,13 +82,14 @@
 				Start New Task
 			</label>
 			<input class="form-control" type="text" id="start_time_new_task"
-				name="start_time_new_task" placeholder="Start New Task...">
+				name="start_time_new_task" placeholder="Start New Task..."
+				data-target="start-new.task" data-action="input->start-new#inputChange">
 		</div>
 		<?php endif; ?>
 
 		<?php if(!$v_timer_start_new): ?>
 		<div class="form-group">
-			<p><a href="<?php echo $v_new_task_link; ?>">New Task</a></p>
+			<p><a href="<?php echo $v_new_task_link; ?>" data-action="fragment-loader#load">New Task</a></p>
 		</div>
 		<?php endif; ?>
 
@@ -96,9 +100,11 @@
 		</div>
 
 		<div class="form-group">
-			<input class="btn btn-success" type="submit" value="Start" <?php echo $v_current_log ? 'disabled' : ' ' ?>>
+			<input class="btn btn-success" type="submit"
+				value="Start" <?php echo $v_current_log ? 'disabled' : ' ' ?>
+				data-target="start-new.submit">
 			<?php if($v_timer_start_new): ?>
-			<a href="<?php echo $v_refresh_link ?>" class="btn btn-link">Cancel</a>
+			<a href="<?php echo $v_refresh_link ?>" class="btn btn-link" data-action="fragment-loader#load">Cancel</a>
 			<?php endif; ?>
 		</div>
 	</form>
@@ -141,7 +147,7 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-	<form action="/stop-time" method="POST">
+	<form action="/stop-time" method="POST" data-controller="ajax-form" data-action="ajax-form#submit">
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 		<div class="form-group">
 			<input type="submit" value="Stop" class="btn btn-danger"
