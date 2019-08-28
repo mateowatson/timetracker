@@ -1,6 +1,6 @@
 <h2>Search</h2>
 <form action="<?php echo $SITE_URL; ?>/search" method="POST">
-	<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
+	<input type="text" name="csrf" id="csrf_search_timer" value="<?php echo $CSRF; ?>" hidden>
 
 	<div class="form-group">
 		<label for="search_term">
