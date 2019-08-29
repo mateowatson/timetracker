@@ -13,14 +13,16 @@ export default class extends Controller {
         window.addEventListener('fragmentpostswap', event => {
             if(event.detail !== 'start-new') return;
             this.inputChange();
+            this.selectProject();
         });
     }
 
     connect() {
         this.inputChange();
+        this.saveProject();
     }
 
-    inputChange() {
+    inputChange(event) {
         const hasProject = this.hasProjectTarget;
         const hasProjectSelect = this.hasProjectSelectTarget;
         const hasTask = this.hasTaskTarget;
@@ -56,5 +58,13 @@ export default class extends Controller {
         // set state of start button
         if(submitEnabled) return this.submitTarget.removeAttribute('disabled');
         this.submitTarget.setAttribute('disabled', 'disabled');
+    }
+
+    saveProject() {
+        this.selectedProject = this.projectSelectTarget.value;
+    }
+
+    selectProject() {
+        this.projectSelectTarget.value = this.selectedProject;
     }
 }

@@ -31,7 +31,7 @@
 		<div class="form-group">
 			<label for="start_time_project">Project</label>
 			<select class="form-control" id="start_time_project" name="start_time_project"
-				data-target="start-new.projectSelect" data-action="start-new#inputChange">
+				data-target="start-new.projectSelect" data-action="start-new#inputChange start-new#saveProject">
 				<option value="">Select Existing Project</option>
 				<?php foreach($v_projects as $project) : ?>
 				<option value="<?php echo $project['id']; ?>"
