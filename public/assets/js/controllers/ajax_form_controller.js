@@ -1,26 +1,23 @@
 import { Controller } from 'stimulus';
+import qs from 'qs';
+import axios from 'axios';
 
 export default class extends Controller {
-    submit(event) {
+    async submit(event) {
         event.preventDefault();
-        console.log(this.element);
 
-        const data = new URLSearchParams();
+        let data = {};
         for (const pair of new FormData(this.element)) {
-            console.log(pair);
-            data.append(pair[0], pair[1]);
+            data[pair[0]] = pair[1];
         }
 
-        fetch(this.element.getAttribute('action'), {
-            method: 'post',
-            body: data,
-            credentials: 'include'
-        })
-        .then(res => res.text())
-        .then(text => {
-            if(!text) throw new Exception('Submission failed.');
-            // perform a body swap
-            document.querySelector('body').innerHTML = text;
-        });
+        data = qs.stringify(data);
+
+        const url = this.element.getAttribute('action');
+        const config = { headers: 'content-type' }
+        const response = await axios.post(this.element.getAttribute('action'), data);
+
+        // perform a body swap
+        document.querySelector('body').innerHTML = response.data;
     }
 }

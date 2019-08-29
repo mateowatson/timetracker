@@ -1,4 +1,7 @@
 import { Application } from 'stimulus';
+import axios from 'axios';
+
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 import TimerController from './controllers/timer_controller';
 import StartNewController from './controllers/start_new_controller';
