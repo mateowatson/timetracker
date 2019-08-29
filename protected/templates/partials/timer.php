@@ -27,7 +27,7 @@
 		data-fragment-loader-id="start-new">
 		<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 
-		<?php if($v_timer_start_new !== 'project'): ?>
+		<?php if($v_timer_start_new !== 'project' && count( $v_projects )): ?>
 		<div class="form-group">
 			<label for="start_time_project">Project</label>
 			<select class="form-control" id="start_time_project" name="start_time_project"
@@ -43,7 +43,7 @@
 		</div>
 		<?php endif; ?>
 
-		<?php if($v_timer_start_new && $v_timer_start_new !== 'task'): ?>
+		<?php if(($v_timer_start_new || count($v_projects) === 0) && $v_timer_start_new !== 'task'): ?>
 		<div class="form-group">
 			<label for="start_time_new_project">
 				Start New Project
@@ -54,13 +54,13 @@
 		</div>
 		<?php endif; ?>
 
-		<?php if(!$v_timer_start_new): ?>
+		<?php if(!$v_timer_start_new && count($v_projects)): ?>
 		<div class="form-group">
 			<p><a href="<?php echo $v_new_project_link; ?>" data-action="fragment-loader#load">New Project</a></p>
 		</div>
 		<?php endif; ?>
 
-		<?php if($v_timer_start_new !== 'task'): ?>
+		<?php if($v_timer_start_new !== 'task' && count($v_tasks)): ?>
 		<div class="form-group">
 			<label for="start_time_task">Task</label>
 			<select class="form-control" id="start_time_task" name="start_time_task"
@@ -76,7 +76,7 @@
 		</div>
 		<?php endif; ?>
 
-		<?php if($v_timer_start_new): ?>
+		<?php if($v_timer_start_new || count($v_tasks) === 0): ?>
 		<div class="form-group">
 			<label for="start_time_new_task">
 				Start New Task
@@ -87,7 +87,7 @@
 		</div>
 		<?php endif; ?>
 
-		<?php if(!$v_timer_start_new): ?>
+		<?php if(!$v_timer_start_new && count($v_tasks)): ?>
 		<div class="form-group">
 			<p><a href="<?php echo $v_new_task_link; ?>" data-action="fragment-loader#load">New Task</a></p>
 		</div>
