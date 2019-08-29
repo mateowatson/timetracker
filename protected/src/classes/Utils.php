@@ -46,6 +46,8 @@ class Utils {
 		$session_username = $f3->get('SESSION.session_username');
 		$db_users = new \DB\SQL\Mapper($f3->get('DB'), 'users');
 		$session_user = $db_users->load(array('username=?', $session_username));
+		error_log($session_username);
+		error_log($session_user->username);
 		if(!$session_username || !$session_user) {
 			$f3->reroute('/login');
 			return;

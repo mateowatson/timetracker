@@ -11,7 +11,7 @@ export default class extends Controller {
         }
         event.preventDefault();
 
-        fetch(url)
+        fetch(url, { credentials: 'include' })
             .then(res => res.text())
             .then(text => {
                 const selector = `[data-fragment-loader-id="${id}"]`;
