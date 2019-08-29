@@ -2,9 +2,7 @@
 
 class Timer {
 	function start_time($f3, $args) {
-		error_log('BEFORE REDIRECT');
 		Utils::redirect_logged_out_user($f3, $args);
-		error_log('AFTER REDIRECT');
 
 		$db = $f3->get('DB');
 		$session_username = $f3->get('SESSION.session_username');
