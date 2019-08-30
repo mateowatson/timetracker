@@ -3,28 +3,64 @@
 	<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 
 	<div class="form-row">
-		
+
 		<div class="col-lg-6">
 			<div class="form-group">
-				<label for="search_term_project">
-					Project:
+				<label for="search_project">
+					Project
 				</label>
-				<input type="text" id="search_term_project" class="form-control"
-					name="search_term_project" placeholder="Search..."
+				<select id="search_project" class="form-control"
+					name="search_project" placeholder="Search..."
 					value="<?php echo $v_search_term_project ? : ''; ?>">
+					<option value="">Select Task</option>
+					<?php foreach($v_projects as $project) : ?>
+					<option value="<?php echo $project['id']; ?>"
+						<?php echo $project['preselect_in_dropdown'] ? 'selected' : ''; ?>>
+						<?php echo $project['name']; ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+		</div>
+
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label for="search_task">
+					Task
+				</label>
+				<select id="search_task" class="form-control"
+					name="search_task" placeholder="Search..."
+					value="<?php echo $v_search_term_project ? : ''; ?>">
+					<option value="">Select Task</option>
+					<?php foreach($v_tasks as $task) : ?>
+					<option value="<?php echo $task['id']; ?>"
+						<?php echo $task['preselect_in_dropdown'] ? 'selected' : ''; ?>>
+						<?php echo $task['name']; ?>
+					</option>
+					<?php endforeach; ?>
 				</select>
 			</div>
 		</div>
 		
 		<div class="col-lg-6">
 			<div class="form-group">
+				<label for="search_term_project">
+					Search project name
+				</label>
+				<input type="text" id="search_term_project" class="form-control"
+					name="search_term_project" placeholder="Search..."
+					value="<?php echo $v_search_term_project ? : ''; ?>">
+			</div>
+		</div>
+		
+		<div class="col-lg-6">
+			<div class="form-group">
 				<label for="search_term_task">
-					Task:
+					Search task name
 				</label>
 				<input type="text" id="search_term_task" class="form-control"
 					name="search_term_task" placeholder="Search..."
 					value="<?php echo $v_search_term_task ? : ''; ?>">
-				</select>
 			</div>
 		</div>
 

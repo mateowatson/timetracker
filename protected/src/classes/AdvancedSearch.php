@@ -17,6 +17,8 @@ class AdvancedSearch {
 		$f3->set('v_user_email_verified', $user->email_verified);
 
 		$req = $f3->get('REQUEST');
+		$search_project = urldecode($req['sp']);
+		$search_task = urldecode($req['st']);
 		$search_term_project = urldecode($req['stp']);
 		$search_term_task = urldecode($req['stt']);
 		$search_term_start_date = urldecode($req['stsd']);
@@ -26,6 +28,8 @@ class AdvancedSearch {
 		$page = isset($req['page']) ? (int)urldecode($req['page']) : 0;
 		$f3->set('v_no_matches', false);
 
+		$f3->set('v_search_project', $search_project);
+		$f3->set('v_search_task', $search_task);
 		$f3->set('v_search_term_project', $search_term_project);
 		$f3->set('v_search_term_task', $search_term_task);
 		$f3->set('v_search_term_start_date', $search_term_start_date);
@@ -34,6 +38,7 @@ class AdvancedSearch {
 		$f3->set('v_no_matches', false);
 
 		$is_team = false;
+		$team = false;
 		if($team_id) {
 			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
 			$is_user_in_team = false;
@@ -41,6 +46,7 @@ class AdvancedSearch {
 				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$team_id) {
 					$is_user_in_team = true;
 					$is_team = true;
+					$team = $av_t;
 					$f3->set('v_search_team_id', $team_id);
 					break;
 				}
@@ -50,7 +56,22 @@ class AdvancedSearch {
 			}
 		}
 
-		
+		// GET PROJECT AND TASK LISTS
+		$projects_and_tasks = Utils::get_project_and_task_lists($is_team, $team, $db, $user);
+		$projects = $projects_and_tasks['projects'];
+		$tasks = $projects_and_tasks['tasks'];
+		foreach($projects as $project_idx => $project) {
+			if($project['id'] === $search_project) {
+				$projects[$project_idx]['preselect_in_dropdown'] = true;
+			}
+		}
+		foreach($tasks as $task_idx => $task) {
+			if($task['id'] === $search_task) {
+				$tasks[$task_idx]['preselect_in_dropdown'] = true;
+			}
+		}
+		$f3->set('v_projects', $projects);
+		$f3->set('v_tasks', $tasks);
 		
 		$sql_condition = '';
 		$sql_offset = 10*($page);
@@ -61,6 +82,8 @@ class AdvancedSearch {
 		}
 		
 		if(
+			!$search_project &&
+			!$search_task &&
 			!$search_term_project &&
 			!$search_term_task &&
 			!$search_term_start_date &&
@@ -297,6 +320,8 @@ class AdvancedSearch {
 		Utils::prevent_csrf($f3, $args);
 
 		$req = $f3->get('REQUEST');
+		$search_project = $req['search_project'];
+		$search_task = $req['search_task'];
 		$search_term_project = $req['search_term_project'];
 		$search_term_task = $req['search_term_task'];
 		$search_term_start_date = $req['search_term_start_date'];
@@ -344,6 +369,8 @@ class AdvancedSearch {
 		}
 
 		if(
+			!$search_project &&
+			!$search_task &&
 			!$search_term_project &&
 			!$search_term_task &&
 			!$search_term_start_date &&
@@ -366,6 +393,10 @@ class AdvancedSearch {
 					urlencode($search_term_project).
 					'&stt='.
 					urlencode($search_term_task).
+					'&st='.
+					urlencode($search_task).
+					'&sp='.
+					urlencode($search_project).
 					'&stsd='.
 					urlencode($search_term_start_date).
 					'&sted='.
@@ -381,6 +412,10 @@ class AdvancedSearch {
 			urlencode($search_term_project).
 			'&stt='.
 			urlencode($search_term_task).
+			'&st='.
+			urlencode($search_task).
+			'&sp='.
+			urlencode($search_project).
 			'&stsd='.
 			urlencode($search_term_start_date).
 			'&sted='.

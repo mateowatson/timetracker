@@ -47,79 +47,9 @@ class Dashboard {
 		$f3->set('v_team_members', $team_members);
 
 		// GET PROJECT AND TASK LISTS
-		if(!$is_team) {
-			$projectsQuery = $db->exec('
-				SELECT * FROM projects
-				LEFT JOIN users_projects
-					ON (users_projects.user_id = ? AND
-					users_projects.project_id = projects.id)
-				LEFT JOIN logs ON TRUE
-				WHERE users_projects.user_id IS NOT NULL 
-					AND logs.team_id IS NULL AND
-					logs.project_id = projects.id
-			', array($user->id));
-			$tasksQuery = $db->exec('
-				SELECT * FROM tasks
-				LEFT JOIN users_tasks
-					ON (users_tasks.user_id = ? AND
-					users_tasks.task_id = tasks.id)
-				LEFT JOIN logs ON TRUE
-				WHERE users_tasks.user_id IS NOT NULL
-					AND logs.team_id IS NULL AND
-					logs.task_id = tasks.id
-			', array($user->id));
-		} else {
-			$projectsQuery = $db->exec('
-				SELECT * FROM projects
-				LEFT JOIN users_projects
-					ON users_projects.project_id = projects.id
-				LEFT JOIN logs ON TRUE
-				WHERE users_projects.user_id IS NOT NULL 
-					AND logs.team_id = ? AND
-					logs.project_id = projects.id
-			', array($team['id']));
-			$tasksQuery = $db->exec('
-				SELECT * FROM tasks
-				LEFT JOIN users_tasks
-					ON users_tasks.task_id = tasks.id
-				LEFT JOIN logs ON TRUE
-				WHERE users_tasks.user_id IS NOT NULL AND
-					logs.team_id = ? AND
-					logs.task_id = tasks.id
-			', array($team['id']));
-		}
-		$projects = array();
-		$tasks = array();
-		foreach($projectsQuery as $query) {
-			$is_dup = false;
-			foreach($projects as $project) {
-				if($project['id'] === $query['project_id']) {
-					$is_dup = true;
-				}
-			}
-			if(!$is_dup) {
-				array_push($projects, array(
-					'id' => $query['project_id'],
-					'name' => $query['name'],
-					'preselect_in_dropdown' => false
-				));
-			}
-		}
-		foreach($tasksQuery as $query) {
-			$is_dup = false;
-			foreach($tasks as $task) {
-				if($task['id'] === $query['task_id']) {
-					$is_dup = true;
-				}
-			}
-			if(!$is_dup) {
-				array_push($tasks, array(
-					'id' => $query['task_id'],
-					'name' => $query['name'],
-					'preselect_in_dropdown' => false
-				));
-			}
-		}
+		$projects_and_tasks = Utils::get_project_and_task_lists($is_team, $team, $db, $user);
+		$projects = $projects_and_tasks['projects'];
+		$tasks = $projects_and_tasks['tasks'];
 
 		// GET CURRENTLY RUNNING LOG IF EXISTS
 		if(!$is_team) {
