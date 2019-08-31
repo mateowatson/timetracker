@@ -34,7 +34,7 @@
 
     <div class="form-group">
 		<label for="rd">
-			Date or date range
+			Date or date range<span class="sr-only">, mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy</span>
 		</label>
 		<input type="text" id="rd" class="form-control"
 			name="rd" placeholder="mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy">
