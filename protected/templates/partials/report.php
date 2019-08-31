@@ -6,8 +6,7 @@
         <label for="rp">
             Project
         </label>
-        <select id="rp" class="form-control"
-            name="rp" value="<?php echo $v_search_term_project ? : ''; ?>">
+        <select id="rp" class="form-control" name="rp">
             <option value="">Select Project</option>
             <?php foreach($v_projects as $project) : ?>
             <option value="<?php echo $project['id']; ?>"
@@ -22,8 +21,7 @@
         <label for="rt">
             Task
         </label>
-        <select id="rt" class="form-control"
-            name="rt" value="<?php echo $v_search_term_project ? : ''; ?>">
+        <select id="rt" class="form-control" name="rt">
             <option value="">Select Task</option>
             <?php foreach($v_tasks as $task) : ?>
             <option value="<?php echo $task['id']; ?>"
@@ -40,7 +38,24 @@
 		</label>
 		<input type="text" id="rd" class="form-control"
 			name="rd" placeholder="mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy">
-	</div>
+    </div>
+    
+    <?php if($v_report_show_teams_dropdown): ?>
+    <div class="form-group">
+        <label for="team">
+            Team
+        </label>
+        <select id="team" class="form-control" name="team">
+            <option value="noteam">None (personal logs)</option>
+            <?php foreach($v_teams as $team) : ?>
+            <option value="<?php echo $team['team_id']; ?>"
+                <?php echo ((int)$team['team_id'] === (int)$v_team['id'] ? 'selected' : ''); ?>>
+                <?php echo $team['team_name']; ?>
+            </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <?php endif; ?>
 
 	<div class="form-group">
 		<input class="btn btn-primary" type="submit" value="Go">

@@ -191,6 +191,11 @@ class Report {
 		// ADDITIONAL VIEW VARIABLES
 		$f3->set('v_page_title', 'Report');
 
+		$teams = Utils::get_all_teams_of_logged_in_user($f3);
+		$f3->set('v_teams', $teams);
+		$f3->set('v_team', $team);
+		$f3->set('v_report_show_teams_dropdown', true);
+
 		// RENDER
 		$view = new \View;
 		echo $view->render('report.php');
@@ -204,6 +209,8 @@ class Report {
 		$report_project = $req['rp'];
 		$report_task = $req['rt'];
 		$report_date = $req['rd'];
+		$report_team = $req['team'];
+		$report_noteam = $req['noteam'];
 
 		// GET DB, SESSION AND USER
 		$db = $f3->get('DB');
@@ -214,37 +221,31 @@ class Report {
         
         $is_team = false;
 		$team = false;
-		$referer_url = $f3->get('HEADERS')['Referer'];
-		$referer_url_parts = parse_url($referer_url);
-		$referer_path_parts = explode('/', $referer_url_parts['path']);
-		parse_str(parse_url($referer_url, PHP_URL_QUERY), $referer_query_parts);
-        $referer_team_id = null;
-        if(
-			(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
-			(isset($referer_query_parts['team']))
-		) {
-			$referer_team_id = $referer_path_parts[2] ? : $referer_query_parts['team'];
-			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
-			$is_user_in_team = false;
-			foreach($available_teams as $av_t) {
-				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$referer_team_id) {
-					$is_user_in_team = true;
-					$is_team = true;
-					$team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
-					break;
-				}
+		if($report_team && !$report_noteam) {
+			$is_team = true;
+			$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$report_team)[0];
+		} else if(!$report_noteam) {
+			$referer_url = $f3->get('HEADERS')['Referer'];
+			$referer_url_parts = parse_url($referer_url);
+			$referer_path_parts = explode('/', $referer_url_parts['path']);
+			parse_str(parse_url($referer_url, PHP_URL_QUERY), $referer_query_parts);
+			$referer_team_id = null;
+			if(
+				(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
+				(isset($referer_query_parts['team']))
+			) {
+				$referer_team_id = $referer_path_parts[2] ? : $referer_query_parts['team'];
+				$is_team = true;
+				$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$referer_team_id)[0];
 			}
-			if(!$is_user_in_team) {
-				return $f3->reroute('/dashboard');
-			}
-        }
+		}
         
         if($is_team) {
 			Utils::prevent_csrf_from_tab_conflict($f3, $args, $referer_url_parts['path']);
 		} else {
-			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/dashboard');
-        }
-        
+			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/report');
+		}
+		
         $f3->reroute('/report?rp='.
 			urlencode($report_project).
 			'&rt='.
