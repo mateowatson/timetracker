@@ -1,5 +1,5 @@
 <h2>Report</h2>
-<form action="<?php echo $SITE_URL; ?>/report" method="POST">
+<form action="<?php echo $SITE_URL; ?>/report" method="POST" id="report-form">
 	<input type="text" name="csrf" id="csrf_report_timer" value="<?php echo $CSRF; ?>" hidden>
 
     <div class="form-group">
@@ -40,25 +40,10 @@
 			name="rd" placeholder="mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy">
     </div>
     
-    <?php if($v_report_show_teams_dropdown): ?>
-    <div class="form-group">
-        <label for="team">
-            Team
-        </label>
-        <select id="team" class="form-control" name="team">
-            <option value="noteam">None (personal logs)</option>
-            <?php foreach($v_teams as $team) : ?>
-            <option value="<?php echo $team['team_id']; ?>"
-                <?php echo ((int)$team['team_id'] === (int)$v_team['id'] ? 'selected' : ''); ?>>
-                <?php echo $team['team_name']; ?>
-            </option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-    <?php endif; ?>
+    
 
 	<div class="form-group">
-		<input class="btn btn-primary" type="submit" value="Go">
+        <input class="btn btn-primary" type="submit" value="Go">
 	</div>
 </form>
 

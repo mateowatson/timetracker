@@ -3,7 +3,7 @@
 <div class="container mb-5">
 	<div class="row">
 		<?php require_once('partials/heading.php'); ?>
-		<?php require_once('partials/account.php'); ?>
+        <?php require_once('partials/account.php'); ?>
 	</div>
 </div>
 

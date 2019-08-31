@@ -24,6 +24,7 @@ class Report {
 
 		$is_team = false;
 		$team = false;
+		$v_team = null;
 		if($team_id) {
 			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
 			$is_user_in_team = false;
@@ -31,7 +32,8 @@ class Report {
 				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$team_id) {
 					$is_user_in_team = true;
                     $is_team = true;
-                    $team = $av_t;
+					$team = $av_t;
+					$v_team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
 					$f3->set('v_search_team_id', $team_id);
 					break;
 				}
@@ -193,7 +195,7 @@ class Report {
 
 		$teams = Utils::get_all_teams_of_logged_in_user($f3);
 		$f3->set('v_teams', $teams);
-		$f3->set('v_team', $team);
+		$f3->set('v_team', $v_team);
 		$f3->set('v_report_show_teams_dropdown', true);
 
 		// RENDER
@@ -211,6 +213,7 @@ class Report {
 		$report_date = $req['rd'];
 		$report_team = $req['team'];
 		$report_noteam = $req['noteam'];
+		$report_changeteam = $req['change-team'];
 
 		// GET DB, SESSION AND USER
 		$db = $f3->get('DB');
@@ -221,7 +224,7 @@ class Report {
         
         $is_team = false;
 		$team = false;
-		if($report_team && !$report_noteam) {
+		if($report_team && !$report_noteam && $report_changeteam) {
 			$is_team = true;
 			$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$report_team)[0];
 		} else if(!$report_noteam) {
@@ -238,6 +241,22 @@ class Report {
 				$is_team = true;
 				$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$referer_team_id)[0];
 			}
+		}
+
+		if(!$report_changeteam) {
+			$referer_url = $f3->get('HEADERS')['Referer'];
+			$referer_url_parts = parse_url($referer_url);
+			parse_str($referer_url_parts['query'], $referer_query);
+			if(isset($referer_query['team'])) {
+				$referer_team_id = $referer_query['team'];
+				$is_team = true;
+				$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$referer_team_id)[0];
+			}
+		} else {
+			// If we ARE changing teams, reset other report parameters to nothing
+			$report_project = '';
+			$report_task = '';
+			$report_date = '';
 		}
         
         if($is_team) {

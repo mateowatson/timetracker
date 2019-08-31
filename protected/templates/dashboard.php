@@ -4,6 +4,7 @@
 	<div class="row">
 		<?php require_once('partials/heading.php'); ?>
 		<?php require_once('partials/account.php'); ?>
+		<?php require_once('partials/team-badge.php'); ?>
 	</div>
 </div>
 

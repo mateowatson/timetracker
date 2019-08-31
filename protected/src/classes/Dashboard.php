@@ -31,7 +31,7 @@ class Dashboard {
 			if(!$is_user_in_team) {
 				return $f3->reroute('/dashboard');
 			}
-			$f3->set('v_page_title', 'Team: '.$team['name']);
+			//$f3->set('v_page_title', 'Team: '.$team['name']);
 		}
 		$team_members = array();
 		$team_members_ids = $db->exec(

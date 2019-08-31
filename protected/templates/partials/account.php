@@ -7,7 +7,7 @@
 
 	<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/search">Search</a>
 	
-	<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/account">Account</a>
+	<a class="btn btn-link" title="<?php echo $v_username; ?>" href="<?php echo $SITE_URL; ?>/account">Account</a>
 
 	<form action="<?php echo $SITE_URL; ?>/logout" method="POST">
 		<input type="text" name="csrf" id="csrf" value="<?php echo $CSRF; ?>" hidden>
