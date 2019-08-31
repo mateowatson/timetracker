@@ -34,6 +34,14 @@
         </select>
     </div>
 
+    <div class="form-group">
+		<label for="rd">
+			Date or date range
+		</label>
+		<input type="text" id="rd" class="form-control"
+			name="rd" placeholder="mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy">
+	</div>
+
 	<div class="form-group">
 		<input class="btn btn-primary" type="submit" value="Go">
 	</div>

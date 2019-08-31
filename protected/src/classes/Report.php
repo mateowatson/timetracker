@@ -17,6 +17,7 @@ class Report {
 		$req = $f3->get('REQUEST');
 		$report_project = urldecode($req['rp']);
 		$report_task = urldecode($req['rt']);
+		$report_date = urldecode($req['rd']);
 		$team_id = urldecode($req['team']);
 		$page = isset($req['page']) ? (int)urldecode($req['page']) : 0;
 		$f3->set('v_no_matches', false);
@@ -66,6 +67,46 @@ class Report {
         
         if($report_task) {
 			$sql_condition .= (($sql_condition ? ' ' : '').'AND task_id = '.$report_task);
+		}
+
+		if($report_date) {
+			$formatted_date_search_arr = Utils::parse_search_by_date_input($report_date);
+
+			if(!$formatted_date_search_arr && $report_date) {
+				$f3->push('v_errors', array(
+					'element_id' => 'report_errors',
+					'message' => 'Your date input was not formatted properly. Please use "mm/dd/yyy" for a single date and "mm/dd/yyy - mm/dd/yyy" for a date range.'
+				));
+
+				//Utils::reroute_with_errors($f3, $args, '/search?search_by=date');
+
+				if($is_team) {
+					Utils::reroute_with_errors($f3, $args, '/report?&team='.$team_id);
+				} else {
+					Utils::reroute_with_errors($f3, $args, '/report');
+				}
+			}
+			// VALIDATE DATE FIELDS
+			if($formatted_date_search_arr !== FALSE) {
+				$logs_matches_query = $db->exec('
+					SELECT
+						id
+					FROM logs
+					WHERE start_time BETWEEN ? AND ?
+				', array(
+					$formatted_date_search_arr[0],
+					$formatted_date_search_arr[1]
+				));
+				if(count($logs_matches_query) > 0) {
+					$logs_matches_array = array();
+					foreach ($logs_matches_query as $logs_match) {
+						array_push($logs_matches_array, $logs_match['id']);
+					}
+					$logs_matches = implode(', ', $logs_matches_array);
+
+					$sql_condition .= (($sql_condition ? ' ' : '').'AND logs.id IN ('.$logs_matches.')');
+				}
+			}
 		}
 
 		if($is_team && $sql_condition) {
@@ -162,6 +203,7 @@ class Report {
         $req = $f3->get('REQUEST');
 		$report_project = $req['rp'];
 		$report_task = $req['rt'];
+		$report_date = $req['rd'];
 
 		// GET DB, SESSION AND USER
 		$db = $f3->get('DB');
@@ -207,6 +249,8 @@ class Report {
 			urlencode($report_project).
 			'&rt='.
 			urlencode($report_task).
+			'&rd='.
+			urlencode($report_date).
 			($is_team ? '&team='.$team['id'] : ''));
     }
 }
