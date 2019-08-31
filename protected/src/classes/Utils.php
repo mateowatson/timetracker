@@ -589,6 +589,7 @@ MESSAGE;
 				WHERE users_projects.user_id IS NOT NULL 
 					AND logs.team_id IS NULL AND
 					logs.project_id = projects.id
+				ORDER BY logs.start_time DESC
 			', array($user->id));
 			$tasksQuery = $db->exec('
 				SELECT * FROM tasks
@@ -599,6 +600,7 @@ MESSAGE;
 				WHERE users_tasks.user_id IS NOT NULL
 					AND logs.team_id IS NULL AND
 					logs.task_id = tasks.id
+				ORDER BY logs.start_time DESC
 			', array($user->id));
 		} else {
 			$projectsQuery = $db->exec('
@@ -609,6 +611,7 @@ MESSAGE;
 				WHERE users_projects.user_id IS NOT NULL 
 					AND logs.team_id = ? AND
 					logs.project_id = projects.id
+				ORDER BY logs.start_time DESC
 			', array($team['id']));
 			$tasksQuery = $db->exec('
 				SELECT * FROM tasks
@@ -618,6 +621,7 @@ MESSAGE;
 				WHERE users_tasks.user_id IS NOT NULL AND
 					logs.team_id = ? AND
 					logs.task_id = tasks.id
+				ORDER BY logs.start_time DESC
 			', array($team['id']));
 		}
 		$projects = array();

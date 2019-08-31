@@ -9,7 +9,7 @@
 
 <div class="container mb-5">
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-lg-4">
 			<?php require_once('partials/report.php'); ?>
 		</div>
 	</div>
