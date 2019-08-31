@@ -7,9 +7,9 @@
 
 	<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/search">Search</a>
 	
-	<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/account"><?php echo $v_username; ?></a>
+	<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/account">Account</a>
 
-	<form class="ml-3" action="<?php echo $SITE_URL; ?>/logout" method="POST">
+	<form action="<?php echo $SITE_URL; ?>/logout" method="POST">
 		<input type="text" name="csrf" id="csrf" value="<?php echo $CSRF; ?>" hidden>
 		<input class="btn btn-link pr-0" type="submit" value="Logout">
 	</form>

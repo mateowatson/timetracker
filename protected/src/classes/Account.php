@@ -4,8 +4,6 @@ class Account {
 	function show($f3, $args) {
 		Utils::redirect_logged_out_user($f3, $args);
 		Utils::send_csrf($f3, $args);
-
-		$f3->set('v_page_title', 'Account');
 		
 		// GET DB, SESSION AND USER
 		$db = $f3->get('DB');
@@ -15,6 +13,8 @@ class Account {
 		$f3->set('v_username', $session_username);
 		$f3->set('v_user_email', $user->email);
 		$f3->set('v_user_email_verified', $user->email_verified);
+
+		$f3->set('v_page_title', 'Account: '.$session_username);
 
 		$f3->set('v_is_user_admin', true);
 		if(!$user->admin) {

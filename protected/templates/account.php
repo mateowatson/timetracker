@@ -82,7 +82,11 @@
 				</div>
 
 				<div class="form-group">
-					<label for="account_email">Email (currently <strong><?php echo $v_user_email; ?></strong>)</label>
+					<label for="account_email">
+						Email
+						<?php if($v_user_email): ?>
+						(currently <strong><?php echo $v_user_email; ?></strong>)
+						<?php endif; ?></label>
 					<input type="text" placeholder="example@fastmail.com" id="account_email"
 						name="account_email" class="form-control">
 				</div>
