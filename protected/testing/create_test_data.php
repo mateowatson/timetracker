@@ -6,8 +6,12 @@ $f3 = \Base::instance();
 
 $f3->config('../setup.cfg');
 
+$host = $f3->get('DB_TEST_SCRIPT_HOST')
+    ? $f3->get('DB_TEST_SCRIPT_HOST')
+    : 'mysql:host=' . $f3->get('DB_HOST');
+
 $f3->set('DB', new \DB\SQL(
-	'mysql:unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock'.
+	 $host .
 		';port='.$f3->get('DB_PORT').
 		';dbname='.$f3->get('DB_NAME'),
 	$f3->get('DB_USER'),
