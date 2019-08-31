@@ -18,8 +18,8 @@
 		</div>
 		<?php if($v_is_team): ?>
 		<div class="col-lg-4">
-		<div class="card bg-transparent border-0">
-				<div class="card-body">
+			<div class="card bg-transparent border-0">
+				<div class="card-body px-0">
 					<?php require_once('partials/team-members.php'); ?>
 				</div>
 			</div>
@@ -27,7 +27,7 @@
 		<?php endif; ?>
 		<div class="col-lg-4">
 			<div class="card bg-transparent border-0">
-				<div class="card-body">
+				<div class="card-body px-0">
 					<?php require_once('partials/report.php'); ?>
 				</div>
 			</div>
