@@ -4,6 +4,8 @@
 	<?php if(!$v_user_email_verified && $v_user_email): ?>
 		<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/verify-email">Verify Email</a>
 	<?php endif; ?>
+
+	<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/search">Search</a>
 	
 	<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/account"><?php echo $v_username; ?></a>
 
