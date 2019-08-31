@@ -46,12 +46,12 @@ class Report {
 		$tasks = $projects_and_tasks['tasks'];
 		foreach($projects as $project_idx => $project) {
 			if($project['id'] === $report_project) {
-				$projects[$project_idx]['preselect_in_dropdown'] = true;
+				$projects[$project_idx]['preselect_in_report_dropdown'] = true;
 			}
 		}
 		foreach($tasks as $task_idx => $task) {
 			if($task['id'] === $report_task) {
-				$tasks[$task_idx]['preselect_in_dropdown'] = true;
+				$tasks[$task_idx]['preselect_in_report_dropdown'] = true;
 			}
 		}
 		$f3->set('v_projects', $projects);
@@ -65,7 +65,7 @@ class Report {
         }
         
         if($report_task) {
-			$sql_condition = 'AND task_id = '.$report_task;
+			$sql_condition .= (($sql_condition ? ' ' : '').'AND task_id = '.$report_task);
 		}
 
 		if($is_team && $sql_condition) {

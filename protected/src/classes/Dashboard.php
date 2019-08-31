@@ -138,11 +138,13 @@ class Dashboard {
 		foreach($projects as $project_idx => $project) {
 			if($project['id'] === $last_log[0]['project_id'] && !isset($req['new'])) {
 				$projects[$project_idx]['preselect_in_dropdown'] = true;
+				$projects[$project_idx]['preselect_in_report_dropdown'] = false;
 			}
 		}
 		foreach($tasks as $task_idx => $task) {
 			if($task['id'] === $last_log[0]['task_id'] && !isset($req['new'])) {
 				$tasks[$task_idx]['preselect_in_dropdown'] = true;
+				$tasks[$task_idx]['preselect_in_report_dropdown'] = false;
 			}
 		}
 

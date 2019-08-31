@@ -1,3 +1,4 @@
+<h2>Report</h2>
 <form action="<?php echo $SITE_URL; ?>/report" method="POST">
 	<input type="text" name="csrf" id="csrf_report_timer" value="<?php echo $CSRF; ?>" hidden>
 
@@ -10,7 +11,7 @@
             <option value="">Select Project</option>
             <?php foreach($v_projects as $project) : ?>
             <option value="<?php echo $project['id']; ?>"
-                <?php echo $project['preselect_in_dropdown'] ? 'selected' : ''; ?>>
+                <?php echo $project['preselect_in_report_dropdown'] ? 'selected' : ''; ?>>
                 <?php echo $project['name']; ?>
             </option>
             <?php endforeach; ?>
@@ -26,7 +27,7 @@
             <option value="">Select Task</option>
             <?php foreach($v_tasks as $task) : ?>
             <option value="<?php echo $task['id']; ?>"
-                <?php echo $task['preselect_in_dropdown'] ? 'selected' : ''; ?>>
+                <?php echo $task['preselect_in_report_dropdown'] ? 'selected' : ''; ?>>
                 <?php echo $task['name']; ?>
             </option>
             <?php endforeach; ?>
@@ -34,7 +35,7 @@
     </div>
 
 	<div class="form-group">
-		<input class="btn btn-primary" type="submit" value="Search">
+		<input class="btn btn-primary" type="submit" value="Go">
 	</div>
 </form>
 

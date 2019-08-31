@@ -22,7 +22,7 @@
 		</div>
 		<?php endif; ?>
 		<div class="col-lg-4">
-			<?php require_once('partials/search.php'); ?>
+			<?php require_once('partials/report.php'); ?>
 		</div>
 	</div>
 </div>
@@ -60,7 +60,7 @@
 			<?php endif; ?>
 		</div>
 		<div class="col-lg-12">
-			<p><a href="<?php echo $SITE_URL; ?>/all-logs">See all logs ever</a></p>
+			<p><a href="<?php echo $SITE_URL; ?>/all-logs">See all personal or team  logs</a></p>
 		</div>
 	</div>
 </div>

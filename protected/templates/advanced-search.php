@@ -48,7 +48,7 @@
 			<?php endif; ?>
 		</div>
 		<div class="col-lg-12">
-			<p><a href="<?php echo $SITE_URL; ?>/all-logs">See all logs ever</a></p>
+			<p><a href="<?php echo $SITE_URL; ?>/all-logs">See all personal or team  logs</a></p>
 		</div>
 	</div>
 </div>
