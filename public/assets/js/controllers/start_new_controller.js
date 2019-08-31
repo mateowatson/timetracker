@@ -12,6 +12,7 @@ export default class extends Controller {
     initialize() {
         window.addEventListener('fragmentpostswap', event => {
             if(event.detail !== 'start-new') return;
+            console.log('hey');
             this.inputChange();
             this.selectProject();
         });
@@ -61,10 +62,12 @@ export default class extends Controller {
     }
 
     saveProject() {
+        if(!this.hasProjectSelectTarget) return;
         this.selectedProject = this.projectSelectTarget.value;
     }
 
     selectProject() {
+        if(!this.hasProjectSelectTarget) return;
         this.projectSelectTarget.value = this.selectedProject;
     }
 }
