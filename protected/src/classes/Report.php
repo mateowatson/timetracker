@@ -62,11 +62,11 @@ class Report {
 		$sql_offset = 10*($page);
 
 		if($report_project) {
-            $sql_condition = 'AND project_id = '.$report_project;
+            $sql_condition = ' AND project_id = '.$report_project;
         }
         
         if($report_task) {
-			$sql_condition .= (($sql_condition ? ' ' : '').'AND task_id = '.$report_task);
+			$sql_condition .= ' AND task_id = '.$report_task;
 		}
 
 		if($report_date) {

@@ -1,39 +1,110 @@
 <h2>Search</h2>
 <form action="<?php echo $SITE_URL; ?>/search" method="POST">
-	<input type="text" name="csrf" id="csrf_search_timer" value="<?php echo $CSRF; ?>" hidden>
+	<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 
-	<div class="form-group">
-		<label for="search_term">
-			Search for
-		</label>
-		<input type="text" id="search_term" class="form-control"
-			name="search_term" placeholder="Search...">
-	</div>
+	<div class="form-row">
 
-	<div class="form-group">
-		<label for="search_by">Search by:</label>
-		<select class="form-control" id="search_by" name="search_by">
-			<option value="project"
-				<?php echo $v_search_by === 'project' ? 'selected' : ''; ?>>
-				Project
-			</option>
-			<option value="task"
-				<?php echo $v_search_by === 'task' ? 'selected' : ''; ?>>
-				Task
-			</option>
-			<option value="date"
-				<?php echo $v_search_by === 'date' ? 'selected' : ''; ?>>
-				MM/DD/YYYY or MM/DD/YYYY - MM/DD/YYYY
-			</option>
-		</select>
-	</div>
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label for="search_project">
+					Project
+				</label>
+				<select id="search_project" class="form-control"
+					name="search_project" placeholder="Search..."
+					value="<?php echo $v_search_term_project ? : ''; ?>">
+					<option value="">Select Task</option>
+					<?php foreach($v_projects as $project) : ?>
+					<option value="<?php echo $project['id']; ?>"
+						<?php echo $project['preselect_in_dropdown'] ? 'selected' : ''; ?>>
+						<?php echo $project['name']; ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+		</div>
 
-	<div class="form-group">
-		<input class="btn btn-primary" type="submit" value="Search">
-	</div>
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label for="search_task">
+					Task
+				</label>
+				<select id="search_task" class="form-control"
+					name="search_task" placeholder="Search..."
+					value="<?php echo $v_search_term_project ? : ''; ?>">
+					<option value="">Select Task</option>
+					<?php foreach($v_tasks as $task) : ?>
+					<option value="<?php echo $task['id']; ?>"
+						<?php echo $task['preselect_in_dropdown'] ? 'selected' : ''; ?>>
+						<?php echo $task['name']; ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+		</div>
+		
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label for="search_term_project">
+					Search project name
+				</label>
+				<input type="text" id="search_term_project" class="form-control"
+					name="search_term_project" placeholder="Search..."
+					value="<?php echo $v_search_term_project ? : ''; ?>">
+			</div>
+		</div>
+		
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label for="search_term_task">
+					Search task name
+				</label>
+				<input type="text" id="search_term_task" class="form-control"
+					name="search_term_task" placeholder="Search..."
+					value="<?php echo $v_search_term_task ? : ''; ?>">
+			</div>
+		</div>
 
-	<div class="form-group">
-		<a href="<?php echo $SITE_URL . $v_advanced_search_link; ?>">Go to Advanced Search</a>
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label for="search_term_start_date">
+					Start date (MM/DD/YYYY):
+				</label>
+				<input type="text" id="search_term_start_date" class="form-control"
+					name="search_term_start_date" placeholder="Search..."
+					value="<?php echo $v_search_term_start_date ? : ''; ?>">
+				</select>
+			</div>
+		</div>
+
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label for="search_term_end_date">
+					End date (MM/DD/YYYY):
+				</label>
+				<input type="text" id="search_term_end_date" class="form-control"
+					name="search_term_end_date" placeholder="Search..."
+					value="<?php echo $v_search_term_end_date ? : ''; ?>">
+				</select>
+			</div>
+		</div>
+
+		<div class="col-lg-6">
+			<div class="form-group">
+				<label for="search_term_notes">
+					Notes:
+				</label>
+				<input type="text" id="search_term_notes" class="form-control"
+					name="search_term_notes" placeholder="Search..."
+					value="<?php echo $v_search_term_notes ? : ''; ?>">
+				</select>
+			</div>
+		</div>
+
+		<div class="col-lg-12">
+			<div class="form-group">
+				<input type="submit" value="Search" class="btn btn-primary">
+			</div>
+		</div>
 	</div>
 </form>
 

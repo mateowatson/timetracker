@@ -9,7 +9,7 @@
 
 <div class="container mb-5">
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-12">
 			<?php require_once('partials/search.php'); ?>
 		</div>
 	</div>
@@ -32,7 +32,7 @@
 						<?php echo 'Page ' . $v_curr_page . '/' . $v_num_pages; ?>
 					</span>
 					<?php if($v_next_link): ?>
-					<a class="ml-2" href="<?php echo $SITE_URL . $v_next_link; ?>">
+					<a class="ml-2" href="<?php echo $SITE_URL .  $v_next_link; ?>">
 						&rarr;
 					</a>
 					<?php endif; ?>
@@ -42,7 +42,7 @@
 				<?php require_once('partials/logs-table.php'); ?>
 
 			<?php else: ?>
-			<p>
+			<p class="logs__no-results-found">
 				No results found.
 			</p>
 			<?php endif; ?>
