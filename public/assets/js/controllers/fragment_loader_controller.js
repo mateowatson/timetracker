@@ -27,11 +27,26 @@ export default class extends Controller {
         window.dispatchEvent(preSwapEvent);
 
         this.element.innerHTML = el.innerHTML;
+        window.history.pushState({}, '', url);
+        this.updateCSRF(temp);
 
         // post swap event
         const postSwapEvent = new CustomEvent('fragmentpostswap', {
             detail: id
         });
         window.dispatchEvent(postSwapEvent);
+    }
+
+    updateCSRF(responseBody) {
+        const csrfInput = responseBody.querySelector('[name="csrf"]');
+        if(!csrfInput) return;
+
+        const csrf = csrfInput.value;
+        const csrfInputs = Array.from(document.querySelectorAll('[name="csrf"]'));
+        if(!csrfInputs) return;
+        
+        csrfInputs.forEach(input => {
+            input.setAttribute('value', csrf);
+        });
     }
 }
