@@ -4,6 +4,7 @@ class Search {
 	function show($f3, $args) {
 		Utils::redirect_logged_out_user($f3, $args);
 		Utils::send_csrf($f3, $args);
+		$SITE_URL = $f3->get('SITE_URL');
 
 		$f3->set('v_page_title', 'Search');
 
@@ -60,8 +61,11 @@ class Search {
 			}
 		}
 
+		$f3->set('v_teams', $teams);
+		$f3->set('v_team', $v_team);
+
 		// GET PROJECT AND TASK LISTS
-		$projects_and_tasks = Utils::get_project_and_task_lists($is_team, $team, $db, $user);
+		$projects_and_tasks = Utils::get_project_and_task_lists($is_team, $v_team, $db, $user);
 		$projects = $projects_and_tasks['projects'];
 		$tasks = $projects_and_tasks['tasks'];
 		foreach($projects as $project_idx => $project) {
@@ -289,6 +293,13 @@ class Search {
 		if( !count($f3->get('v_logs')) ) {
 			$f3->set('v_no_matches', true);
 		}
+
+		// SET SEARCH LINK
+		if($is_team) {
+			$f3->set('v_search_link', $SITE_URL.'/search?team='.$v_team['id']);
+		} else {
+			$f3->set('v_search_link', '/search');
+		}
 		
 
 		// SET NEXT AND PREV LINKS
@@ -326,9 +337,6 @@ class Search {
 		$f3->set('v_prev_link', $prev_link);
 		$f3->set('v_curr_page', $page+1);
 		$f3->set('v_num_pages', ceil($logs_count/10));
-
-		$f3->set('v_teams', $teams);
-		$f3->set('v_team', $v_team);
 
 		// RENDER
 		$view = new \View;

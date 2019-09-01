@@ -4,6 +4,7 @@ class Report {
     function show($f3, $args) {
         Utils::redirect_logged_out_user($f3, $args);
 		Utils::send_csrf($f3, $args);
+		$SITE_URL = $f3->get('SITE_URL');
 
 		// GET DB, SESSION AND USER
 		$db = $f3->get('DB');
@@ -43,8 +44,8 @@ class Report {
 			}
         }
         
-        // GET PROJECT AND TASK LISTS
-		$projects_and_tasks = Utils::get_project_and_task_lists($is_team, $team, $db, $user);
+		// GET PROJECT AND TASK LISTS
+		$projects_and_tasks = Utils::get_project_and_task_lists($is_team, $v_team, $db, $user);
 		$projects = $projects_and_tasks['projects'];
 		$tasks = $projects_and_tasks['tasks'];
 		foreach($projects as $project_idx => $project) {
@@ -188,6 +189,13 @@ class Report {
 		$f3->set('v_prev_link', $prev_link);
 		$f3->set('v_curr_page', $page+1);
 		$f3->set('v_num_pages', ceil($logs_count/10));
+
+		// SET SEARCH LINK
+		if($is_team) {
+			$f3->set('v_search_link', $SITE_URL.'/search?team='.$v_team['id']);
+		} else {
+			$f3->set('v_search_link', '/search');
+		}
 
 		
 		// ADDITIONAL VIEW VARIABLES
