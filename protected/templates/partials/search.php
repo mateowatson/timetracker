@@ -12,7 +12,7 @@
 				<select id="search_project" class="form-control"
 					name="search_project" placeholder="Search..."
 					value="<?php echo $v_search_term_project ? : ''; ?>">
-					<option value="">Select Task</option>
+					<option value="">Select Project</option>
 					<?php foreach($v_projects as $project) : ?>
 					<option value="<?php echo $project['id']; ?>"
 						<?php echo $project['preselect_in_search_dropdown'] ? 'selected' : ''; ?>>

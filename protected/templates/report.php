@@ -40,7 +40,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-12">
+		<div class="col-12" data-controller="fragment-loader" data-fragment-loader-id="report-table">
 			<?php if(!$v_no_matches): ?>
 
 				<?php require('partials/pagination-links.php'); ?>
