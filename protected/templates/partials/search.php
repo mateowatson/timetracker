@@ -1,5 +1,5 @@
 <h2>Search</h2>
-<form action="<?php echo $SITE_URL; ?>/search" method="POST">
+<form action="<?php echo $SITE_URL; ?>/search" method="POST" id="search-form">
 	<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 
 	<div class="form-row">
@@ -15,7 +15,7 @@
 					<option value="">Select Task</option>
 					<?php foreach($v_projects as $project) : ?>
 					<option value="<?php echo $project['id']; ?>"
-						<?php echo $project['preselect_in_dropdown'] ? 'selected' : ''; ?>>
+						<?php echo $project['preselect_in_search_dropdown'] ? 'selected' : ''; ?>>
 						<?php echo $project['name']; ?>
 					</option>
 					<?php endforeach; ?>

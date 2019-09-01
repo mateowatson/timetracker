@@ -637,7 +637,9 @@ MESSAGE;
 				array_push($projects, array(
 					'id' => $query['project_id'],
 					'name' => $query['name'],
-					'preselect_in_dropdown' => false
+					'preselect_in_dropdown' => false,
+					'preselect_in_report_dropdown' => false,
+					'preselect_in_search_dropdown' => false
 				));
 			}
 		}
@@ -652,7 +654,9 @@ MESSAGE;
 				array_push($tasks, array(
 					'id' => $query['task_id'],
 					'name' => $query['name'],
-					'preselect_in_dropdown' => false
+					'preselect_in_dropdown' => false,
+					'preselect_in_report_dropdown' => false,
+					'preselect_in_search_dropdown' => false
 				));
 			}
 		}

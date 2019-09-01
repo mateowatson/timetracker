@@ -13,6 +13,26 @@
 		<div class="col-12">
 			<?php require_once('partials/search.php'); ?>
 		</div>
+		<div class="col-lg-4">
+			<div class="form-group">
+				<label for="team">
+					Go to Different Team
+				</label>
+				<select form="search-form" id="team" class="form-control" name="team">
+					<option value="noteam">None (personal logs)</option>
+					<?php foreach($v_teams as $team) : ?>
+					<option value="<?php echo $team['team_id']; ?>"
+						<?php echo ((int)$team['team_id'] === (int)$v_team['id'] ? 'selected' : ''); ?>>
+						<?php echo $team['team_name']; ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<input name="change-team" form="search-form" class="btn btn-primary" type="submit" value="Go">
+			</div>
+		</div>
 	</div>
 </div>
 

@@ -13,6 +13,7 @@ class Dashboard {
 		$f3->set('v_username', $session_username);
 		$f3->set('v_user_email', $user->email);
 		$f3->set('v_user_email_verified', $user->email_verified);
+		$SITE_URL = $f3->get('SITE_URL');
 
 		$f3->set('v_page_title', 'Dashboard');
 		$is_team = false;
@@ -160,13 +161,13 @@ class Dashboard {
 			$f3->set('v_show_remove_members', $user->id === (int)$team['creator']);
 		}
 
-		// SET ADVANCED SEARCH LINK, REFRESH LINK, AND START NEW LINK
+		// SET SEARCH LINK, REFRESH LINK, AND START NEW LINK
 		if($is_team) {
-			$f3->set('v_advanced_search_link', '/advanced-search?team='.$team['id']);
-			$f3->set('v_refresh_link', '/team/'.$team['id']);
+			$f3->set('v_search_link', $SITE_URL.'/search?team='.$team['id']);
+			$f3->set('v_refresh_link', $SITE_URL.'/team/'.$team['id']);
 			$f3->set('v_start_new_link', sprintf('%s/team/%s?new', $f3->get('SITE_URL'), $team['id']));
 		} else {
-			$f3->set('v_advanced_search_link', '/advanced-search');
+			$f3->set('v_search_link', '/search');
 			$f3->set('v_refresh_link', '/dashboard');
 			$f3->set('v_start_new_link', sprintf('%s/dashboard?new', $f3->get('SITE_URL')));
 		}

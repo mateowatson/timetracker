@@ -212,7 +212,7 @@ class Report {
 		$report_task = $req['rt'];
 		$report_date = $req['rd'];
 		$report_team = $req['team'];
-		$report_noteam = $req['noteam'];
+		$report_noteam = $report_team === 'noteam';
 		$report_changeteam = $req['change-team'];
 
 		// GET DB, SESSION AND USER

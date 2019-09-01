@@ -37,6 +37,9 @@ class Search {
 		$f3->set('v_search_term_notes', $search_term_notes);
 		$f3->set('v_no_matches', false);
 
+		$teams = Utils::get_all_teams_of_logged_in_user($f3);
+		$f3->set('v_teams', $teams);
+
 		$is_team = false;
 		$team = false;
 		if($team_id) {
@@ -47,6 +50,7 @@ class Search {
 					$is_user_in_team = true;
 					$is_team = true;
 					$team = $av_t;
+					$v_team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
 					$f3->set('v_search_team_id', $team_id);
 					break;
 				}
@@ -63,11 +67,13 @@ class Search {
 		foreach($projects as $project_idx => $project) {
 			if($project['id'] === $search_project) {
 				$projects[$project_idx]['preselect_in_dropdown'] = true;
+				$projects[$project_idx]['preselect_in_search_dropdown'] = true;
 			}
 		}
 		foreach($tasks as $task_idx => $task) {
 			if($task['id'] === $search_task) {
 				$tasks[$task_idx]['preselect_in_dropdown'] = true;
+				$tasks[$task_idx]['preselect_in_search_dropdown'] = true;
 			}
 		}
 		$f3->set('v_projects', $projects);
@@ -321,6 +327,9 @@ class Search {
 		$f3->set('v_curr_page', $page+1);
 		$f3->set('v_num_pages', ceil($logs_count/10));
 
+		$f3->set('v_teams', $teams);
+		$f3->set('v_team', $v_team);
+
 		// RENDER
 		$view = new \View;
 		echo $view->render('search.php');
@@ -339,6 +348,10 @@ class Search {
 		$search_term_end_date = $req['search_term_end_date'];
 		$search_term_notes = $req['search_term_notes'];
 
+		$search_team = $req['team'];
+		$search_noteam = $search_team === 'noteam';
+		$search_changeteam = $req['change-team'];
+
 		// GET DB, SESSION AND USER
 		$db = $f3->get('DB');
 		$session_username = $f3->get('SESSION.session_username');
@@ -348,29 +361,43 @@ class Search {
 
 		$is_team = false;
 		$team = false;
-		$referer_url = $f3->get('HEADERS')['Referer'];
-		$referer_url_parts = parse_url($referer_url);
-		$referer_path_parts = explode('/', $referer_url_parts['path']);
-		parse_str(parse_url($referer_url, PHP_URL_QUERY), $referer_query_parts);
-		$referer_team_id = null;
-		if(
-			(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
-			(isset($referer_query_parts['team']))
-		) {
-			$referer_team_id = $referer_path_parts[2] ? : $referer_query_parts['team'];
-			$available_teams = $db->exec('SELECT * FROM users_teams WHERE user_id = ?', $user->id);
-			$is_user_in_team = false;
-			foreach($available_teams as $av_t) {
-				if((int)$av_t['user_id'] === (int)$user->id && (int)$av_t['team_id'] === (int)$referer_team_id) {
-					$is_user_in_team = true;
-					$is_team = true;
-					$team = $db->exec('SELECT * FROM teams WHERE id = ?', $av_t['team_id'])[0];
-					break;
-				}
+		if($search_team && !$search_noteam && $search_changeteam) {
+			$is_team = true;
+			$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$search_team)[0];
+		} else if(!$search_noteam) {
+			$referer_url = $f3->get('HEADERS')['Referer'];
+			$referer_url_parts = parse_url($referer_url);
+			$referer_path_parts = explode('/', $referer_url_parts['path']);
+			parse_str(parse_url($referer_url, PHP_URL_QUERY), $referer_query_parts);
+			$referer_team_id = null;
+			if (
+				(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
+				(isset($referer_query_parts['team']))
+			) {
+				$referer_team_id = $referer_path_parts[2] ? : $referer_query_parts['team'];
+				$is_team = true;
+				$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$referer_team_id)[0];
 			}
-			if(!$is_user_in_team) {
-				return $f3->reroute('/dashboard');
+		}
+
+		if(!$search_changeteam) {
+			$referer_url = $f3->get('HEADERS')['Referer'];
+			$referer_url_parts = parse_url($referer_url);
+			parse_str($referer_url_parts['query'], $referer_query);
+			if(isset($referer_query['team'])) {
+				$referer_team_id = $referer_query['team'];
+				$is_team = true;
+				$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$referer_team_id)[0];
 			}
+		} else {
+			// If we ARE changing teams, reset other report parameters to nothing
+			$search_project = '';
+			$search_task = '';
+			$search_term_project = '';
+			$search_term_task = '';
+			$search_term_start_date = '';
+			$search_term_end_date = '';
+			$search_term_notes = '';
 		}
 
 		if($is_team) {
