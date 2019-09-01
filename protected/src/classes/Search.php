@@ -364,20 +364,6 @@ class Search {
 		if($search_team && !$search_noteam && $search_changeteam) {
 			$is_team = true;
 			$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$search_team)[0];
-		} else if(!$search_noteam) {
-			$referer_url = $f3->get('HEADERS')['Referer'];
-			$referer_url_parts = parse_url($referer_url);
-			$referer_path_parts = explode('/', $referer_url_parts['path']);
-			parse_str(parse_url($referer_url, PHP_URL_QUERY), $referer_query_parts);
-			$referer_team_id = null;
-			if (
-				(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
-				(isset($referer_query_parts['team']))
-			) {
-				$referer_team_id = $referer_path_parts[2] ? : $referer_query_parts['team'];
-				$is_team = true;
-				$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$referer_team_id)[0];
-			}
 		}
 
 		if(!$search_changeteam) {
