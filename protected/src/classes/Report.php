@@ -175,15 +175,15 @@ class Report {
 		if($page === 0) {
 			$prev_link = null;
 		} else {
-			$prev_link = "/report?rp=".$report_project."&rt=".
-				$report_task."&rd=".$report_date."&page=".(string)($page-1);
+			$prev_link = "/report?rp=".$req['rp']."&rt=".
+				$req['rt']."&rd=".$req['rd']."&page=".(string)($page-1);
 		}
 
-		if($page+1 > $logs_count/10 || $logs_count <= 10) {
+		if(($page+1)*10 >= $logs_count || $logs_count <= 10) {
 			$next_link = null;
 		} else {
-			$next_link = "/report?rp=".$report_project."&rt=".
-				$report_task."&rd=".$report_date."&page=".(string)($page+1);
+			$next_link = "/report?rp=".$req['rp']."&rt=".
+				$req['rt']."&rd=".$req['rd']."&page=".(string)($page+1);
 		}
 		$f3->set('v_next_link', $next_link);
 		$f3->set('v_prev_link', $prev_link);

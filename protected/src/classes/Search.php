@@ -307,30 +307,38 @@ class Search {
 			$prev_link = null;
 		} else {
 			$prev_link = '/search?stp='.
-			urlencode($search_term_project).
+			$req['stp'].
 			'&stt='.
-			urlencode($search_term_task).
+			$req['stt'].
 			'&stsd='.
-			urlencode($search_term_start_date).
+			$req['stsd'].
 			'&sted='.
-			urlencode($search_term_end_date).
+			$req['sted'].
 			'&stn='.
-			urlencode($search_term_notes).
+			$req['stn'].
+			'&sp='.
+			$req['sp'].
+			'&st='.
+			$req['st'].
 			'&page='.(string)($page-1);
 		}
-		if($page+1 > $logs_count/10 || $logs_count <= 10) {
+		if(($page+1)*10 >= $logs_count || $logs_count <= 10) {
 			$next_link = null;
 		} else {
 			$next_link = '/search?stp='.
-			urlencode($search_term_project).
+			$req['stp'].
 			'&stt='.
-			urlencode($search_term_task).
+			$req['stt'].
 			'&stsd='.
-			urlencode($search_term_start_date).
+			$req['stsd'].
 			'&sted='.
-			urlencode($search_term_end_date).
+			$req['sted'].
 			'&stn='.
-			urlencode($search_term_notes).
+			$req['stn'].
+			'&sp='.
+			$req['sp'].
+			'&st='.
+			$req['st'].
 			'&page='.(string)($page+1);
 		}
 		$f3->set('v_next_link', $next_link);
