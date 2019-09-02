@@ -34,6 +34,27 @@
 				<input name="change-team" form="report-form" class="btn btn-primary" type="submit" value="Go">
 			</div>
 			<?php endif; ?>
+
+			<?php if($v_is_team): ?>
+			<div class="form-group">
+				<label for="rtm">
+					Select Different Team Member
+				</label>
+				<select form="report-form" id="rtm" class="form-control" name="rtm">
+					<option value="">All</option>
+					<?php foreach($v_team_members as $team_member) : ?>
+					<option value="<?php echo $team_member['id']; ?>"
+						<?php echo ($team_member['id'] === $v_team_member_id ? 'selected' : ''); ?>>
+						<?php echo $team_member['username']; ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<input name="change-team-member" form="report-form" class="btn btn-primary" type="submit" value="Go">
+			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>

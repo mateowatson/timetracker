@@ -19,6 +19,7 @@ class Report {
 		$report_project = urldecode($req['rp']);
 		$report_task = urldecode($req['rt']);
 		$report_date = urldecode($req['rd']);
+		$report_team_member = urldecode($req['rtm']);
 		$team_id = urldecode($req['team']);
 		$page = isset($req['page']) ? (int)urldecode($req['page']) : 0;
 		$f3->set('v_no_matches', false);
@@ -42,7 +43,21 @@ class Report {
 			if(!$is_user_in_team) {
 				return $f3->reroute('/dashboard');
 			}
-        }
+		}
+		
+		// Set team members variable
+		$team_members = array();
+		$team_members_ids = $db->exec(
+			'SELECT user_id FROM users_teams WHERE team_id = ?',
+			array($v_team['id'])
+		);
+		foreach($team_members_ids as $id) {
+			array_push(
+				$team_members,
+				$db->exec('SELECT * FROM users WHERE id = ?', array($id['user_id']))[0]
+			);
+		}
+		$f3->set('v_team_members', $team_members);
         
 		// GET PROJECT AND TASK LISTS
 		$projects_and_tasks = Utils::get_project_and_task_lists($is_team, $v_team, $db, $user);
@@ -114,6 +129,11 @@ class Report {
 
 		if($is_team && $sql_condition) {
 			$sql_condition .= ' AND logs.team_id = ' . $team_id;
+		}
+
+		if($is_team && $report_team_member) {
+			$sql_condition .= ' AND logs.user_id = ' . $report_team_member;
+			$f3->set('v_team_member_id', $report_team_member);
 		}
 
 		// SET NO MATCHES TO TRUE IF NO MATCHES FOUND
@@ -204,6 +224,7 @@ class Report {
 		$teams = Utils::get_all_teams_of_logged_in_user($f3);
 		$f3->set('v_teams', $teams);
 		$f3->set('v_team', $v_team);
+		$f3->set('v_is_team', $is_team);
 		$f3->set('v_report_show_teams_dropdown', true);
 
 		// RENDER
@@ -220,6 +241,7 @@ class Report {
 		$report_task = $req['rt'];
 		$report_date = $req['rd'];
 		$report_team = $req['team'];
+		$report_team_member = $req['rtm'];
 		$report_noteam = $report_team === 'noteam';
 		$report_changeteam = $req['change-team'];
 
@@ -265,6 +287,7 @@ class Report {
 			$report_project = '';
 			$report_task = '';
 			$report_date = '';
+			$report_team_member = '';
 		}
         
         if($is_team) {
@@ -272,13 +295,16 @@ class Report {
 		} else {
 			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/report');
 		}
-		
-        $f3->reroute('/report?rp='.
+		error_log(print_r('hhhh'.$report_team_member, true));
+        $f3->reroute(
+			'/report?rp='.
 			urlencode($report_project).
 			'&rt='.
 			urlencode($report_task).
 			'&rd='.
 			urlencode($report_date).
-			($is_team ? '&team='.$team['id'] : ''));
+			($is_team ? '&team='.urlencode($team['id']) : '').
+			($report_team_member ? '&rtm='.urlencode($report_team_member) : '')
+		);
     }
 }
