@@ -1,4 +1,4 @@
-<div class="col-lg-4 d-flex flex-row justify-content-end align-items-center">
+<div class="col-lg-4 d-flex flex-row flex-wrap flex-md-nowrap justify-content-end align-items-center">
 	<h2 class="sr-only">Account</h2>
 	
 	<?php if(!$v_user_email_verified && $v_user_email && $EMAIL_ENABLED): ?>
