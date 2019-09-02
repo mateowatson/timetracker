@@ -38,8 +38,10 @@ class Migration {
 
 		Utils::validate_password($f3, $request_password, 'installation_errors');
 
-		if($request_email) {
+		if($request_email && $f3->get('EMAIL_ENABLED')) {
 			Utils::validate_email($f3, $request_email, 'installation_errors');
+		} else {
+			$request_email = false;
 		}
 		
 		Utils::reroute_with_errors($f3, $args, '/install');
@@ -55,7 +57,7 @@ class Migration {
 			array(
 				$request_user,
 				password_hash($request_password, PASSWORD_DEFAULT),
-				$request_email ? : ''
+				$request_email ? : null
 			)
 		);
 
@@ -65,7 +67,7 @@ class Migration {
 
 		$db->commit();
 
-		if($request_email) {
+		if($request_email && $f3->get('EMAIL_ENABLED')) {
 			$email_verification_hash = Utils::send_email_verification($f3, $request_email, $request_user, 'installation_errors');
 			Utils::reroute_with_errors($f3, $args, '/install');
 			$db = $f3->get('DB');

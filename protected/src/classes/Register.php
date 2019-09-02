@@ -44,10 +44,12 @@ class Register {
 		Utils::validate_password($f3, $request_password, 'registration_errors');
 
 		$email_verification_hash = '';
-		if($request_email) {
+		if($request_email && $f3->get('EMAIL_ENABLED')) {
 			Utils::validate_email($f3, $request_email, 'registration_errors');
 			Utils::reroute_with_errors($f3, $args, '/register');
 			$email_verification_hash = Utils::send_email_verification($f3, $request_email, $request_user, 'registration_errors');
+		} else {
+			$request_email = false;
 		}
 
 		Utils::reroute_with_errors($f3, $args, '/register');
@@ -57,7 +59,7 @@ class Register {
 			array(
 				$request_user,
 				password_hash($request_password, PASSWORD_DEFAULT),
-				$request_email ? : '',
+				$request_email ? : null,
 				$email_verification_hash
 			)
 		);

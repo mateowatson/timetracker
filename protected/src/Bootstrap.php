@@ -32,6 +32,18 @@ $f3->set('ONERROR', function($f3){
 	echo \View::instance()->render('error.php');
 });
 
+// Set is email enabled global variable
+if(
+	$f3->get('SMTP_HOST') &&
+	$f3->get('SMTP_USERNAME') &&
+	$f3->get('SMTP_PASSWORD') &&
+	$f3->get('SMTP_PORT')
+) {
+	$f3->set('EMAIL_ENABLED', true);
+} else {
+	$f3->set('EMAIL_ENABLED', false);
+}
+
 // Remove trailing slash(es) of site name
 $original_site_url = $f3->get('SITE_URL');
 $f3->set('SITE_URL', rtrim($original_site_url, '/'));

@@ -98,7 +98,7 @@ class Account {
 			$user->password = password_hash($req_password, PASSWORD_DEFAULT);
 		}
 
-		if($req_email) {
+		if($req_email && $f3->get('EMAIL_ENABLED')) {
 			Utils::validate_email($f3, $req_email, 'account_errors');
 			Utils::reroute_with_errors($f3, $args, '/account');
 			$user->email = $req_email;
@@ -123,9 +123,11 @@ class Account {
 
 
 		if($req_add_username && $req_add_password) {
-			if($req_add_email) {
+			if($req_add_email && $f3->get('EMAIL_ENABLED')) {
 				Utils::send_email_to_added_user($f3, $req_add_email, $req_add_username, 'account_errors');
 				Utils::reroute_with_errors($f3, $args, '/account');
+			} else {
+				$req_add_email = false;
 			}
 
 			$new_user = $db->exec(
@@ -133,7 +135,7 @@ class Account {
 				array(
 					$req_add_username,
 					password_hash($req_add_password, PASSWORD_DEFAULT),
-					$req_add_email ? : '0',
+					$req_add_email ? : null,
 					null,
 					$req_add_email ? 1 : 0
 				)

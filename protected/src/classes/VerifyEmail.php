@@ -6,6 +6,10 @@ class VerifyEmail {
         Utils::send_csrf($f3, $args);
         $f3->set('v_page_title', 'Verify Email');
 
+        if(!$f3->get('EMAIL_ENABLED')) {
+            $f3->reroute('/dashboard');
+        }
+
         // GET DB, SESSION AND USER
 		$db = $f3->get('DB');
 		$session_username = $f3->get('SESSION.session_username');
