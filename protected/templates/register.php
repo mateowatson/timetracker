@@ -17,10 +17,12 @@
 					<input class="form-control" type="text" id="username" name="username" placeholder="example11">
 				</div>
 
+				<?php if($EMAIL_ENABLED): ?>
 				<div class="form-group">
 					<label for="email">Email:</label>
 					<input class="form-control" type="text" id="email" name="email" placeholder="example@fastmail.com">
 				</div>
+				<?php endif; ?>
 				
 				<div class="form-group">
 					<label for="password">Password:</label><br>

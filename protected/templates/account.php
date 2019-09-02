@@ -61,11 +61,13 @@
 						name="account_add_username" class="form-control">
 				</div>
 
+				<?php if($EMAIL_ENABLED): ?>
 				<div class="form-group">
 					<label for="account_email">Email</label>
 					<input type="text" placeholder="example@fastmail.com" id="account_email"
 						name="account_add_email" class="form-control">
 				</div>
+				<?php endif; ?>
 
 				<div class="form-group">
 					<label for="account_add_password">Password</label>
@@ -76,11 +78,12 @@
 
 				<h2 class="<?php echo $v_is_user_admin ? 'mt-5' : ''; ?>">Change profile info</h2>
 				<div class="form-group">
-					<label for="account_username">Username (currently <strong><?php echo $v_username; ?>)</strong></label>
+					<label for="account_username">Username (currently <strong><?php echo $v_username; ?></strong>)</label>
 					<input type="text" placeholder="example11" id="account_username"
 						name="account_username" class="form-control">
 				</div>
 
+				<?php if($EMAIL_ENABLED): ?>
 				<div class="form-group">
 					<label for="account_email">
 						Email
@@ -90,6 +93,7 @@
 					<input type="text" placeholder="example@fastmail.com" id="account_email"
 						name="account_email" class="form-control">
 				</div>
+				<?php endif; ?>
 
 				<div class="form-group">
 					<label for="account_password">Password</label>

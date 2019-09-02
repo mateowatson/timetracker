@@ -33,7 +33,7 @@ class Register {
 		if(!$request_user || !$request_password) {
 			$f3->push('v_errors', array(
 				'element_id' => 'registration_errors',
-				'message' => 'Please fill out all the user creation fields.'
+				'message' => 'Username and password are required.'
 			));
 		}
 

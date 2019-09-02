@@ -79,7 +79,7 @@ class Migration {
 
 		$f3->push('v_confirmations', array(
 			'element_id' => 'installation_confirmations',
-			'message' => 'Time Tracker was installed successfully!'
+			'message' => $f3->get('SITE_NAME').' was installed successfully!'
 		));
 
 		Utils::reroute_with_confirmations($f3, $args, '/login');

@@ -2,8 +2,13 @@
 
 class ForgotPassword {
     function show($f3, $args) {
+        if(!$f3->get('EMAIL_ENABLED')) {
+            $f3->reroute('/');
+        }
+
         Utils::redirect_logged_in_user($f3, $args);
         Utils::send_csrf($f3, $args);
+
 
 		$f3->set('v_page_title', 'Reset Password');
 		$view=new \View;

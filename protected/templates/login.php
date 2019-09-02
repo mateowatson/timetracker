@@ -48,7 +48,9 @@
 					<input class="btn btn-primary" type="submit" value="Login">
 				</div>
 
+				<?php if($EMAIL_ENABLED): ?>
 				<a href="<?php echo $SITE_URL; ?>/forgot-password">Forgot Password?</a>
+				<?php endif; ?>
 			</form>
 		</div>
 	</div>

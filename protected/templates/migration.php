@@ -19,10 +19,12 @@
 					<input class="form-control" type="text" id="username" name="username">
 				</div>
 
+				<?php if($EMAIL_ENABLED): ?>
 				<div class="form-group">
 					<label for="email">Email (optional, required if you forget your password)</label>
 					<input class="form-control" type="text" id="email" name="email">
 				</div>
+				<?php endif; ?>
 
 				<div class="form-group">
 					<label for="password">Password</label><br>
