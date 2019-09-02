@@ -137,12 +137,12 @@ class Report {
 		}
 
 		// SET NO MATCHES TO TRUE IF NO MATCHES FOUND
-		if(!$sql_condition) {
+		/* if(!$sql_condition) {
 			$f3->set('v_no_matches', true);
-		}
+		} */
 
 		// GET LOGS COUNT
-		if($is_team && $sql_condition) {
+		if($is_team) {
 			$logs_count_query = $db->exec(
 				'
 					SELECT COUNT(*) as logs_count, team_id
@@ -150,7 +150,7 @@ class Report {
 				'
 			);
 			$logs_count = $logs_count_query[0]['logs_count'];
-		} else if($sql_condition) {
+		} else {
 			$logs_count_query = $db->exec(
 				'
 					SELECT COUNT(*) as logs_count, team_id
@@ -162,11 +162,7 @@ class Report {
 			);
 			$logs_count = $logs_count_query[0]['logs_count'];
 		}
-		if($sql_condition) {
-			$f3->set('v_logs_count', $logs_count);
-		} else {
-			$f3->set('v_logs_count', 0);
-		}
+		$f3->set('v_logs_count', $logs_count);
 		
 		if(!$logs_count) {
 			$f3->set('v_no_matches', true);
@@ -295,7 +291,7 @@ class Report {
 		} else {
 			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/report');
 		}
-		error_log(print_r('hhhh'.$report_team_member, true));
+
         $f3->reroute(
 			'/report?rp='.
 			urlencode($report_project).

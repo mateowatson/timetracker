@@ -7,7 +7,7 @@
             Project
         </label>
         <select id="rp" class="form-control" name="rp">
-            <option value="">Select Project</option>
+            <option value="">All</option>
             <?php foreach($v_projects as $project) : ?>
             <option value="<?php echo $project['id']; ?>"
                 <?php echo $project['preselect_in_report_dropdown'] ? 'selected' : ''; ?>>
@@ -22,7 +22,7 @@
             Task
         </label>
         <select id="rt" class="form-control" name="rt">
-            <option value="">Select Task</option>
+            <option value="">All</option>
             <?php foreach($v_tasks as $task) : ?>
             <option value="<?php echo $task['id']; ?>"
                 <?php echo $task['preselect_in_report_dropdown'] ? 'selected' : ''; ?>>
