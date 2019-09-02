@@ -124,7 +124,7 @@ class Account {
 
 		if($req_add_username && $req_add_password) {
 			if($req_add_email) {
-				$req_add_email_hash = Utils::send_email_verification($f3, $req_add_email, $req_add_username, 'account_errors');
+				Utils::send_email_to_added_user($f3, $req_add_email, $req_add_username, 'account_errors');
 				Utils::reroute_with_errors($f3, $args, '/account');
 			}
 
@@ -134,8 +134,8 @@ class Account {
 					$req_add_username,
 					password_hash($req_add_password, PASSWORD_DEFAULT),
 					$req_add_email ? : '0',
-					$req_add_email_hash ? : null,
-					$req_add_email_hash ? 1 : 0
+					null,
+					$req_add_email ? 1 : 0
 				)
 			);
 

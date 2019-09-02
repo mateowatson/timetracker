@@ -486,17 +486,18 @@ class Utils {
 			$f3->get('SMTP_PASSWORD')
 		);
 
+		$site_name = $f3->get('SITE_NAME');
+		$site_url = $f3->get('SITE_URL');
+
 		$smtp->set('From', '<'.$f3->get('SMTP_USERNAME').'>');
 		$smtp->set('To', '<'.$email.'>');
-		$smtp->set('Subject', 'Timetracker email verification');
+		$smtp->set('Subject', $site_name.' email verification');
 
 		// creates 12 digit random string
 		$email_verification = bin2hex( random_bytes(6) );
 
 		$email_verification_hash = password_hash($email_verification, PASSWORD_DEFAULT);
 
-		$site_name = $f3->get('SITE_NAME');
-		$site_url = $f3->get('SITE_URL');
 
 		$message = <<<MESSAGE
 Hello $username,
@@ -509,11 +510,9 @@ Log in at $site_url/login with the username:
 
 	$username
 
-If you registered yourself, log in with the password you signed up with.
+Log in with the password you signed up with.
 
-If you were added by the site administrator and do not know your password, go to $site_url/forgot-password and follow the steps to reset your password.
-
-If you registered yourself, be sure to log in and go to $site_url/verify-email and enter the verification code. This will allow you to reset your password if you ever forget it.
+Be sure to log in and go to $site_url/verify-email and enter the verification code. This will allow you to reset your password if you ever forget it.
 
 Sincerely,
 The $site_name Team
@@ -527,6 +526,56 @@ MESSAGE;
 			'element_id' => $error_type,
 			'message' => 'Could not send email verification. Registration failed.'
 		));
+	}
+
+	static function send_email_to_added_user($f3, $email, $username, $error_type) {
+		if($f3->get('SMTP_SCHEME') !== 'tls' || $f3->get('SMTP_SCHEME') !== 'ssl') {
+			$scheme = null;
+		} else {
+			$scheme = $f3->get('SMTP_SCHEME');
+		}
+
+		$smtp = new SMTP (
+			$f3->get('SMTP_HOST'),
+			$f3->get('SMTP_PORT'),
+			$scheme,
+			$f3->get('SMTP_USERNAME'),
+			$f3->get('SMTP_PASSWORD')
+		);
+
+		$site_name = $f3->get('SITE_NAME');
+		$site_url = $f3->get('SITE_URL');
+
+		$smtp->set('From', '<'.$f3->get('SMTP_USERNAME').'>');
+		$smtp->set('To', '<'.$email.'>');
+		$smtp->set('Subject', 'Welcome to '.$site_name);
+
+
+		$message = <<<MESSAGE
+Hello $username,
+
+You have been added to $site_name, available at $site_url.
+
+Log in at $site_url/login with the username:
+
+	$username
+
+Ask your site administrator for your password, or go to $site_url/forgot-password and follow the steps to reset your password.
+
+Sincerely,
+The $site_name Team
+MESSAGE;
+
+		if($smtp->send($message)) {
+			return true;
+		}
+
+		$f3->push('v_errors', array(
+			'element_id' => $error_type,
+			'message' => 'Could not send welcome email to new user.'
+		));
+
+		return false;
 	}
 
 	static function send_password_reset_verification($f3, $email, $username, $error_type) {
