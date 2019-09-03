@@ -29,6 +29,7 @@
 		<div class="col-lg-4">
 			<div class="card bg-transparent border-0">
 				<div class="card-body px-0">
+					<h2>Report</h2>
 					<?php require_once('partials/report.php'); ?>
 				</div>
 			</div>

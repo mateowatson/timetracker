@@ -1,4 +1,3 @@
-<h2>Report</h2>
 <form action="<?php echo $SITE_URL; ?>/report" method="POST" id="report-form">
 	<input type="text" name="csrf" id="csrf_report_timer" value="<?php echo $CSRF; ?>" hidden>
 
