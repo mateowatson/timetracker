@@ -2,7 +2,15 @@ import { Controller } from 'stimulus';
 import axios from 'axios';
 
 export default class extends Controller {
-    async load(event) {
+    initialize() {
+        console.log('initialize');
+        window.addEventListener('popstate', event => {
+            const url = event.target.location;
+            this.loadFragment(url, false);
+        });
+    }
+
+    load(event) {
         const id = this.data.get('id');
 
         if(!id) {
@@ -12,8 +20,12 @@ export default class extends Controller {
         }
 
         event.preventDefault();
-
         const url = event.target.href;
+        this.loadFragment(url);
+    }
+
+    async loadFragment(url, pushState = true) {
+        const id = this.data.get('id');
         const response = await axios.get(url);
         const selector = `[data-fragment-loader-id="${id}"]`;
         const temp = document.createElement('div');
@@ -27,7 +39,7 @@ export default class extends Controller {
         window.dispatchEvent(preSwapEvent);
 
         this.element.innerHTML = el.innerHTML;
-        window.history.pushState({}, '', url);
+        if(pushState) window.history.pushState({}, '', url);
         this.updateCSRF(temp);
 
         // post swap event
