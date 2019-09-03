@@ -140,6 +140,32 @@ class Utils {
 	}
 
 	/**
+	 * Converts a SQL-formatted datetime to display markup.
+	 * 
+	 * @param string $formatted_datetime, a SQL-formatted datetime (eg, "Sep 2, 2019 07:11:46 PM")
+	 * @return string The datetime converted into markup for display
+	 */
+	static function formatted_datetime_to_html($formatted_datetime) {
+		$datetime = date_create($formatted_datetime);
+		return sprintf(
+			'<span class="formattedCell"><span>%s&nbsp;%s</span><span class="formattedCell_date">%s</span>',
+			date_format($datetime, 'g:i:s'),
+			date_format($datetime, 'A'),
+			date_format($datetime, 'M j, Y')
+		);
+	}
+
+	/**
+	 * Decodes HTML entities. This function is intended to be used in templates.
+	 * 
+	 * @param string $html_with_entities, a string that contains HTML entities
+	 * @return string The given string with HTML entities decoded
+	 */
+	static function html($html_with_entities) {
+		return html_entity_decode($html_with_entities);
+	}
+
+	/**
 	 * Generates the global f3 array variable with the logs to show in the logs table of a
 	 * given template/class.
 	 * 
@@ -232,6 +258,8 @@ class Utils {
 			
 
 			foreach($logs as $idx => $log) {
+				$logs[$idx]['start_time_formatted'] = self::formatted_datetime_to_html($logs[$idx]['start_time_formatted']);
+				$logs[$idx]['end_time_formatted'] = self::formatted_datetime_to_html($logs[$idx]['end_time_formatted']);
 				$logs[$idx]['time_sum'] = self::timediff_from_seconds($log['time_sum']);
 			}
 			$f3->set('v_logs', $logs);
@@ -244,6 +272,8 @@ class Utils {
 		));
 
 		foreach($logs as $idx => $log) {
+			$logs[$idx]['start_time_formatted'] = self::formatted_datetime_to_html($logs[$idx]['start_time_formatted']);
+			$logs[$idx]['end_time_formatted'] = self::formatted_datetime_to_html($logs[$idx]['end_time_formatted']);
 			$logs[$idx]['time_sum'] = self::timediff_from_seconds($log['time_sum']);
 		}
 		$f3->set('v_logs', $logs);

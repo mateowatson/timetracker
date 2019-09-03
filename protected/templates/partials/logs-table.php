@@ -13,7 +13,7 @@
 			</tr>
 			<tr>
 				<th colspan="7" class="text-right">Total</th>
-				<th><?php echo $v_logs_total_time; ?></th>
+				<th><?php echo Utils::html($v_logs_total_time); ?></th>
 			</tr>
 		</thead>
 		<?php if($v_logs): ?>
@@ -25,13 +25,9 @@
 				<td><?php echo $log['project_name']; ?></td>
 				<td><?php echo $log['task_name']; ?></td>
 				<td style="max-width: 300px;"><?php echo $log['notes']; ?></td>
-				<td><?php echo $log['start_time_formatted']; ?></td>
-				<td>
-					<?php echo $log['end_time_formatted']; ?>
-				</td>
-				<td>
-					<?php echo $log['time_sum']; ?>
-				</td>
+				<td><?php echo Utils::html($log['start_time_formatted']); ?></td>
+				<td><?php echo Utils::html($log['end_time_formatted']); ?></td>
+				<td><?php echo Utils::html($log['time_sum']); ?></td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>

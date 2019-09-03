@@ -22,6 +22,7 @@ $h5-font-size: $font-size-base;
 $h6-font-size: $font-size-base;
 
 @import "bootstrap/bootstrap";
+@import "components/formattedCell";
  
 body {
 	background-image: url('/assets/images/grey_cup.png');
