@@ -6,9 +6,9 @@
 	<?php endif; ?>
 
 	<?php if($v_search_link): ?>
-		<a class="btn btn-link" href="<?php echo $v_search_link; ?>">Search</a>
+		<!-- <a class="btn btn-link" href="<?php echo $v_search_link; ?>">Search</a> -->
 	<?php else: ?>
-		<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/search">Search</a>
+		<!-- <a class="btn btn-link" href="<?php echo $SITE_URL; ?>/search">Search</a> -->
 	<?php endif; ?>
 	
 	<a class="btn btn-link" title="<?php echo $v_username; ?>" href="<?php echo $SITE_URL; ?>/account">Account</a>
