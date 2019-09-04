@@ -88,7 +88,7 @@ class Search {
 		$continue_search = true;
 
 		if($is_team) {
-			$sql_condition .= ' AND logs.team_id = ' . $team_id;
+			$sql_condition .= ' AND logs.team_id = ' . (int)$team_id;
 		}
 		
 		if(
@@ -104,11 +104,11 @@ class Search {
 		}
 
 		if($search_project) {
-            $sql_condition .= ' AND project_id = '.$search_project;
+            $sql_condition .= ' AND project_id = '.(int)$search_project;
         }
         
         if($search_task) {
-			$sql_condition .= ' AND task_id = '.$search_task;
+			$sql_condition .= ' AND task_id = '.(int)$search_task;
 		}
 
 		if($search_term_project) {

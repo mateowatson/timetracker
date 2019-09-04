@@ -80,11 +80,11 @@ class Report {
 		$sql_offset = 10*($page);
 
 		if($report_project) {
-            $sql_condition = ' AND project_id = '.$report_project;
+            $sql_condition = ' AND project_id = '.(int)$report_project;
         }
         
         if($report_task) {
-			$sql_condition .= ' AND task_id = '.$report_task;
+			$sql_condition .= ' AND task_id = '.(int)$report_task;
 		}
 
 		if($report_date) {
@@ -128,11 +128,11 @@ class Report {
 		}
 
 		if($is_team && $sql_condition) {
-			$sql_condition .= ' AND logs.team_id = ' . $team_id;
+			$sql_condition .= ' AND logs.team_id = ' . (int)$team_id;
 		}
 
 		if($is_team && $report_team_member) {
-			$sql_condition .= ' AND logs.user_id = ' . $report_team_member;
+			$sql_condition .= ' AND logs.user_id = ' . (int)$report_team_member;
 			$f3->set('v_team_member_id', $report_team_member);
 		}
 
