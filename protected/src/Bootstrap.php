@@ -53,7 +53,11 @@ $db = $f3->get('DB');
 
 // Sync PHP and db timezone to admin-defined global
 // Credit: https://www.sitepoint.com/synchronize-php-mysql-timezone-configuration/
-define('TIMEZONE', $f3->get('SITE_TIMEZONE'));
+if($f3->get('SITE_TIMEZONE')) {
+	define('TIMEZONE', $f3->get('SITE_TIMEZONE'));
+} else {
+	define('TIMEZONE', 'America/Chicago');
+}
 date_default_timezone_set(TIMEZONE);
 $tz_now = new DateTime();
 $tz_mins = $tz_now->getOffset() / 60;
