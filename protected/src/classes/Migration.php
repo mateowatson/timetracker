@@ -46,7 +46,7 @@ class Migration {
 		
 		Utils::reroute_with_errors($f3, $args, '/install');
 		
-		$migration = require_once(ROOT_DIR . '/migrations/Migration001.php');
+		$migration = Utils::get_migration_query_string($f3->get('DB_NAME'));
 
 		$db->begin();
 
