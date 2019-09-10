@@ -1,5 +1,7 @@
-<div class="col-lg-4 d-flex flex-row flex-wrap flex-md-nowrap justify-content-end align-items-center">
+<div class="col-lg-5 d-flex flex-row flex-wrap flex-md-nowrap justify-content-end align-items-center">
 	<h2 class="sr-only">Account</h2>
+
+	<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/teams">Teams</a>
 	
 	<?php if(!$v_user_email_verified && $v_user_email && $EMAIL_ENABLED): ?>
 		<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/verify-email">Verify Email</a>

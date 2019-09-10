@@ -155,11 +155,4 @@
 		</div>
 	</form>
 	<?php endif; ?>
-
-	<?php if(!$v_is_team): ?>
-	<p>This is your personal timer. <a href="/teams">Select a Team</a></p>
-	<?php else: ?>
-	<p><a href="<?php echo $SITE_URL; ?>/dashboard">Go back to your personal dashboard.</a></p>
-	<p><a href="<?php echo $SITE_URL; ?>/teams">Select another team</a></p>
-	<?php endif; ?>
 </div>
