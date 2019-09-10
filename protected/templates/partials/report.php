@@ -33,10 +33,11 @@
 
     <div class="form-group">
 		<label for="rd">
-			Date or date range<span class="sr-only">, mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy</span>
+			Date or date range<span class="sr-only">, mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy</span> (leave blank for all)
 		</label>
 		<input type="text" id="rd" class="form-control"
-			name="rd" placeholder="mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy">
+            name="rd" placeholder="mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy"
+            value="<?php echo $v_report_date ? : ''; ?>">
     </div>
     
     
@@ -47,12 +48,12 @@
 </form>
 
 <?php if(in_array(
-	'search_errors', $v_errors_element_ids ? : array()
+	'report_errors', $v_errors_element_ids ? : array()
 )) : ?>
 <div class="alert alert-danger" role="alert">
 	<?php
 	foreach($v_errors as $error) :
-	if($error->element_id === 'search_errors') :
+	if($error->element_id === 'report_errors') :
 	?>
 	<p><?php echo $error->message; ?></p>
 	<?php endif; endforeach; ?>
