@@ -77,9 +77,6 @@
 			</p>
 			<?php endif; ?>
 		</div>
-		<div class="col-lg-12">
-			<p><a href="<?php echo $SITE_URL; ?>/all-logs">All Logs View</a></p>
-		</div>
 	</div>
 </div>
 
