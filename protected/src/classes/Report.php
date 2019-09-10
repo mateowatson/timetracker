@@ -126,24 +126,24 @@ class Report {
 
 					$sql_condition .= (($sql_condition ? ' ' : '').'AND logs.id IN ('.$logs_matches.')');
 				} else {
-					$sql_condition = '';
+					$f3->set('v_no_matches', true);
 				}
 			}
 		}
 
-		if($is_team && $sql_condition) {
+		if($is_team) {
 			$sql_condition .= ' AND logs.team_id = ' . (int)$team_id;
 		}
 
-		if($is_team && $report_team_member && $sql_condition) {
+		if($is_team && $report_team_member) {
 			$sql_condition .= ' AND logs.user_id = ' . (int)$report_team_member;
 			$f3->set('v_team_member_id', $report_team_member);
 		}
 
 		// SET NO MATCHES TO TRUE IF NO MATCHES FOUND
-		if(!$sql_condition) {
+		/* if(!$sql_condition) {
 			$f3->set('v_no_matches', true);
-		}
+		} */
 
 		// GET LOGS COUNT
 		if($is_team) {
