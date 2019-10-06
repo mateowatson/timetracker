@@ -58,7 +58,7 @@ If you want to develop on this project or modify the app, you follow a similar p
 
 ## Contributors
 
-[Matt Watson](https://github.com/mateowatson)
-[Blake Watson](https://github.com/blakewatson)
+- [Matt Watson](https://github.com/mateowatson)
+- [Blake Watson](https://github.com/blakewatson)
 
 [Become a contributor!](CONTRIBUTING.md)
