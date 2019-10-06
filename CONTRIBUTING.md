@@ -15,14 +15,14 @@ Timetracker is an open source project maintained by brothers [Matt](https://gith
 
 ## Issue tracker
 
-Go to the [Github issue tracker](https://github.com/mateowatson/timetracker/issues) and click New Issue. Write a succinct but descriptive title and a description with as much specific information as possible. Generally, issues are either to report a bug, a coding error or typo, a feature request, or a question. This is the best, most organized way submit an issue, but you may also email the creator of Timetracker, Matt Watson, at matt@mattwatson.org.
+Go to the [Github issue tracker](https://github.com/mateowatson/timetracker/issues) and click New Issue. Write a succinct but descriptive title and a description with as much specific information as possible. Generally, issues are either to report a bug, a coding error or typo, a feature request, or a question. This is the preferred way to submit an issue, but you may also email the creator of Timetracker, Matt Watson, at matt@mattwatson.org.
 
 ## Pull request (PR)
 
-Unless you are a regular contributor, it is not very important to follow our branching conventions. You'll probably just want to make it on master, but if you are developing something more in depth, the following general guidelines may help.
+Unless you are a regular contributor, it is not very important to follow our branching conventions. You'll want to submit features or lastest development-related bug fixes to the `develop` branch, and in-production hotfixes to the `master` ("release") branch.
 
-We basically follow the [gitflow](https://nvie.com/posts/a-successful-git-branching-model/) strategy for updating branches and deploying releases.
+If you want to track our dev workflow more closely, We basically follow the [gitflow](https://nvie.com/posts/a-successful-git-branching-model/) strategy for updating branches and deploying releases.
 
-To create a new feature or to fix a `develop` branch bug, branch off of `develop` and name your branch with the `feature` prefix and a sensible name. The word "feature" here is somewhat misleading, as it can also be a "bug fix", such as `feature/sql-timediff-fix`. If the PR is in response to a specific issue, name the branch after the issue number and title (kebab case), such as `feature/40-improvements-to-start-new-project-or-task`.
+To create a new feature or to fix a `develop` branch bug, branch off of `develop` and name your branch with the `feature` prefix and a sensible name. The word "feature" here is somewhat misleading, as it can also be a "bug fix," such as `feature/sql-timediff-fix`. If the PR is in response to a specific issue, name the branch after the issue number and title (kebab case), such as `feature/40-improvements-to-start-new-project-or-task`.
 
-To submit a critical bug fix, branch off of the branch that has the bug and prefix your new branch name with `hotfix/`.
+To submit a critical bug fix to master (the "release" branch), prefix your new branch name with `hotfix/`.
