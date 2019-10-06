@@ -4,6 +4,21 @@ This is a timetracker web app. It has users, projects, and tasks information for
 
 It does not require JavaScript to run in the browser, but it has JavaScript sprinkled on top for browsers with JavaScript enabled.
 
+## Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Installing](#installing)
+  - [Non-developer friendly download](#non-developer-friendly-download)
+  - [Developer friendly download](#developer-friendly-download)
+  - [Create the setup.cfg file](#create-the-setupcfg-file)
+  - [Upload to a server](#upload-to-a-server)
+- [Built With](#built-with)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Installing
 
 There are two general options for installing this on a server.
