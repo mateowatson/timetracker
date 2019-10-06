@@ -16,6 +16,7 @@ It does not require JavaScript to run in the browser, but it has JavaScript spri
   - [Create the setup.cfg file](#create-the-setupcfg-file)
   - [Upload to a server](#upload-to-a-server)
 - [Built With](#built-with)
+- [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -54,3 +55,10 @@ If you want to develop on this project or modify the app, you follow a similar p
 - [Fat Free Framework](https://fatfreeframework.com)
 - [Laravel Mix](https://laravel-mix.com/)
 - [Stimulus](https://stimulusjs.org/)
+
+## Contributors
+
+[Matt Watson](https://github.com/mateowatson)
+[Blake Watson](https://github.com/blakewatson)
+
+[Become a contributor!](CONTRIBUTING.md)
