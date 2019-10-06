@@ -2,6 +2,8 @@
 
 Timetracker is an open source project maintained by brothers [Matt](https://github.com/mateowatson) and [Blake](https://github.com/blakewatson) Watson. We welcome input in the form of filing an issue in the [issue tracker on Github](https://github.com/mateowatson/timetracker/issues). If you would like to contribute code, you may also make a pull request [through GitHub](https://github.com/mateowatson/timetracker).
 
+## Table of Contents
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
