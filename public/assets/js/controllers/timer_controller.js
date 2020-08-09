@@ -5,65 +5,61 @@ export default class extends Controller {
 
     connect() {
         // start the automatic timer display
-        this.startTimer();
+        const timer = requestAnimationFrame(this.loop.bind(this));
+        this.data.set('timer', timer);
+
+        // keep a reference to the start time
+        const startTime = Date.now();
+        this.data.set('start-time', startTime);
 
         // hide the refresh link
         this.refreshTarget.style.display = 'none';
     }
 
-    startTimer() {
-        // read initial time
-        let initialTime = this.data.get('elapsed');
-        initialTime = initialTime.split(':');
-        initialTime = initialTime.map(number => {
-            return parseInt(number);
-        });
-        
-        // create a diy time object
-        this.currentTime = {
-            h: initialTime[0],
-            m: initialTime[1],
-            s: initialTime[2]
-        };
-
-        // start timer loop
-        this.timer = setInterval(() => {
-            this.incrementTimer();
-            this.updateDisplay();
-        }, 1000);
+    disconnect() {
+        // stop the animation loop
+        const timer = parseInt(this.data.get('timer'));
+        cancelAnimationFrame(timer);
     }
 
-    incrementTimer() {
-        this.currentTime.s++;
+    displayElapsedTime(ms) {
+        // convert the elapsed milliseconds into seconds
+        const totalInSeconds = ms / 1000;
+        // how many seconds to display
+        const s = parseInt(totalInSeconds % 60);
+        // how many minutes to display
+        const m = Math.floor(totalInSeconds / 60) % 60;
+        // how many hours to display
+        const h = Math.floor(totalInSeconds / 60 / 60);
 
-        if (this.currentTime.s > 59) {
-            this.currentTime.s = 0;
-            this.currentTime.m++;
-
-            if (this.currentTime.m > 59) {
-                this.currentTime.m = 0;
-                this.currentTime.h++;
-            }
-        }
+        // convert to the string format: HH:MM:SS
+        const displayTime = `${this.pad(h)}:${this.pad(m)}:${this.pad(s)}`;
+        // display the string
+        this.elapsedTarget.innerHTML = displayTime;
     }
 
-    updateDisplay() {
-        const hours = this.displayNumber(this.currentTime.h);
-        const minutes = this.displayNumber(this.currentTime.m);
-        const seconds = this.displayNumber(this.currentTime.s);
-        const elapsed = `${hours}:${minutes}:${seconds}`;
-        
-        this.elapsedTarget.innerHTML = elapsed;
-        this.data.set('elapsed', elapsed);
+    loop(ms) {
+        // the loop keeps running itself; replace the reference each time
+        const timer = requestAnimationFrame(this.loop.bind(this));
+        this.data.set('timer', timer);
+
+        // get the elapsed time in milliseconds
+        const now = Date.now();
+        const startTime = parseInt(this.data.get('start-time'));
+        const elapsed = now - startTime;
+
+        // convert to human friendly format and display it
+        this.displayElapsedTime(elapsed);
     }
 
-    displayNumber(number) {
-        number = number.toString();
+    // convert number to string and ensure it is at least two characters long
+    pad(num) {
+        num = num.toString();
 
-        if (number.length < 2) {
-            number = '0' + number;
+        if (num.length < 2) {
+            num = `0${num}`;
         }
 
-        return number;
+        return num;
     }
 }
