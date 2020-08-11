@@ -4,35 +4,27 @@ This is a timetracker web app. It has users, projects, and tasks information for
 
 It does not require JavaScript to run in the browser, but it has JavaScript sprinkled on top for browsers with JavaScript enabled.
 
-## Table of Contents
+## System requirements (more or less)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+This app has been tested on the following server setup, but there still might be problems depending on specific configurations. Also, your environment might be slightly different and still be OK.
 
+- Apache 2.4
+- PHP 7.2 and 7.3
+- MariaDB 10.3
 
-- [Installing](#installing)
-  - [Non-developer friendly download](#non-developer-friendly-download)
-  - [Developer friendly download](#developer-friendly-download)
-  - [Create the setup.cfg file](#create-the-setupcfg-file)
-  - [Upload to a server](#upload-to-a-server)
-- [Built With](#built-with)
-- [Contributors](#contributors)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+At this time, the app does not seem to work well on MySQL 5.7, but you might get it to work if you allow zero values for datetime fields in your database environment.
 
 ## Installing
 
 There are two general options for installing this on a server.
 
-### Non-developer friendly download
+### Non-developer download
 
 Download the `dist.zip` file from the latest [release](https://github.com/mateowatson/timetracker/releases) (available as of version 1.0.1). Then unzip the files and put them on your server via (s)ftp with something like [FileZilla](https://filezilla-project.org/) or [Transmit](https://www.panic.com/transmit/).
 
+### Developer download
 
-
-### Developer friendly download
-
-Clone the [repo](https://github.com/mateowatson/timetracker) or download a [release](https://github.com/mateowatson/timetracker/releases), opting for the source code link (usually named after the semver, uch as 1.0.0.zip). Run `composer install` from the `protected` directory, assuming you have Composer installed on your computer.
+Clone the [repo](https://github.com/mateowatson/timetracker) or download a [release](https://github.com/mateowatson/timetracker/releases), opting for the source code link (usually named after the semver, such as 1.0.0.zip). Run `composer install` from the `protected` directory, assuming you have Composer installed on your computer.
 
 Run `npm install`, from the `public` directory, assuming you have npm installed. Transpile the sass and js code in `public` by running `npm run prod`. We're currently using [laravel-mix](https://laravel-mix.com/docs/4.0/installation) and [stimulus](https://stimulusjs.org/) for frontend functionality.
 
@@ -42,13 +34,13 @@ Copy `setup-example.cfg` in the `protected` directory to a file named `setup.cfg
 
 ### Upload to a server
 
-Upload the files to your server. If you downloaded or cloned the source code following the developer-friendly method mentioned above, be sure not to upload any npm modules directories, .gitignore files, etc.
+Upload the files to your server. If you downloaded or cloned the source code following the developer method mentioned above, be sure not to upload any npm modules directories, .gitignore files, etc.
 
-The files in `public` need to be served from your web root, or a subdirectory in web root (**subdirectory installation has not been tested at this time**). This is called `public` or `public_html` on many hosting providers. The `protected` directory should be placed one level above the publically acessible web directory. If you put it in a directory other than that and/or rename `protected`, you will need to change the require statement in `public/index.php` to match. (The name "protected," for what it's worth, comes from the fact that we are [NearlyFreeSpeech.Net](https://www.nearlyfreespeech.net/) (NFSN) fans, and that is the directory they provide to place files protected from web access.)
+The files in `public` need to be served from your web root, or a subdirectory in web root (subdirectory installation has not been tested at this time). This is called `public` or `public_html` on many hosting providers. The `protected` directory should be placed one level above the publicly accessible web directory. If you put it in a directory other than that and/or rename `protected`, you will need to change the require statement in `public/index.php` to match. (The name "protected," for what it's worth, comes from the fact that we are [NearlyFreeSpeech.Net](https://www.nearlyfreespeech.net/) (NFSN) fans, and that is the directory they provide to place files protected from web access.)
 
 When you go to the website in the browser for the first time, it will prompt you to enter your username, password and optional email (if configured in `setup.cfg`), which will be used as the "admin" user, who has the ability to open and close registration, as well as add other users.
 
-If you want to develop on this project or modify the app, you follow a similar process for local development, but instead of uploading to a server, you would serve the site locally, from the `public` directory.
+If you want to develop on this project or modify the app, you follow a similar process for local development, but instead of uploading to a server, you would serve the site locally, from the `public` directory. As of version 1.1.1, there is a [lando file](https://docs.lando.dev/), which can simplify setting up a local development server.
 
 ## Built With
 
