@@ -4,12 +4,15 @@ export default class extends Controller {
     static targets = [ 'elapsed', 'refresh' ]
 
     connect() {
+        // get initial elapsed time if available
+        const initialElapsed = this.elapsedTimeToMs(this.data.get('elapsed'));
+
         // start the automatic timer display
         const timer = requestAnimationFrame(this.loop.bind(this));
         this.data.set('timer', timer);
 
         // keep a reference to the start time
-        const startTime = Date.now();
+        const startTime = Date.now() - initialElapsed;
         this.data.set('start-time', startTime);
 
         // hide the refresh link
@@ -50,6 +53,15 @@ export default class extends Controller {
 
         // convert to human friendly format and display it
         this.displayElapsedTime(elapsed);
+    }
+
+    elapsedTimeToMs(timeString) {
+        if (!timeString) {
+            return 0;
+        }
+
+        const parts = timeString.split(':').map(part => parseInt(part));
+        return (parts[0] * 60 * 60 * 1000) + (parts[1] * 60 * 1000) + parts[2] * 1000;
     }
 
     // convert number to string and ensure it is at least two characters long
