@@ -28,6 +28,10 @@
 					<label for="password">Password:</label><br>
 					<input class="form-control" type="password" id="password" name="password" placeholder="At least 8 characters">
 				</div>
+
+				<label for="invoice-number" class="sr-only">
+					<input name="invoice-number" type="text">
+				</label>
 				
 				<div class="form-group">
 					<input class="btn btn-primary" type="submit" value="Register">

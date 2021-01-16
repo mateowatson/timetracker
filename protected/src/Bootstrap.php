@@ -82,6 +82,15 @@ if(!count($users) && $_SERVER['REQUEST_URI'] !== '/install') {
 	$f3->reroute('/install');
 }
 
+if(!empty($f3->get('REQUEST')['invoice-number'])) {
+	$f3->reroute('/');
+}
+
+$f3->set(
+	'v_honeypot_id',
+	'invoice-number'
+);
+
 // Capture errors in memory
 $f3->set('v_errors', json_decode($f3->get('SESSION.errors')) ? : array());
 // Creating v_errors_element_ids, simply for ease of checking quickly if there are any
