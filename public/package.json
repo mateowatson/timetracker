@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "flatpickr": "^4.6.9",
     "js-datepicker": "^5.18.0",
     "qs": "^6.8.0",
     "stimulus": "^1.1.1"

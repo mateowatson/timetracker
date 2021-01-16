@@ -1,6 +1,7 @@
 import { Controller } from 'stimulus';
 import qs from 'qs';
 import axios from 'axios';
+import flatpickr from "flatpickr";
 
 export default class extends Controller {
     async submit(event) {
@@ -19,5 +20,11 @@ export default class extends Controller {
 
         // perform a body swap
         document.querySelector('body').innerHTML = response.data;
+
+        flatpickr("#rd", {
+            mode: "range",
+            dateFormat: "m/d/Y",
+            allowInput: true,
+        });
     }
 }
