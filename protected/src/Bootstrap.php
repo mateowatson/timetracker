@@ -68,6 +68,14 @@ $tz_mins -= $tz_hrs * 60;
 $tz_offset = sprintf('%+d:%02d', $tz_hrs*$tz_sgn, $tz_mins);
 $db->exec("SET time_zone='$tz_offset';");
 
+// Ensure zero dates are enabled
+// Solution from: https://stackoverflow.com/questions/60186508/how-to-remove-no-zero-date-from-sql-mode-in-mysql
+$db->exec("SET @@sql_mode := REPLACE(@@sql_mode, 'NO_ZERO_DATE', '');");
+
+// prevent only full group by error
+// Solution from: https://stackoverflow.com/questions/36207042/error-code-1055-incompatible-with-sql-mode-only-full-group-by#36207611
+$db->exec("SET @@sql_mode := REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', '');");
+
 $users = $db->exec('SHOW TABLES LIKE \'users\'');
 
 if(!count($users) && $_SERVER['REQUEST_URI'] !== '/install') {

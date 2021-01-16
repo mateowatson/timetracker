@@ -334,7 +334,7 @@ class Utils {
 	 * date
 	 */
 	static function parse_search_by_date_input($input) {
-		$date_search_arr = explode('-', $input);
+		$date_search_arr = explode('to', $input);
 		if(count($date_search_arr) > 2) {
 			return false;
 		}

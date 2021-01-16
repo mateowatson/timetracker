@@ -33,11 +33,12 @@
 
     <div class="form-group">
 		<label for="rd">
-			Date or date range<span class="sr-only">, mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy</span> (leave blank for all)
+			Date or date range<span class="sr-only">, mm/dd/yyyy or mm/dd/yyyy to mm/dd/yyyy</span> (leave blank for all)
 		</label>
 		<input type="text" id="rd" class="form-control"
-            name="rd" placeholder="mm/dd/yyyy or mm/dd/yyyy - mm/dd/yyyy"
-            value="<?php echo $v_report_date ? : ''; ?>">
+            name="rd" placeholder="mm/dd/yyyy or mm/dd/yyyy to mm/dd/yyyy"
+            value="<?php echo $v_report_date ? : ''; ?>"
+            autocomplete="off">
     </div>
     
     
