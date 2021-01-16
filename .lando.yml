@@ -2,7 +2,6 @@ name: timetracker
 recipe: lamp
 config:
     webroot: ./public/
-    database: mariadb:10.3
 services:
     phpmyadmin:
         type: phpmyadmin
