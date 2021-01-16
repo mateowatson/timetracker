@@ -9,9 +9,8 @@ It does not require JavaScript to run in the browser, but it has JavaScript spri
 This app has been tested on the following server setup, but there still might be problems depending on specific configurations. Also, your environment might be slightly different and still be OK.
 
 - Apache 2.4
-- PHP 7.2 and 7.3
-- MariaDB 10.3
-- MySQL 5.7
+- PHP 7.2 or 7.3
+- MariaDB 10.3 or MySQL 5.7
 
 ## Installing
 
