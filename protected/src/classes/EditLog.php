@@ -50,35 +50,6 @@ class EditLog {
 		
 		$f3->set('v_page_title', 'Edit Log');
 
-		// GET PROJECT AND TASK LISTS
-		$projectsQuery = $db->exec('
-			SELECT * FROM projects LEFT JOIN users_projects ON
-			(users_projects.user_id = ? AND
-			users_projects.project_id = projects.id) WHERE
-			users_projects.user_id IS NOT NULL
-		', array($user->id));
-		$tasksQuery = $db->exec('
-			SELECT * FROM tasks LEFT JOIN users_tasks ON
-			(users_tasks.user_id = ? AND
-			users_tasks.task_id = tasks.id) WHERE
-			users_tasks.user_id IS NOT NULL
-		', array($user->id));
-		$projects = array();
-		$tasks = array();
-		foreach($projectsQuery as $query) {
-			array_push($projects, array(
-				'id' => $query['project_id'],
-				'name' => $query['name']
-			));
-		}
-		foreach($tasksQuery as $query) {
-			array_push($tasks, array(
-				'id' => $query['task_id'],
-				'name' => $query['name']
-			));
-		}
-		$f3->set('v_projects', $projects);
-		$f3->set('v_tasks', $tasks);
 
 		// DETERMINE CANCEL LINK
 		$is_team = false;
@@ -119,6 +90,13 @@ class EditLog {
 				$f3->get('SITE_URL') . '/dashboard'
 			);
 		}
+
+		// GET PROJECT AND TASK LISTS
+		$projects_and_tasks = Utils::get_project_and_task_lists($is_team, $team, $db, $user);
+		$projects = $projects_and_tasks['projects'];
+		$tasks = $projects_and_tasks['tasks'];
+		$f3->set('v_projects', $projects);
+		$f3->set('v_tasks', $tasks);
 
 		// RENDER
 		$view = new \View;
