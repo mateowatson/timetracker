@@ -17,12 +17,20 @@ export default class extends Controller {
 
         // hide the refresh link
         this.refreshTarget.style.display = 'none';
+
+        // update the favicon
+        const favicon = document.querySelector('[rel=icon][type="image/svg+xml"]');
+        favicon.href = '/assets/images/favicon-on.svg';
     }
 
     disconnect() {
         // stop the animation loop
         const timer = parseInt(this.data.get('timer'));
         cancelAnimationFrame(timer);
+
+        // restore the favicon
+        const favicon = document.querySelector('[rel=icon][type="image/svg+xml"]');
+        favicon.href = '/assets/images/favicon.svg';
     }
 
     displayElapsedTime(ms) {

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
   <style>
     .part {
-      fill: rgb(27, 51, 95)
+      fill: #3E5A8E
     }
     
     @media (prefers-color-scheme: dark) {
