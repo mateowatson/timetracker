@@ -7,14 +7,10 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title><?php echo $SITE_NAME; ?> - <?php echo $v_page_title; ?></title>
 	<link rel="stylesheet" href="<?php echo $SITE_URL; ?>/dist/app.css">
-
-
-
+	<link rel="icon" href="<?php echo $SITE_URL; ?>/favicon.ico">
+	<link rel="icon" href="<?php echo $SITE_URL; ?>/assets/images/favicon.svg" type="image/svg+xml">
 	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo $SITE_URL; ?>/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="<?php echo $SITE_URL; ?>/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="<?php echo $SITE_URL; ?>/favicon-16x16.png">
 	<link rel="manifest" href="<?php echo $SITE_URL; ?>/site.webmanifest">
-	<link rel="mask-icon" href="<?php echo $SITE_URL; ?>/safari-pinned-tab.svg" color="#5bbad5">
 	<meta name="msapplication-TileColor" content="#1b335f">
 	<meta name="theme-color" content="#e4e4e4">
 </head>
