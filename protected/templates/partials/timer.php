@@ -100,9 +100,15 @@
 		</div>
 
 		<div class="form-group">
-			<input class="btn btn-success" type="submit"
-				value="Start" <?php echo $v_current_log ? 'disabled' : ' ' ?>
-				data-target="start-new.submit">
+			<button
+				class="btn btn-success btn-spinner" type="submit"
+				<?php echo $v_current_log ? 'disabled' : ' ' ?>
+				data-target="start-new.submit"
+				data-action="start-new#started"
+			>
+				<span data-target="start-new.spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+				Start
+			</button>
 			<?php if($v_timer_start_new): ?>
 			<a href="<?php echo $v_refresh_link ?>" class="btn btn-link" data-action="fragment-loader#load">Cancel</a>
 			<?php endif; ?>
@@ -147,11 +153,19 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-	<form action="/stop-time" method="POST" data-controller="ajax-form" data-action="ajax-form#submit">
+	<form action="/stop-time" method="POST" data-controller="ajax-form stop-timer" data-action="ajax-form#submit">
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 		<div class="form-group">
-			<input type="submit" value="Stop" class="btn btn-danger"
-			<?php echo $v_current_log ? ' ' : 'disabled' ?>>
+			<button 
+				type="submit"
+				class="btn btn-danger"
+				<?php echo $v_current_log ? ' ' : 'disabled' ?>
+				data-target="stop-timer.stop"
+				data-action="stop-timer#stopped"
+			>
+			<span data-target="stop-timer.spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+				Stop
+			</button>
 		</div>
 	</form>
 	<?php endif; ?>
