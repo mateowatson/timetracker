@@ -100,9 +100,15 @@
 		</div>
 
 		<div class="form-group">
-			<input class="btn btn-success" type="submit"
-				value="Start" <?php echo $v_current_log ? 'disabled' : ' ' ?>
-				data-target="start-new.submit">
+			<button
+				class="btn btn-success btn-spinner" type="submit"
+				<?php echo $v_current_log ? 'disabled' : ' ' ?>
+				data-target="start-new.submit"
+				data-action="start-new#started"
+			>
+				<span data-target="start-new.spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+				Start
+			</button>
 			<?php if($v_timer_start_new): ?>
 			<a href="<?php echo $v_refresh_link ?>" class="btn btn-link" data-action="fragment-loader#load">Cancel</a>
 			<?php endif; ?>
