@@ -6,6 +6,7 @@ export default class extends Controller {
         'projectSelect',
         'task',
         'taskSelect',
+        'spinner',
         'submit'
     ];
 
@@ -69,5 +70,10 @@ export default class extends Controller {
     selectProject() {
         if(!this.hasProjectSelectTarget) return;
         this.projectSelectTarget.value = this.selectedProject;
+    }
+
+    started() {
+        this.submitTarget.disabled = true;
+        this.spinnerTarget.classList.remove('d-none');
     }
 }
