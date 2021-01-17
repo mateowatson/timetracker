@@ -153,11 +153,19 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-	<form action="/stop-time" method="POST" data-controller="ajax-form" data-action="ajax-form#submit">
+	<form action="/stop-time" method="POST" data-controller="ajax-form stop-timer" data-action="ajax-form#submit">
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 		<div class="form-group">
-			<input type="submit" value="Stop" class="btn btn-danger"
-			<?php echo $v_current_log ? ' ' : 'disabled' ?>>
+			<button 
+				type="submit"
+				class="btn btn-danger"
+				<?php echo $v_current_log ? ' ' : 'disabled' ?>
+				data-target="stop-timer.stop"
+				data-action="stop-timer#stopped"
+			>
+			<span data-target="stop-timer.spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+				Stop
+			</button>
 		</div>
 	</form>
 	<?php endif; ?>
