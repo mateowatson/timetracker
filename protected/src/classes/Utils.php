@@ -146,6 +146,11 @@ class Utils {
 	 * @return string The datetime converted into markup for display
 	 */
 	static function formatted_datetime_to_html($formatted_datetime) {
+		// if this is an empty datetime, just show an em dash
+		if (!$formatted_datetime) {
+			return '—';
+		}
+
 		$datetime = date_create($formatted_datetime);
 		return sprintf(
 			'<span class="formattedCell"><span>%s&nbsp;%s</span><span class="formattedCell_date">%s</span>',
