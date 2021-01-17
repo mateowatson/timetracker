@@ -52,6 +52,11 @@ class Account {
 		$db_users = new \DB\SQL\Mapper($db, 'users');
 		$user = $db_users->load(array('username=?', $session_username));
 
+		// Check if db update is needed
+		$email_verification_hash_date_columns = $db->exec(
+			"SHOW COLUMNS FROM `users` LIKE 'email_verification_hash_date';"
+		);
+
 		if($req_add_username || $req_add_password || $req_registration) {
 			// Kick out fake admins
 			if($user->admin !== 1) {
