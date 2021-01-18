@@ -37,8 +37,7 @@ class VerifyEmail {
         $user = $db_users->load(array('username=?', $session_username));
 
         // Check for expired hash
-        if(!empty($user->email_verification_hash_expires) &&
-            $user->email_verification_hash_expires < time()) {
+        if($user->email_verification_hash_expires < time()) {
             $f3->push('v_errors', array(
                 'element_id' => 'verify_email_errors',
                 'message' => 'Email verification failed. Verification code expired.'

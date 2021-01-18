@@ -37,6 +37,14 @@ class ResetPassword {
             Utils::reroute_with_errors($f3, $args, '/reset-password');
         }
 
+        if($user->password_reset_verification_hash_expires < time()) {
+            $f3->push('v_errors', array(
+				'element_id' => 'reset_password_errors',
+				'message' => 'Your password reset code has expired.'
+            ));
+            Utils::reroute_with_errors($f3, $args, '/reset-password');
+        }
+
         if(password_verify($request_password_reset_code, $user->password_reset_verification_hash)) {
             $user->password = password_hash($request_password, PASSWORD_DEFAULT);
             $user->password_reset_verification_hash = '';

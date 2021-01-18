@@ -29,6 +29,7 @@ class ForgotPassword {
             );
             Utils::reroute_with_errors($f3, $args, '/reset-password');
             $user->password_reset_verification_hash = $password_reset_verification_hash;
+            $user->password_reset_verification_hash_expires = time() + (60 * 60 * 24);
             $user->save();
 
             $f3->push('v_confirmations', array(

@@ -645,7 +645,7 @@ Hello $username,
 
 Your password reset verification is code is: $pasword_reset_verification
 
-Go to $site_url/reset-password and enter the verification code and new password you would like to use.
+Go to $site_url/reset-password and enter the verification code and new password you would like to use. The verification code expires in 24 hours. If you don't reset the password by then, you may visit $site_url/forgot-password and fill out the form to be sent another verification code.
 
 Sincerely,
 The $site_name Team
