@@ -817,7 +817,8 @@ CREATE TABLE `users` (
   `email_verified` tinyint(1) NOT NULL DEFAULT '0',
   `email_verification_hash` text DEFAULT NULL,
   `password_reset_verification_hash` text DEFAULT NULL,
-  `email_verification_hash_expires` DATETIME NULL,
+  `email_verification_hash_expires` INT NULL,
+  `password_reset_verification_hash_expires` INT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
