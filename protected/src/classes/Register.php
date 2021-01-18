@@ -54,13 +54,20 @@ class Register {
 
 		Utils::reroute_with_errors($f3, $args, '/register');
 
+		$email_verification_hash_expires = time() + (60 * 60 * 24);
+
 		$new_user = $db->exec(
-			'INSERT INTO users (username, password, email, email_verification_hash) VALUES (?, ?, ?, ?)',
+			'INSERT INTO users (
+					username, password, email, email_verification_hash,
+					email_verification_hash_expires
+				)
+				VALUES (?, ?, ?, ?, ?)',
 			array(
 				$request_user,
 				password_hash($request_password, PASSWORD_DEFAULT),
 				$request_email ? : null,
-				$email_verification_hash
+				$email_verification_hash,
+				$email_verification_hash_expires
 			)
 		);
 

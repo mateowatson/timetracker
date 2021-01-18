@@ -547,7 +547,7 @@ Log in at $site_url/login with the username:
 
 Log in with the password you signed up with.
 
-Be sure to log in and go to $site_url/verify-email and enter the verification code. This will allow you to reset your password if you ever forget it.
+Be sure to log in and go to $site_url/verify-email and enter the verification code. This will allow you to reset your password if you ever forget it. The verification code expires in 24 hours. If you miss the verification window, you may log in to your account, visit $site_url/account, re-enter your email address, and click save to have a new verification code sent.
 
 Sincerely,
 The $site_name Team
@@ -817,6 +817,7 @@ CREATE TABLE `users` (
   `email_verified` tinyint(1) NOT NULL DEFAULT '0',
   `email_verification_hash` text DEFAULT NULL,
   `password_reset_verification_hash` text DEFAULT NULL,
+  `email_verification_hash_expires` DATETIME NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

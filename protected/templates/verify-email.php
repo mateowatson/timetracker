@@ -43,7 +43,9 @@
 						Enter in the email verification code you received at
 						<strong><?php echo $v_user_email; ?></strong>.
 					</label>
-					<input class="form-control"type="text" name="email_verification_code" id="email_verification_code">
+					<input class="form-control" type="text"
+						name="email_verification_code" id="email_verification_code"
+						autocomplete="off">
                 </div>
                 
                 <div class="form-group">

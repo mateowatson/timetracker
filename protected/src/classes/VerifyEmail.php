@@ -35,6 +35,16 @@ class VerifyEmail {
 		$session_username = $f3->get('SESSION.session_username');
 		$db_users = new \DB\SQL\Mapper($db, 'users');
         $user = $db_users->load(array('username=?', $session_username));
+
+        // Check for expired hash
+        if(!empty($user->email_verification_hash_expires) &&
+            $user->email_verification_hash_expires < time()) {
+            $f3->push('v_errors', array(
+                'element_id' => 'verify_email_errors',
+                'message' => 'Email verification failed. Verification code expired.'
+            ));
+            Utils::reroute_with_errors($f3, $args, '/verify-email');
+        }
         
         if(password_verify($req_code, $user->email_verification_hash)) {
             $user->email_verified = 1;
