@@ -18,7 +18,7 @@ There are two general options for installing this on a server.
 
 ### Non-developer download
 
-Download the `dist.zip` file from the latest [release](https://github.com/mateowatson/timetracker/releases) (available as of version 1.0.1). Then unzip the files and put them on your server via (s)ftp with something like [FileZilla](https://filezilla-project.org/) or [Transmit](https://www.panic.com/transmit/).
+Download the `dist.zip` file from the latest [release](https://github.com/mateowatson/timetracker/releases) (available as of version 1.0.1). Then unzip the files and put them on your server via (s)ftp with something like [FileZilla](https://filezilla-project.org/) or [Transmit](https://www.panic.com/transmit/). Stable commits for production purposes are tagged with semver tags, as well as added in Github under "Releases."
 
 ### Developer download
 
