@@ -74,6 +74,7 @@ class Migration {
 			$user = new \DB\SQL\Mapper($db, 'users');
 			$user->load(array('username=?', $request_user));
 			$user->email_verification_hash = $email_verification_hash;
+			$user->email_verification_hash_expires = time() + (60 * 60 * 24);
 			$user->save();
 		}
 

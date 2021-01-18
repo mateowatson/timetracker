@@ -47,7 +47,8 @@
 					<label for="password_reset_code">
                         Password Reset Code
                     </label>
-					<input class="form-control" type="text" id="password_reset_code" name="password_reset_code">
+					<input class="form-control" type="text" id="password_reset_code"
+						name="password_reset_code" autocomplete="off">
                 </div>
 
 

@@ -547,7 +547,7 @@ Log in at $site_url/login with the username:
 
 Log in with the password you signed up with.
 
-Be sure to log in and go to $site_url/verify-email and enter the verification code. This will allow you to reset your password if you ever forget it.
+Be sure to log in and go to $site_url/verify-email and enter the verification code. This will allow you to reset your password if you ever forget it. The verification code expires in 24 hours. If you miss the verification window, you may log in to your account, visit $site_url/account, re-enter your email address, and click save to have a new verification code sent.
 
 Sincerely,
 The $site_name Team
@@ -645,7 +645,7 @@ Hello $username,
 
 Your password reset verification is code is: $pasword_reset_verification
 
-Go to $site_url/reset-password and enter the verification code and new password you would like to use.
+Go to $site_url/reset-password and enter the verification code and new password you would like to use. The verification code expires in 24 hours. If you don't reset the password by then, you may visit $site_url/forgot-password and fill out the form to be sent another verification code.
 
 Sincerely,
 The $site_name Team
@@ -817,6 +817,8 @@ CREATE TABLE `users` (
   `email_verified` tinyint(1) NOT NULL DEFAULT '0',
   `email_verification_hash` text DEFAULT NULL,
   `password_reset_verification_hash` text DEFAULT NULL,
+  `email_verification_hash_expires` INT NULL,
+  `password_reset_verification_hash_expires` INT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

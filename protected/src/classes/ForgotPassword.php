@@ -27,8 +27,9 @@ class ForgotPassword {
             $password_reset_verification_hash = Utils::send_password_reset_verification(
                 $f3, $user->email,$user->username, 'forgot_password_errors'
             );
-            Utils::reroute_with_errors($f3, $args, '/reset-password');
+            Utils::reroute_with_errors($f3, $args, '/forgot-password');
             $user->password_reset_verification_hash = $password_reset_verification_hash;
+            $user->password_reset_verification_hash_expires = time() + (60 * 60 * 24);
             $user->save();
 
             $f3->push('v_confirmations', array(
@@ -41,6 +42,7 @@ class ForgotPassword {
         $f3->push('v_errors', array(
 			'element_id' => 'forgot_password_errors',
 			'message' => 'Could not send password reset code to user\'s email. If you did not register an email, then password reset is not possible without contacting your site administrator.'
-		));
+        ));
+        Utils::reroute_with_errors($f3, $args, '/forgot-password');
     }
 }

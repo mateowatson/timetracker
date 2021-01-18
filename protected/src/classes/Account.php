@@ -103,8 +103,10 @@ class Account {
 			Utils::reroute_with_errors($f3, $args, '/account');
 			$user->email = $req_email;
 			$user->email_verified = 0;
+			$email_verification_hash_expires = time() + (60 * 60 * 24);
 			$email_verification_hash = Utils::send_email_verification($f3, $req_email, $user->username, 'account_errors');
 			$user->email_verification_hash = $email_verification_hash;
+			$user->email_verification_hash_expires = $email_verification_hash_expires;
 		}
 
 		$site_options = new \DB\SQL\Mapper($db, 'site_options');
