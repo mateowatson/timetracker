@@ -23,7 +23,7 @@
 	<?php endif; ?>
 	
 	<form action="<?php echo $SITE_URL; ?>/start-time" method="POST"
-		data-controller="start-new fragment-loader ajax-form" data-action="ajax-form#submit"
+		data-controller="start-new fragment-loader ajax-form" data-action="ajax-form#submit start-new#started"
 		data-fragment-loader-id="start-new">
 		<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 
@@ -104,7 +104,6 @@
 				class="btn btn-success btn-spinner" type="submit"
 				<?php echo $v_current_log ? 'disabled' : ' ' ?>
 				data-target="start-new.submit"
-				data-action="start-new#started"
 			>
 				<span data-target="start-new.spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
 				Start
@@ -153,7 +152,7 @@
 		</ul>
 	</div>
 	<?php endif; ?>
-	<form action="/stop-time" method="POST" data-controller="ajax-form stop-timer" data-action="ajax-form#submit">
+	<form action="/stop-time" method="POST" data-controller="ajax-form stop-timer" data-action="ajax-form#submit stop-timer#stopped">
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 		<div class="form-group">
 			<button 
@@ -161,7 +160,6 @@
 				class="btn btn-danger"
 				<?php echo $v_current_log ? ' ' : 'disabled' ?>
 				data-target="stop-timer.stop"
-				data-action="stop-timer#stopped"
 			>
 			<span data-target="stop-timer.spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
 				Stop
