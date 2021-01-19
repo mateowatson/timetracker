@@ -17,7 +17,23 @@ $f3->set('DB', new \DB\SQL(
 	$f3->get('DB_USER'),
 	$f3->get('DB_PASSWORD')
 ));
-$f3->set('SESSION_INSTANCE', new \DB\SQL\Session($f3->get('DB')));
+$f3->set(
+	'SESSION_INSTANCE',
+	new \DB\SQL\Session(
+		$f3->get('DB'),
+		'sessions',
+		true,
+		function($session){
+			// Suspect session
+			$f3 = \Base::instance();
+			if ($session->ip() != $f3->get('IP'))
+				return true;
+
+			// The default behaviour destroys the suspicious session.
+			return false;
+		}
+	)
+);
 $f3->set('UI', ROOT_DIR . '/templates/');
 $f3->set('AUTOLOAD', ROOT_DIR . '/src/classes/');
 
