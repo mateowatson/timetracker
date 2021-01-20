@@ -8,4 +8,4 @@ Go to the [Github issue tracker](https://github.com/mateowatson/timetracker/issu
 
 ## Pull request (PR)
 
-Make a pull request to the `master` branch. We have not been using the `develop` branch lately. Stable commits for production purposes are tagged with semver tags, as well as added in Github under "Releases."
+Make a pull request to the `master` branch.
