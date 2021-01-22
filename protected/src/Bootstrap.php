@@ -25,12 +25,13 @@ $f3->set(
 		true,
 		function($session){
 			// Suspect session
-			$f3 = \Base::instance();
+			/* $f3 = \Base::instance();
 			if ($session->ip() != $f3->get('IP'))
 				return true;
 
 			// The default behaviour destroys the suspicious session.
-			return false;
+			return false; */
+			return true;
 		}
 	)
 );
