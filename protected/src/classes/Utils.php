@@ -108,7 +108,7 @@ class Utils {
 			// Year must be 4 characters
 			if($i === 0 && iconv_strlen($unit) !== 4) return false;
 			// All other units must be 2 characters
-			if(iconv_strlen($unit) > 2) return false;
+			if($i !== 0 && iconv_strlen($unit) > 2) return false;
 			// Left-pad strings that are too short
 			if($i !== 0) {
 				$unit = str_pad($unit, 2, '0', STR_PAD_LEFT);
