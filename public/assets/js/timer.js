@@ -19,8 +19,9 @@ let formType = FormTypes.START_FORM;
 function handleSubmission($timerForm) {
   // listen for submit
   $timerForm.one('submit', event => {
-    // show loading indicator
-    $('[data-timer-start-spinner]').removeClass('d-none');
+    // disable button and show loading indicator
+    $('[data-timer-submit').attr('disabled', 'disabled');
+    $('[data-timer-submit-spinner]').removeClass('d-none');
     // submit the form and reconnect using an updated reference
     ajaxFormSubmit(event).then(() => initTimer());
   });
@@ -48,7 +49,7 @@ function setFormType() {
  * @param {FormData} state 
  */
 function validate(state) {
-  if (formType.STOP_FORM) {
+  if (formType === FormTypes.STOP_FORM) {
     return;
   }
 
@@ -56,9 +57,9 @@ function validate(state) {
   const task = state.get('start_time_new_task') || state.get('start_time_task');
 
   if (!project || !task) {
-    $('[data-timer-start]').attr('disabled', 'disabled');
+    $('[data-timer-submit]').attr('disabled', 'disabled');
   } else {
-    $('[data-timer-start]').attr('disabled', null);
+    $('[data-timer-submit]').attr('disabled', null);
   }
 }
 

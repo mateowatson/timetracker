@@ -97,10 +97,10 @@
 
 		<div class="form-group">
 			<button
-				class="btn btn-success btn-spinner" type="submit" data-timer-start
+				class="btn btn-success btn-spinner" type="submit" data-timer-submit
 				<?php echo $v_current_log ? "disabled" : " "; ?>
 			>
-				<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" data-timer-start-spinner></span>
+				<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" data-timer-submit-spinner></span>
 				Start
 			</button>
 			<?php if ($v_timer_start_new): ?>
@@ -150,9 +150,10 @@
 			<button 
 				type="submit"
 				class="btn btn-danger"
+	 			data-timer-submit
 				<?php echo $v_current_log ? " " : "disabled"; ?>
 			>
-			<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+			<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" data-timer-submit-spinner></span>
 				Stop
 			</button>
 		</div>
