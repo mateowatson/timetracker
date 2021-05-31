@@ -8,7 +8,14 @@ const FormTypes = {
   STOP_FORM: 'STOP_FORM'
 };
 
+// module-scoped variable that holds the form type
 let formType = FormTypes.START_FORM;
+
+// module-scoped variable that holds the computed start time (now - initial elapsed time)
+let startTime = null;
+
+// module-scoped variable that holds the current animation frame
+let timerId = 0;
 
 /**
  * Connects to the timer form and sets up an event handler to reconnect after
@@ -26,11 +33,18 @@ export function initTimer() {
  function initTimerForm() {
   const $timerForm = $('[data-timer-form]');
 
+  // set form type
+  setFormType($timerForm);
+
   // handle form submission
   handleSubmission($timerForm);
 
-  // set form type
-  setFormType($timerForm);
+  // if it's the running timer, start the elapsed timer display and skip the
+  // rest of this function.
+  if (formType === FormTypes.STOP_FORM) {
+    initTimerDisplay();
+    return;
+  }
 
   // initialize form state
   const state = new FormData($timerForm[0]);
@@ -54,10 +68,14 @@ export function initTimer() {
  */
 function handleSubmission($timerForm) {
   // listen for submit
-  $timerForm.one('submit', event => {
+  $timerForm.one('submit', (event) => {
     // disable button and show loading indicator
     $('[data-timer-submit').attr('disabled', 'disabled');
     $('[data-timer-submit-spinner]').removeClass('d-none');
+    // if needed, stop the timer animation loop
+    if (formType === FormTypes.STOP_FORM) {
+      cancelAnimationFrame(timerId);
+    }
     // submit the form
     ajaxFormSubmit(event);
   });
@@ -97,4 +115,91 @@ function validate(state) {
   } else {
     $('[data-timer-submit]').attr('disabled', null);
   }
+}
+
+function initTimerDisplay() {
+  // get initial elapsed time if available
+  const initialElapsed = elapsedTimeToMs($('[data-timer-elapsed]').data('timer-elapsed'));
+
+  // start the automatic timer display
+  timerId = requestAnimationFrame(timerLoop);
+
+  // keep a reference to the start time
+  startTime = Date.now() - initialElapsed;
+
+  // hide the refresh link
+  $('[data-timer-elapsed] a').hide();
+
+  // update the favicon
+  const $favicon = $('[rel=icon][type="image/svg+xml"]');
+  $favicon.attr('href', '/assets/images/favicon-on.svg');
+}
+
+/**
+ * The animation loop for the running timer display.
+ * 
+ * @param {number} ms 
+ */
+function timerLoop(ms) {
+  // the loop keeps running itself; replace the reference each time
+  timerId = requestAnimationFrame(timerLoop);
+
+  // get the elapsed time in milliseconds
+  const now = Date.now();
+  const elapsed = now - startTime;
+
+  // convert to human friendly format and display it
+  const formattedTime = formatElapsedTime(elapsed);
+  $('[data-timer-elapsed-display]').text(formattedTime);
+}
+
+/**
+ * Converts an elapsed time string into milliseconds.
+ * 
+ * @param {string} timeString a time string of the pattern hh:mm:ss
+ * @returns the elapsed time in milliseconds
+ */
+function elapsedTimeToMs(timeString) {
+  if (!timeString) {
+      return 0;
+  }
+
+  const parts = timeString.split(':').map(part => parseInt(part));
+  return (parts[0] * 60 * 60 * 1000) + (parts[1] * 60 * 1000) + parts[2] * 1000;
+}
+
+/**
+ * Formats a number of milliseconds into the pattern, hh:mm:ss.
+ * 
+ * @param {number} ms the amount of milliseconds to be formatted
+ * @returns {string} the formatted time string
+ */
+function formatElapsedTime(ms) {
+  // convert the elapsed milliseconds into seconds
+  const totalInSeconds = ms / 1000;
+  // how many seconds to display
+  const s = Math.floor(totalInSeconds % 60);
+  // how many minutes to display
+  const m = Math.floor(totalInSeconds / 60) % 60;
+  // how many hours to display
+  const h = Math.floor(totalInSeconds / 60 / 60);
+
+  // convert to the string format: HH:MM:SS
+  return `${pad(h)}:${pad(m)}:${pad(s)}`;
+}
+
+/**
+ * A generic 2-digit-minimum left-pad.
+ * 
+ * @param {number} num
+ * @returns {string} 2-digit-minimum numerical string
+ */
+function pad(num) {
+  num = num.toString();
+
+  if (num.length < 2) {
+    num = `0${num}`;
+  }
+
+  return num;
 }

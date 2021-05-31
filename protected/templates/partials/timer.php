@@ -113,7 +113,7 @@
 	<?php if ($v_current_log): ?>
 	<div>
 		<p data-timer-elapsed="<?php echo $v_current_log_diff; ?>">
-			<span>
+			<span data-timer-elapsed-display>
 				<?php echo $v_current_log_diff; ?>
 			</span>
 			<a href="<?php echo $v_refresh_link; ?>">Refresh</a>
