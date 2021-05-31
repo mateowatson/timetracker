@@ -54,7 +54,7 @@
 
 		<?php if (!$v_timer_start_new && count($v_projects)): ?>
 		<div class="form-group">
-			<p><a href="<?php echo $v_new_project_link; ?>">New Project</a></p>
+			<p><a href="<?php echo $v_new_project_link; ?>" data-ajax-link>New Project</a></p>
 		</div>
 		<?php endif; ?>
 
@@ -85,7 +85,7 @@
 
 		<?php if (!$v_timer_start_new && count($v_tasks)): ?>
 		<div class="form-group">
-			<p><a href="<?php echo $v_new_task_link; ?>">New Task</a></p>
+			<p><a href="<?php echo $v_new_task_link; ?>" data-ajax-link>New Task</a></p>
 		</div>
 		<?php endif; ?>
 
@@ -104,7 +104,7 @@
 				Start
 			</button>
 			<?php if ($v_timer_start_new): ?>
-			<a href="<?php echo $v_refresh_link; ?>" class="btn btn-link">Cancel</a>
+			<a href="<?php echo $v_refresh_link; ?>" class="btn btn-link" data-ajax-link>Cancel</a>
 			<?php endif; ?>
 		</div>
 	</form>
