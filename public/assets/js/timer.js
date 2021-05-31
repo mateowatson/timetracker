@@ -121,6 +121,11 @@ function validate(state) {
   }
 }
 
+/**
+ * Initializes the timer display. It gets the initial elapsed time, starts the
+ * animation loop for the timer, shows the timer running icon, and hides the
+ * "Refresh" link.
+ */
 function initTimerDisplay() {
   // get initial elapsed time if available
   const initialElapsed = elapsedTimeToMs($('[data-timer-elapsed]').data('timer-elapsed'));
