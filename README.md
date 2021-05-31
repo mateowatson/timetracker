@@ -24,7 +24,7 @@ Download the `dist.zip` file from the latest [release](https://github.com/mateow
 
 Clone the [repo](https://github.com/mateowatson/timetracker) or download a [release](https://github.com/mateowatson/timetracker/releases), opting for the source code link (usually named after the semver, such as 1.0.0.zip). Run `composer install` from the `protected` directory, assuming you have Composer installed on your computer.
 
-Run `npm install`, from the `public` directory, assuming you have npm installed. Transpile the sass and js code in `public` by running `npm run prod`. We're currently using [laravel-mix](https://laravel-mix.com/docs/4.0/installation) and [stimulus](https://stimulusjs.org/) for frontend functionality.
+Run `npm install`, from the `public` directory, assuming you have npm installed. Transpile the sass and js code in `public` by running `npm run prod`. We're currently using [laravel-mix](https://laravel-mix.com/docs/4.0/installation) and [Cash](https://github.com/fabiospampinato/cash) for frontend functionality.
 
 ### Create the setup.cfg file
 
@@ -44,7 +44,7 @@ If you want to develop on this project or modify the app, you follow a similar p
 
 - [Fat Free Framework](https://fatfreeframework.com)
 - [Laravel Mix](https://laravel-mix.com/)
-- [Stimulus](https://stimulusjs.org/)
+- [Cash](https://github.com/fabiospampinato/cash)
 
 ## Contributors
 
