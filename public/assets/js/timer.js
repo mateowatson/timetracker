@@ -33,6 +33,10 @@ export function initTimer() {
  function initTimerForm() {
   const $timerForm = $('[data-timer-form]');
 
+  if (!$timerForm.length) {
+    return;
+  }
+
   // set form type
   setFormType($timerForm);
 
