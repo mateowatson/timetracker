@@ -1,95 +1,91 @@
-<?php if($v_current_log): ?>
+<?php if ($v_current_log): ?>
 	<h2>Timer Running</h2>
 <?php else: ?>
 	<h2>Timer</h2>
 <?php endif; ?>
 
 <div>
-	<?php if(!$v_current_log): ?>
-	<?php if(in_array(
-		'start_timer_bottom_errors', $v_errors_element_ids ? : array()
-	)) : ?>
+	<?php if (!$v_current_log): ?>
+	<?php if (
+   in_array("start_timer_bottom_errors", $v_errors_element_ids ?: [])
+ ): ?>
 	<div class="alert alert-danger" role="alert">
 		<p>The following errors occurred:</p>
 		<ul>
-			<?php
-			foreach($v_errors as $error) :
-			if($error->element_id === 'start_timer_bottom_errors') :
-			?>
+			<?php foreach ($v_errors as $error):
+     if ($error->element_id === "start_timer_bottom_errors"): ?>
 			<li><?php echo $error->message; ?></li>
-			<?php endif; endforeach; ?>
+			<?php endif;
+   endforeach; ?>
 		</ul>
 	</div>
 	<?php endif; ?>
 	
-	<form action="<?php echo $SITE_URL; ?>/start-time" method="POST"
-		data-controller="start-new fragment-loader ajax-form" data-action="ajax-form#submit start-new#started"
-		data-fragment-loader-id="start-new">
+	<form action="<?php echo $SITE_URL; ?>/start-time" method="POST" data-timer-form>
 		<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 
-		<?php if($v_timer_start_new !== 'project' && count( $v_projects )): ?>
+		<?php if ($v_timer_start_new !== "project" && count($v_projects)): ?>
 		<div class="form-group">
 			<label for="start_time_project">Project</label>
-			<select class="form-control" id="start_time_project" name="start_time_project"
-				data-target="start-new.projectSelect" data-action="start-new#inputChange start-new#saveProject">
+			<select class="form-control" id="start_time_project" name="start_time_project">
 				<option value="">Select Existing Project</option>
-				<?php foreach($v_projects as $project) : ?>
-				<option value="<?php echo $project['id']; ?>"
-					<?php echo $project['preselect_in_dropdown'] ? 'selected' : ''; ?>>
-					<?php echo $project['name']; ?>
+				<?php foreach ($v_projects as $project): ?>
+				<option value="<?php echo $project["id"]; ?>"
+					<?php echo $project["preselect_in_dropdown"] ? "selected" : ""; ?>>
+					<?php echo $project["name"]; ?>
 				</option>
 				<?php endforeach; ?>
 			</select>
 		</div>
 		<?php endif; ?>
 
-		<?php if(($v_timer_start_new || count($v_projects) === 0) && $v_timer_start_new !== 'task'): ?>
+		<?php if (
+    ($v_timer_start_new || count($v_projects) === 0) &&
+    $v_timer_start_new !== "task"
+  ): ?>
 		<div class="form-group">
 			<label for="start_time_new_project">
 				Start New Project
 			</label>
 			<input class="form-control" type="text" id="start_time_new_project"
-				name="start_time_new_project" placeholder="Start New Project..."
-				data-target="start-new.project" data-action="input->start-new#inputChange">
+				name="start_time_new_project" placeholder="Start New Project...">
 		</div>
 		<?php endif; ?>
 
-		<?php if(!$v_timer_start_new && count($v_projects)): ?>
+		<?php if (!$v_timer_start_new && count($v_projects)): ?>
 		<div class="form-group">
-			<p><a href="<?php echo $v_new_project_link; ?>" data-action="fragment-loader#load">New Project</a></p>
+			<p><a href="<?php echo $v_new_project_link; ?>" data-ajax-link>New Project</a></p>
 		</div>
 		<?php endif; ?>
 
-		<?php if($v_timer_start_new !== 'task' && count($v_tasks)): ?>
+		<?php if ($v_timer_start_new !== "task" && count($v_tasks)): ?>
 		<div class="form-group">
 			<label for="start_time_task">Task</label>
-			<select class="form-control" id="start_time_task" name="start_time_task"
-				data-target="start-new.taskSelect" data-action="start-new#inputChange">
+			<select class="form-control" id="start_time_task" name="start_time_task">
 				<option value="">Select Existing Task</option>
-				<?php foreach($v_tasks as $task) : ?>
-				<option value="<?php echo $task['id']; ?>"
-					<?php echo $task['preselect_in_dropdown'] ? 'selected' : ''; ?>>
-					<?php echo $task['name']; ?>
+				<?php foreach ($v_tasks as $task): ?>
+				<option value="<?php echo $task["id"]; ?>"
+					<?php echo $task["preselect_in_dropdown"] ? "selected" : ""; ?>>
+					<?php echo $task["name"]; ?>
 				</option>
 				<?php endforeach; ?>
 			</select>
 		</div>
 		<?php endif; ?>
 
-		<?php if($v_timer_start_new || count($v_tasks) === 0): ?>
+		<?php if ($v_timer_start_new || count($v_tasks) === 0): ?>
 		<div class="form-group">
 			<label for="start_time_new_task">
 				Start New Task
 			</label>
 			<input class="form-control" type="text" id="start_time_new_task"
-				name="start_time_new_task" placeholder="Start New Task..."
-				data-target="start-new.task" data-action="input->start-new#inputChange">
+				name="start_time_new_task" placeholder="Start New Task...">
 		</div>
 		<?php endif; ?>
 
-		<?php if(!$v_timer_start_new && count($v_tasks)): ?>
+		<?php if (!$v_timer_start_new && count($v_tasks)): ?>
 		<div class="form-group">
-			<p><a href="<?php echo $v_new_task_link; ?>" data-action="fragment-loader#load">New Task</a></p>
+			<p><a href="<?php echo $v_new_task_link; ?>" data-ajax-link>New Task</a></p>
 		</div>
 		<?php endif; ?>
 
@@ -101,27 +97,26 @@
 
 		<div class="form-group">
 			<button
-				class="btn btn-success btn-spinner" type="submit"
-				<?php echo $v_current_log ? 'disabled' : ' ' ?>
-				data-target="start-new.submit"
+				class="btn btn-success btn-spinner" type="submit" data-timer-submit
+				<?php echo $v_current_log ? "disabled" : " "; ?>
 			>
-				<span data-target="start-new.spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+				<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" data-timer-submit-spinner></span>
 				Start
 			</button>
-			<?php if($v_timer_start_new): ?>
-			<a href="<?php echo $v_refresh_link ?>" class="btn btn-link" data-action="fragment-loader#load">Cancel</a>
+			<?php if ($v_timer_start_new): ?>
+			<a href="<?php echo $v_refresh_link; ?>" class="btn btn-link" data-ajax-link>Cancel</a>
 			<?php endif; ?>
 		</div>
 	</form>
 	<?php endif; ?>
 
-	<?php if($v_current_log): ?>
+	<?php if ($v_current_log): ?>
 	<div>
-		<p data-controller="timer" data-timer-elapsed="<?php echo $v_current_log_diff; ?>">
-			<span data-target="timer.elapsed">
+		<p data-timer-elapsed="<?php echo $v_current_log_diff; ?>">
+			<span data-timer-elapsed-display>
 				<?php echo $v_current_log_diff; ?>
 			</span>
-			<a data-target="timer.refresh" href="<?php echo $v_refresh_link; ?>">Refresh</a>
+			<a href="<?php echo $v_refresh_link; ?>">Refresh</a>
 		</p>
 		<p>
 			Project: <?php echo $v_current_log_project; ?>
@@ -129,39 +124,36 @@
 		<p>Task:
 			<?php echo $v_current_log_task; ?>
 		</p>
-		<?php if($v_current_log['notes']): ?>
+		<?php if ($v_current_log["notes"]): ?>
 		<h3>Notes</h3>
-		<p><?php echo $v_current_log['notes']; ?></p>
+		<p><?php echo $v_current_log["notes"]; ?></p>
 		<?php endif; ?>
 	</div>
 	<?php endif; ?>
 
-	<?php if($v_current_log): ?>
-	<?php if(in_array(
-		'stop_timer_bottom_errors', $v_errors_element_ids ? : array()
-	)) : ?>
+	<?php if ($v_current_log): ?>
+	<?php if (in_array("stop_timer_bottom_errors", $v_errors_element_ids ?: [])): ?>
 	<div class="alert alert-danger" role="alert">
 		<p>The following errors occurred:</p>
 		<ul>
-			<?php
-			foreach($v_errors as $error) :
-			if($error->element_id === 'stop_timer_bottom_errors') :
-			?>
+			<?php foreach ($v_errors as $error):
+     if ($error->element_id === "stop_timer_bottom_errors"): ?>
 			<li><?php echo $error->message; ?></li>
-			<?php endif; endforeach; ?>
+			<?php endif;
+   endforeach; ?>
 		</ul>
 	</div>
 	<?php endif; ?>
-	<form action="/stop-time" method="POST" data-controller="ajax-form stop-timer" data-action="ajax-form#submit stop-timer#stopped">
+	<form action="/stop-time" method="POST" data-timer-form>
 		<input type="text" name="csrf" id="csrf_stop_timer" value="<?php echo $CSRF; ?>" hidden>
 		<div class="form-group">
 			<button 
 				type="submit"
 				class="btn btn-danger"
-				<?php echo $v_current_log ? ' ' : 'disabled' ?>
-				data-target="stop-timer.stop"
+	 			data-timer-submit
+				<?php echo $v_current_log ? " " : "disabled"; ?>
 			>
-			<span data-target="stop-timer.spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+			<span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" data-timer-submit-spinner></span>
 				Stop
 			</button>
 		</div>

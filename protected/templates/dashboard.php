@@ -47,6 +47,7 @@
 						class="nav-link <?php
 							echo isset($REQUEST['week']) ? '' : 'active';
 						?>"
+						data-ajax-link
 						href="<?php echo $SITE_URL; ?><?php echo !$v_is_team ? '/dashboard' : '/team/'.$v_team['id']; ?>">
 						Today
 					</a>
@@ -56,6 +57,7 @@
 						class="nav-link <?php
 							echo isset($REQUEST['week']) ? 'active' : '';
 						?>"
+						data-ajax-link
 						href="<?php echo $SITE_URL; ?><?php echo !$v_is_team ? '/dashboard?week' : '/team/'.$v_team['id'].'?week'; ?>">
 						This Week
 					</a>
