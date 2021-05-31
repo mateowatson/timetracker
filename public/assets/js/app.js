@@ -3,8 +3,10 @@ import $ from "cash-dom";
 import { initTimer } from './timer';
 import { initAjax } from "./ajax";
 
-initTimer();
-initAjax();
+if (fetch) {
+  initTimer();
+  initAjax();
+}
 
 function initFlatpickr() {
   flatpickr("#rd", {
@@ -15,4 +17,4 @@ function initFlatpickr() {
 }
 
 initFlatpickr();
-$(window).on('postbodyswap', initFlatpickr)
+$(window).on('postbodyswap', initFlatpickr);
