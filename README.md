@@ -40,6 +40,15 @@ When you go to the website in the browser for the first time, it will prompt you
 
 If you want to develop on this project or modify the app, you follow a similar process for local development, but instead of uploading to a server, you would serve the site locally, from the `public` directory. As of version 1.1.1, there is a [lando file](https://docs.lando.dev/), which can simplify setting up a local development server.
 
+## PHPSESSID
+
+Add the following settings to your php.ini file, if applicable or desired:
+
+```
+session.gc_maxlifetime = 2592000
+session.cookie_lifetime = 2592000
+```
+
 ## Built With
 
 - [Fat Free Framework](https://fatfreeframework.com)
