@@ -78,7 +78,7 @@ if($f3->get('SITE_TIMEZONE')) {
 date_default_timezone_set(TIMEZONE);
 $tz_now = new DateTime();
 $tz_mins = $tz_now->getOffset() / 60;
-$tz_sgn = ($tz_mins < 0 ? -1 : 1);
+$tz_sgn = (($tz_mins < 0) ? -1 : 1);
 $tz_mins = abs($tz_mins);
 $tz_hrs = floor($tz_mins / 60);
 $tz_mins -= $tz_hrs * 60;
