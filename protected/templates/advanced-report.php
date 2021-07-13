@@ -12,9 +12,31 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h2 class="sr-only">Advanced Report</h2>
-<div>
+<!-- <div>
 <textarea name="" id="" cols="80" rows="30"><?php var_dump($v_obj->weekly_report); ?></textarea>
-</div>
+</div> -->
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Week</th>
+                            <th>Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($v_obj->weekly_report as $week_time): ?>
+                        <tr>
+                            <td>
+                                <?= $week_time['week'] ?>
+                            </td>
+                            <td>
+                                <?= $week_time['time'] ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
             <form action="/advanced-report" method="GET">
                 <div class="row">
                     <div class="col-12 mt-3">
