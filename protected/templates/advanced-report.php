@@ -13,7 +13,7 @@
 		<div class="col-lg-12">
 			<h2 class="sr-only">Advanced Report</h2>
 <div>
-<textarea name="" id="" cols="80" rows="30"><?php var_dump($v_obj->user_projects_tasks['tasksQuery']); ?></textarea>
+<textarea name="" id="" cols="80" rows="30"><?php var_dump($v_obj->weekly_report); ?></textarea>
 </div>
             <form action="/advanced-report" method="GET">
                 <div class="row">
