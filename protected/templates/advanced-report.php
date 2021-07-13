@@ -12,9 +12,8 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h2 class="sr-only">Advanced Report</h2>
-<!-- <div>
-<textarea name="" id="" cols="80" rows="30"><?php var_dump($v_obj->weekly_report); ?></textarea>
-</div> -->
+
+            <?php if(is_array($v_obj->weekly_report) && !empty($v_obj->weekly_report)): ?>
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -37,6 +36,7 @@
                     </tbody>
                 </table>
             </div>
+            <?php endif; ?>
             <form action="/advanced-report" method="GET">
                 <div class="row">
                     <div class="col-12 mt-3">

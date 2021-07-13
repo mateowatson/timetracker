@@ -492,6 +492,11 @@ class Utils {
 		}
 	}
 
+	static function validate_date($date, $format = 'Y-m-d'){
+		$d = DateTime::createFromFormat($format, $date);
+		return $d && $d->format($format) === $date;
+	}
+
 	/**
 	 * Validates email by adding any errors to the 'v_errors' global F3 variable. It
 	 * does not call reroute_with_errors; that is up to you.

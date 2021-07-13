@@ -31,14 +31,14 @@ class AdvancedReport {
         $this->ar_tasks = $f3->REQUEST['ar_tasks'] ? : $this->ar_tasks;
         $this->ar_tasks = array_map('intval', $this->ar_tasks);
         $this->ar_notes = $f3->REQUEST['ar_notes'] ? : $this->ar_notes;
-        $this->ar_begin_date = $f3->REQUEST['ar_begin_date'] ? : $this->ar_begin_date;
-        $this->ar_end_date = $f3->REQUEST['ar_end_date'] ? : $this->ar_end_date;
+        $this->ar_begin_date = Utils::validate_date($f3->REQUEST['ar_begin_date']) ? $f3->REQUEST['ar_begin_date'] : null;
+        $this->ar_end_date = Utils::validate_date($f3->REQUEST['ar_end_date']) ? $f3->REQUEST['ar_end_date'] : null;
         $this->ar_report_type = $f3->REQUEST['ar_report_type'] ? : $this->ar_report_type;
 
         // GET PROJECTS AND TASKS LISTS
         $this->user_projects_tasks = Utils::get_project_and_task_lists(false, null, $db, $user, true);
 
-        // GET WEEKLY REPORT
+        // PREP QUERY VARIABLES WE'LL NEED
         $arprojectids = count($this->ar_projects) && !in_array('ar_all', $this->ar_projects) ? implode('", "',$this->ar_projects) : '';
         $artaskids = count($this->ar_tasks) && !in_array('ar_all', $this->ar_tasks) ? implode('", "',$this->ar_tasks) : '';
         $allprojects = false;
@@ -47,27 +47,33 @@ class AdvancedReport {
         $alltasks = false;
         if(in_array('ar_all', $this->ar_tasks))
             $alltasks = true;
-        $this->weekly_report = $db->exec('
-			SELECT
-                CONCAT(
-                    STR_TO_DATE(CONCAT(YEARWEEK(logs.start_time, 0)," Sunday"), "%X%V %W"),
-                    " - ",
-                    STR_TO_DATE(CONCAT(YEARWEEK(logs.start_time, 0)," Saturday"), "%X%V %W")
-                ) as week,
-                SUM(IF(end_time != "0000-00-00 00:00:00",
-                    TIMESTAMPDIFF(SECOND, start_time, end_time)/60/60,
-                    TIMESTAMPDIFF(SECOND, start_time, NOW())/60/60
-                ))
-                as time
-			FROM logs
-			WHERE user_id = ?
-                '.($arprojectids || !$allprojects ? 'AND project_id IN ("'.$arprojectids.'")' : '').'
-                '.($artaskids || !$alltasks ? 'AND task_id IN ("'.$artaskids.'")' : '').'
-            GROUP BY YEARWEEK(logs.start_time, 0) WITH ROLLUP
-		', array(
-            $user->id
-        ));
-        $this->weekly_report[count($this->weekly_report) - 1]['week'] = "Total";
+        
+        if($this->ar_report_type === 'Total by Week') {
+            // GET WEEKLY REPORT
+            $this->weekly_report = $db->exec('
+                SELECT
+                    CONCAT(
+                        STR_TO_DATE(CONCAT(YEARWEEK(logs.start_time, 0)," Sunday"), "%X%V %W"),
+                        " - ",
+                        STR_TO_DATE(CONCAT(YEARWEEK(logs.start_time, 0)," Saturday"), "%X%V %W")
+                    ) as week,
+                    SUM(IF(end_time != "0000-00-00 00:00:00",
+                        TIMESTAMPDIFF(SECOND, start_time, end_time)/60/60,
+                        TIMESTAMPDIFF(SECOND, start_time, NOW())/60/60
+                    ))
+                    as time
+                FROM logs
+                WHERE user_id = ?
+                    '.($arprojectids || !$allprojects ? 'AND project_id IN ("'.$arprojectids.'")' : '').'
+                    '.($artaskids || !$alltasks ? 'AND task_id IN ("'.$artaskids.'")' : '').'
+                    '.($this->ar_begin_date ? 'AND logs.start_time >= "'.$this->ar_begin_date.'"' : '').'
+                    '.($this->ar_end_date ? 'AND logs.start_time <= "'.$this->ar_end_date.'"' : '').'
+                GROUP BY YEARWEEK(logs.start_time, 0) WITH ROLLUP
+            ', array(
+                $user->id
+            ));
+            $this->weekly_report[count($this->weekly_report) - 1]['week'] = "Total";
+        }
 
         // ADDITIONAL VIEW VARIABLES
 		$f3->set('v_page_title', 'Advanced Report');
