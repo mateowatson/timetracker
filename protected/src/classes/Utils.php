@@ -665,7 +665,7 @@ MESSAGE;
 		));
 	}
 
-	static function get_project_and_task_lists($is_team, $team, $db, $user) {
+	static function get_project_and_task_lists($is_team, $team, $db, $user, $logs_query = false) {
 		// GET PROJECT AND TASK LISTS
 		if(!$is_team) {
 			$projectsQuery = $db->exec('
@@ -749,9 +749,18 @@ MESSAGE;
 			}
 		}
 
+		if(!$logs_query) {
+			return array(
+				'tasks' => $tasks,
+				'projects' => $projects
+			);
+		}
+
 		return array(
 			'tasks' => $tasks,
-			'projects' => $projects
+			'projects' => $projects,
+			'projectsQuery' => $projectsQuery,
+			'tasksQuery' => $tasksQuery
 		);
 	}
 

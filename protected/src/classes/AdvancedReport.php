@@ -33,7 +33,7 @@ class AdvancedReport {
         $this->ar_report_type = $f3->REQUEST['ar_report_type'] ? : $this->ar_report_type;
 
         // GET PROJECTS AND TASKS LISTS
-        $this->user_projects_tasks = Utils::get_project_and_task_lists(false, null, $db, $user);
+        $this->user_projects_tasks = Utils::get_project_and_task_lists(false, null, $db, $user, true);
 
         // ADDITIONAL VIEW VARIABLES
 		$f3->set('v_page_title', 'Advanced Report');
