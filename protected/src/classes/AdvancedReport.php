@@ -7,6 +7,8 @@ class AdvancedReport {
     public $ar_begin_date;
     public $ar_end_date;
     public $ar_report_type;
+    public $user_projects;
+    public $user_tasks;
 
     function show(\Base $f3, array $args) {
         Utils::redirect_logged_out_user($f3, $args);
@@ -31,6 +33,7 @@ class AdvancedReport {
         $this->ar_report_type = $f3->REQUEST['ar_report_type'] ? : $this->ar_report_type;
 
         // GET PROJECTS AND TASKS LISTS
+        $this->user_projects_tasks = Utils::get_project_and_task_lists(false, null, $db, $user);
 
         // ADDITIONAL VIEW VARIABLES
 		$f3->set('v_page_title', 'Advanced Report');
