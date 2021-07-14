@@ -670,7 +670,7 @@ MESSAGE;
 		));
 	}
 
-	static function get_project_and_task_lists($is_team, $team, $db, $user, $logs_query = false) {
+	static function get_project_and_task_lists($is_team, $team, $db, $user, $logs_query = false, $porderby = 'logs.start_time DESC', $torderby = 'logs.start_time DESC') {
 		// GET PROJECT AND TASK LISTS
 		if(!$is_team) {
 			$projectsQuery = $db->exec('
@@ -682,7 +682,7 @@ MESSAGE;
 				WHERE users_projects.user_id IS NOT NULL 
 					AND logs.team_id IS NULL AND
 					logs.project_id = projects.id
-				ORDER BY logs.start_time DESC
+				ORDER BY '.$porderby.'
 			', array($user->id));
 			$tasksQuery = $db->exec('
 				SELECT * FROM tasks
@@ -693,7 +693,7 @@ MESSAGE;
 				WHERE users_tasks.user_id IS NOT NULL
 					AND logs.team_id IS NULL AND
 					logs.task_id = tasks.id
-				ORDER BY logs.start_time DESC
+				ORDER BY '.$torderby.'
 			', array($user->id));
 		} else {
 			$projectsQuery = $db->exec('
@@ -704,7 +704,7 @@ MESSAGE;
 				WHERE users_projects.user_id IS NOT NULL 
 					AND logs.team_id = ? AND
 					logs.project_id = projects.id
-				ORDER BY logs.start_time DESC
+				ORDER BY '.$porderby.'
 			', array($team['id']));
 			$tasksQuery = $db->exec('
 				SELECT * FROM tasks
@@ -714,7 +714,7 @@ MESSAGE;
 				WHERE users_tasks.user_id IS NOT NULL AND
 					logs.team_id = ? AND
 					logs.task_id = tasks.id
-				ORDER BY logs.start_time DESC
+				ORDER BY '.$torderby.'
 			', array($team['id']));
 		}
 		$projects = array();

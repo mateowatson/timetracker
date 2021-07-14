@@ -36,7 +36,7 @@ class AdvancedReport {
         $this->ar_report_type = $f3->REQUEST['ar_report_type'] ? : $this->ar_report_type;
 
         // GET PROJECTS AND TASKS LISTS
-        $this->user_projects_tasks = Utils::get_project_and_task_lists(false, null, $db, $user, true);
+        $this->user_projects_tasks = Utils::get_project_and_task_lists(false, null, $db, $user, true, 'projects.name ASC', 'tasks.name ASC');
 
         // PREP QUERY VARIABLES WE'LL NEED
         $arprojectids = count($this->ar_projects) && !in_array('ar_all', $this->ar_projects) ? implode('", "',$this->ar_projects) : '';
