@@ -42,6 +42,7 @@
                     <div class="col-12 mt-3">
                         <div class="form-group">
                             <input class="btn btn-primary" type="submit" value="Generate Report">
+                            <a href="/advanced-report" class="btn btn-link">Clear</a>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">

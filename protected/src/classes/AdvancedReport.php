@@ -52,7 +52,7 @@ class AdvancedReport {
         $timesum = 'ROUND(SUM(IF(logs.end_time != "0000-00-00 00:00:00",
             TIMESTAMPDIFF(SECOND, logs.start_time, logs.end_time)/60/60,
             TIMESTAMPDIFF(SECOND, logs.start_time, NOW())/60/60
-    )), 2)';
+        )), 2)';
         $where_clauses = ($arprojectids || !$allprojects ? 'AND project_id IN ("'.$arprojectids.'")' : '').'
             '.($artaskids || !$alltasks ? 'AND task_id IN ("'.$artaskids.'")' : '').'
             '.($this->ar_begin_date ? 'AND logs.start_time >= "'.$this->ar_begin_date.'"' : '').'
@@ -108,6 +108,43 @@ class AdvancedReport {
                 WHERE user_id = ?
                     '.$where_clauses.'
                 GROUP BY YEAR(DATE(logs.start_time)) WITH ROLLUP
+            ', array(
+                $user->id,
+                '%'.$this->ar_notes.'%',
+                !$this->ar_notes
+            ));
+            $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
+        } else if($this->ar_report_type === 'Individual Logs') {
+            // GET INDIVIDUAL LOGS REPORT
+            $this->generated_report = $db->exec('
+                SELECT
+                    CONCAT(
+                        DATE_FORMAT(
+                            DATE(logs.start_time),
+                            "%b %e, %Y"
+                        ),
+                        " ",
+                        TIME_FORMAT(
+                            TIME(logs.start_time),
+                            "%r"
+                        ),
+                        " - ",
+                        DATE_FORMAT(
+                            DATE(logs.end_time),
+                            "%b %e, %Y"
+                        ),
+                        " ",
+                        TIME_FORMAT(
+                            TIME(logs.end_time),
+                            "%r"
+                        )
+                    ) as timeunit,
+                    '.$timesum.'
+                    as time
+                FROM logs
+                WHERE user_id = ?
+                    '.$where_clauses.'
+                GROUP BY logs.id WITH ROLLUP
             ', array(
                 $user->id,
                 '%'.$this->ar_notes.'%',
