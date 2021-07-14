@@ -13,23 +13,23 @@
 		<div class="col-lg-12">
 			<h2 class="sr-only">Advanced Report</h2>
 
-            <?php if(is_array($v_obj->weekly_report) && !empty($v_obj->weekly_report)): ?>
+            <?php if(is_array($v_obj->generated_report) && !empty($v_obj->generated_report)): ?>
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Week</th>
+                            <th>Date</th>
                             <th>Hours</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($v_obj->weekly_report as $week_time): ?>
+                        <?php foreach($v_obj->generated_report as $generated_report_item): ?>
                         <tr>
                             <td>
-                                <?= $week_time['week'] ?>
+                                <?= $generated_report_item['timeunit'] ?>
                             </td>
                             <td>
-                                <?= $week_time['time'] ?>
+                                <?= $generated_report_item['time'] ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

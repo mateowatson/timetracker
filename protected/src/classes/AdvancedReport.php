@@ -9,7 +9,7 @@ class AdvancedReport {
     public $ar_report_type;
     public $user_projects;
     public $user_tasks;
-    public $weekly_report;
+    public $generated_report;
 
     function show(\Base $f3, array $args) {
         Utils::redirect_logged_out_user($f3, $args);
@@ -47,32 +47,73 @@ class AdvancedReport {
         $alltasks = false;
         if(in_array('ar_all', $this->ar_tasks))
             $alltasks = true;
+
+        // PARTS SAME FOR ALL QUERIES
+        $timesum = 'ROUND(SUM(IF(logs.end_time != "0000-00-00 00:00:00",
+            TIMESTAMPDIFF(SECOND, logs.start_time, logs.end_time)/60/60,
+            TIMESTAMPDIFF(SECOND, logs.start_time, NOW())/60/60
+    )), 2)';
+        $where_clauses = ($arprojectids || !$allprojects ? 'AND project_id IN ("'.$arprojectids.'")' : '').'
+            '.($artaskids || !$alltasks ? 'AND task_id IN ("'.$artaskids.'")' : '').'
+            '.($this->ar_begin_date ? 'AND logs.start_time >= "'.$this->ar_begin_date.'"' : '').'
+            '.($this->ar_end_date ? 'AND logs.start_time <= "'.$this->ar_end_date.'"' : '').'
+            AND (logs.notes LIKE ? OR ?)';
         
         if($this->ar_report_type === 'Total by Week') {
             // GET WEEKLY REPORT
-            $this->weekly_report = $db->exec('
+            $this->generated_report = $db->exec('
                 SELECT
                     CONCAT(
                         STR_TO_DATE(CONCAT(YEARWEEK(logs.start_time, 0)," Sunday"), "%X%V %W"),
                         " - ",
                         STR_TO_DATE(CONCAT(YEARWEEK(logs.start_time, 0)," Saturday"), "%X%V %W")
-                    ) as week,
-                    SUM(IF(end_time != "0000-00-00 00:00:00",
-                        TIMESTAMPDIFF(SECOND, start_time, end_time)/60/60,
-                        TIMESTAMPDIFF(SECOND, start_time, NOW())/60/60
-                    ))
+                    ) as timeunit,
+                    '.$timesum.'
                     as time
                 FROM logs
                 WHERE user_id = ?
-                    '.($arprojectids || !$allprojects ? 'AND project_id IN ("'.$arprojectids.'")' : '').'
-                    '.($artaskids || !$alltasks ? 'AND task_id IN ("'.$artaskids.'")' : '').'
-                    '.($this->ar_begin_date ? 'AND logs.start_time >= "'.$this->ar_begin_date.'"' : '').'
-                    '.($this->ar_end_date ? 'AND logs.start_time <= "'.$this->ar_end_date.'"' : '').'
+                    '.$where_clauses.'
                 GROUP BY YEARWEEK(logs.start_time, 0) WITH ROLLUP
             ', array(
-                $user->id
+                $user->id,
+                '%'.$this->ar_notes.'%',
+                !$this->ar_notes
             ));
-            $this->weekly_report[count($this->weekly_report) - 1]['week'] = "Total";
+            $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
+        } else if($this->ar_report_type === 'Total by Day') {
+            // GET DAY REPORT
+            $this->generated_report = $db->exec('
+                SELECT
+                    DATE(logs.start_time) as timeunit,
+                    '.$timesum.'
+                    as time
+                FROM logs
+                WHERE user_id = ?
+                    '.$where_clauses.'
+                GROUP BY DAYOFYEAR(DATE(logs.start_time)) WITH ROLLUP
+            ', array(
+                $user->id,
+                '%'.$this->ar_notes.'%',
+                !$this->ar_notes
+            ));
+            $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
+        } else if($this->ar_report_type === 'Total by Year') {
+            // GET YEAR REPORT
+            $this->generated_report = $db->exec('
+                SELECT
+                    DATE(logs.start_time) as timeunit,
+                    '.$timesum.'
+                    as time
+                FROM logs
+                WHERE user_id = ?
+                    '.$where_clauses.'
+                GROUP BY YEAR(DATE(logs.start_time)) WITH ROLLUP
+            ', array(
+                $user->id,
+                '%'.$this->ar_notes.'%',
+                !$this->ar_notes
+            ));
+            $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
         }
 
         // ADDITIONAL VIEW VARIABLES
