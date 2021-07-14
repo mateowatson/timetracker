@@ -14,16 +14,18 @@
 			<h2 class="sr-only">Advanced Report</h2>
 
             <?php if(is_array($v_obj->generated_report) && !empty($v_obj->generated_report)): ?>
+            <div class="mb-3"><a href="/advanced-report">Clear</a></div>
             <div class="table-responsive">
-                <table class="table">
-                    <thead>
+                <table class="table table-bordered table-striped table-sm">
+                    <thead class="thead-light">
                         <tr>
                             <th>Date</th>
                             <th>Hours</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($v_obj->generated_report as $generated_report_item): ?>
+                        <?php foreach($v_obj->generated_report as $gridx => $generated_report_item):
+                        if($gridx < count($v_obj->generated_report) - 1): ?>
                         <tr>
                             <td>
                                 <?= $generated_report_item['timeunit'] ?>
@@ -32,8 +34,12 @@
                                 <?= $generated_report_item['time'] ?>
                             </td>
                         </tr>
-                        <?php endforeach; ?>
+                        <?php endif; endforeach; ?>
                     </tbody>
+                    <tfoot class="thead-light">
+                        <th><?= $generated_report_item['timeunit'] ?></th>
+                        <th><?= $generated_report_item['time'] ?></th>
+                    </tfoot>
                 </table>
             </div>
             <?php endif; ?>

@@ -101,7 +101,7 @@ class AdvancedReport {
             // GET YEAR REPORT
             $this->generated_report = $db->exec('
                 SELECT
-                    DATE(logs.start_time) as timeunit,
+                    YEAR(logs.start_time) as timeunit,
                     '.$timesum.'
                     as time
                 FROM logs
