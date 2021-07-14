@@ -55,8 +55,8 @@ class AdvancedReport {
         )), 2)';
         $where_clauses = ($arprojectids || !$allprojects ? 'AND project_id IN ("'.$arprojectids.'")' : '').'
             '.($artaskids || !$alltasks ? 'AND task_id IN ("'.$artaskids.'")' : '').'
-            '.($this->ar_begin_date ? 'AND logs.start_time >= "'.$this->ar_begin_date.'"' : '').'
-            '.($this->ar_end_date ? 'AND logs.start_time <= "'.$this->ar_end_date.'"' : '').'
+            '.($this->ar_begin_date ? 'AND DATE(logs.start_time) >= "'.$this->ar_begin_date.'"' : '').'
+            '.($this->ar_end_date ? 'AND DATE(logs.end_time) <= "'.$this->ar_end_date.'"' : '').'
             AND (logs.notes LIKE ? OR ?)';
         
         if($this->ar_report_type === 'Total by Week') {
