@@ -108,3 +108,41 @@ async function bodySwapWithUrl(url, config = undefined) {
     console.error(err);
   }
 }
+
+/**
+ * Performs a body swap using the passed-in HTML.
+ * 
+ * @param {string} html 
+ */
+export function bodySwapWithHtml(html) {
+  // body swap
+  $('html').html(html);
+
+  // emit an event to signal body swap complete
+  $(window).trigger('postbodyswap');
+}
+
+/**
+ * Given a URL, performs a fetch request and updates all CSRF tokens. Returns
+ * the textual response of the fetch request.
+ *
+ * @param {string} url the url to fetch
+ * @returns the text of the requested url's response
+ */
+export async function getUrl(url) {
+  try {
+    // get the response as text
+    const resp = await fetch(url);
+    const text = await resp.text();
+
+    // get the csrf token
+    const csrf = $(text).find('[name=csrf]').val();
+    // replace all instances with the new csrf token
+    $('[name=csrf]').val(csrf);
+
+    // return the text response
+    return text;
+  } catch (err) {
+    console.error(err);
+  }
+}

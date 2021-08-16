@@ -1,5 +1,5 @@
 import $ from 'cash-dom';
-import { ajaxFormSubmit } from './ajax';
+import { bodySwapWithHtml, ajaxFormSubmit, getUrl } from './ajax';
 
 const FormTypes = {
   START_FORM: 'START_FORM',
@@ -16,6 +16,9 @@ let startTime = null;
 
 // module-scoped variable that holds the current animation frame
 let timerId = 0;
+
+// module-scoped variable that holds the server check interval id
+let serverCheckIntervalId = 0;
 
 /**
  * Connects to the timer form and sets up an event handler to reconnect after
@@ -42,6 +45,9 @@ export function initTimer() {
 
   // handle form submission
   handleSubmission($timerForm);
+
+  // check the server every 10 seconds for timer state change
+  serverCheckIntervalId = setInterval(checkServerForTimerStateChange, 1000 * 10);
 
   // if it's the running timer, start the elapsed timer display and skip the
   // rest of this function.
@@ -74,15 +80,45 @@ function handleSubmission($timerForm) {
   // listen for submit
   $timerForm.one('submit', (event) => {
     // disable button and show loading indicator
-    $('[data-timer-submit').attr('disabled', 'disabled');
+    $('[data-timer-submit]').attr('disabled', 'disabled');
     $('[data-timer-submit-spinner]').removeClass('d-none');
-    // if needed, stop the timer animation loop
-    if (formType === FormTypes.STOP_FORM) {
-      cancelAnimationFrame(timerId);
-    }
+
+    resetUiState();
+
     // submit the form
     ajaxFormSubmit(event);
   });
+}
+
+/**
+ * Any reset logic that needs to be done prior to a body swap.
+ */
+function resetUiState() {
+  // if needed, stop the timer animation loop
+  if (formType === FormTypes.STOP_FORM) {
+    cancelAnimationFrame(timerId);
+  }
+  // stop the server check
+  clearInterval(serverCheckIntervalId);
+}
+
+/**
+ * Compares the ID of the current log to that of a newly requested page. If they
+ * are different, it performs a body swap.
+ */
+async function checkServerForTimerStateChange() {
+  try {
+    const currentLogId = $('[data-log-id]').data('log-id') || null;
+    const text = await getUrl('/dashboard');
+    const newLogId = $(text).find('[data-log-id]').data('log-id') || null;
+
+    if (currentLogId !== newLogId) {
+      resetUiState();
+      bodySwapWithHtml(text);
+    }
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 /**

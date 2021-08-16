@@ -111,7 +111,7 @@
 	<?php endif; ?>
 
 	<?php if ($v_current_log): ?>
-	<div>
+	<div data-log-id="<?php echo $v_current_log['id']; ?>">
 		<p data-timer-elapsed="<?php echo $v_current_log_diff; ?>">
 			<span data-timer-elapsed-display>
 				<?php echo $v_current_log_diff; ?>
