@@ -96,6 +96,13 @@ class AdvancedReport {
                 '%'.$this->ar_notes.'%',
                 !$this->ar_notes
             ));
+
+            // add the day of the week
+            foreach($this->generated_report as &$generated_report_item) {
+                $item_date = date_create($generated_report_item['timeunit']);
+                $generated_report_item['timeunit'] = date_format($item_date, 'Y-m-d, D.');
+            }
+
             $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
         } else if($this->ar_report_type === 'Total by Year') {
             // GET YEAR REPORT

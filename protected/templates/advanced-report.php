@@ -14,6 +14,7 @@
 			<h2 class="sr-only">Advanced Report</h2>
 
             <?php if(is_array($v_obj->generated_report) && !empty($v_obj->generated_report)): ?>
+            <h3><?= $v_obj->ar_report_type ?></h3>
             <div class="mb-3"><a href="/advanced-report">Clear</a></div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-sm">
