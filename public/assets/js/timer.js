@@ -115,6 +115,18 @@ async function checkServerForTimerStateChange() {
     if (currentLogId !== newLogId) {
       resetUiState();
       bodySwapWithHtml(text);
+      return;
+    }
+
+    setFormType();
+
+    // weird hack required by firefox in order to keep the "on" icon from
+    // disappearing. if timer is running and thus we want the "on" icon, we need
+    // to switch the icon off and then back on again. go figure.
+    if (formType === FormTypes.STOP_FORM) {
+      const $favicon = $('[rel=icon][type="image/svg+xml"]');
+      $favicon.attr('href', '/assets/images/favicon.svg');
+      $favicon.attr('href', '/assets/images/favicon-on.svg');
     }
   } catch (err) {
     console.error(err)

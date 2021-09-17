@@ -16,6 +16,8 @@
 </head>
 <body class="my-5">
 
+<div class="ajax-wrapper">
+
 <?php if(in_array(
 	'csrf_error', $v_errors_element_ids ? : array()
 )) : ?>
