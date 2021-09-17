@@ -56,6 +56,10 @@ export function initTimer() {
     return;
   }
 
+  // turn off the timer icon if needed
+  const $favicon = $('[rel=icon][type="image/svg+xml"]');
+  $favicon.attr('href', '/assets/images/favicon.svg');
+
   // initialize form state
   const state = new FormData($timerForm[0]);
 
