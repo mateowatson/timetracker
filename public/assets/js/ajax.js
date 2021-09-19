@@ -100,23 +100,24 @@ async function bodySwapWithUrl(url, config = undefined) {
     // get text of response
     const text = await resp.text();
     // body swap
-    $('html').html(text);
-
-    // emit an event to signal body swap complete
-    $(window).trigger('postbodyswap');
+    bodySwapWithHtml(text);
   } catch (err) {
     console.error(err);
   }
 }
 
 /**
- * Performs a body swap using the passed-in HTML.
- * 
+ * Performs a "body" swap using the passed-in HTML. It isn't actually all the
+ * content of the body tag, but rather everything inside the .ajax-wrapper
+ * <div>.
+ *
  * @param {string} html 
  */
 export function bodySwapWithHtml(html) {
+  // get the contents of the new page
+  const $wrapper = $(`<div>${html}</div>`).find('.ajax-wrapper');
   // body swap
-  $('html').html(html);
+  $('.ajax-wrapper').html($wrapper.html());
 
   // emit an event to signal body swap complete
   $(window).trigger('postbodyswap');
