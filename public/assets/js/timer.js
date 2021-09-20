@@ -113,7 +113,7 @@ function resetUiState() {
 async function checkServerForTimerStateChange() {
   try {
     const currentLogId = $('[data-log-id]').data('log-id') || null;
-    const text = await getUrl('/dashboard');
+    const text = await getUrl(window.location);
     const newLogId = $(text).find('[data-log-id]').data('log-id') || null;
 
     if (currentLogId !== newLogId) {
