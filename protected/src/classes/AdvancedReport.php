@@ -146,6 +146,7 @@ class AdvancedReport {
                             "%r"
                         )
                     ) as timeunit,
+                    logs.notes as notes,
                     '.$timesum.'
                     as time
                 FROM logs

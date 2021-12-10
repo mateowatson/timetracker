@@ -7,11 +7,7 @@
 		<a class="btn btn-link" href="<?php echo $SITE_URL; ?>/verify-email">Verify Email</a>
 	<?php endif; ?>
 
-	<?php if($v_search_link): ?>
-		<!-- <a class="btn btn-link" href="<?php echo $v_search_link; ?>">Search</a> -->
-	<?php else: ?>
-		<!-- <a class="btn btn-link" href="<?php echo $SITE_URL; ?>/search">Search</a> -->
-	<?php endif; ?>
+	<a href="<?php echo $SITE_URL; ?>/advanced-report" class="btn btn-link">Advanced Report</a>
 	
 	<a class="btn btn-link" title="<?php echo $v_username; ?>" href="<?php echo $SITE_URL; ?>/account">Account</a>
 

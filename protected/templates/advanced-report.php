@@ -21,6 +21,7 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Date</th>
+                            <th>Notes</th>
                             <th>Hours</th>
                         </tr>
                     </thead>
@@ -32,14 +33,17 @@
                                 <?= $generated_report_item['timeunit'] ?>
                             </td>
                             <td>
+                                <?= $generated_report_item['notes'] ?>
+                            </td>
+                            <td>
                                 <?= $generated_report_item['time'] ?>
                             </td>
                         </tr>
                         <?php endif; endforeach; ?>
                     </tbody>
                     <tfoot class="thead-light">
-                        <th><?= $generated_report_item['timeunit'] ?></th>
-                        <th><?= $generated_report_item['time'] ?></th>
+                        <th colspan="2"><?= $v_obj->generated_report[count($v_obj->generated_report) - 1]['timeunit'] ?></th>
+                        <th><?= $v_obj->generated_report[count($v_obj->generated_report) - 1]['time'] ?></th>
                     </tfoot>
                 </table>
             </div>
