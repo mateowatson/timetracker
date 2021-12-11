@@ -21,7 +21,9 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Date</th>
+                            <?php if($v_obj->ar_report_type === 'Individual Logs'): ?>
                             <th>Notes</th>
+                            <?php endif; ?>
                             <th>Hours</th>
                         </tr>
                     </thead>
@@ -32,9 +34,11 @@
                             <td>
                                 <?= $generated_report_item['timeunit'] ?>
                             </td>
+                            <?php if($v_obj->ar_report_type === 'Individual Logs'): ?>
                             <td>
                                 <?= $generated_report_item['notes'] ?>
                             </td>
+                            <?php endif; ?>
                             <td>
                                 <?= $generated_report_item['time'] ?>
                             </td>
@@ -42,7 +46,7 @@
                         <?php endif; endforeach; ?>
                     </tbody>
                     <tfoot class="thead-light">
-                        <th colspan="2"><?= $v_obj->generated_report[count($v_obj->generated_report) - 1]['timeunit'] ?></th>
+                        <th <?php if($v_obj->ar_report_type === 'Individual Logs'): ?>colspan="2"<?php endif; ?>><?= $v_obj->generated_report[count($v_obj->generated_report) - 1]['timeunit'] ?></th>
                         <th><?= $v_obj->generated_report[count($v_obj->generated_report) - 1]['time'] ?></th>
                     </tfoot>
                 </table>
