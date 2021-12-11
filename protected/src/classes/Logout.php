@@ -13,6 +13,7 @@ class Logout {
 
 		// Logout -- aka set username to null in db
 		$f3->set('SESSION.session_username', '');
+		$f3->set('SESSION.csrf', '');
 		$f3->reroute('/login');
 	}
 

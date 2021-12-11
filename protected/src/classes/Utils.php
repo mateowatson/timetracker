@@ -38,6 +38,10 @@ class Utils {
 	}
 
 	static function send_csrf($f3, $args) {
+		if($f3->get('SESSION.csrf')) {
+			$f3->copy('SESSION.csrf','CSRF');
+			return;
+		}
 		$f3->set('CSRF', $f3->get('SESSION_INSTANCE')->csrf());
 		$f3->copy('CSRF','SESSION.csrf');
 	}
