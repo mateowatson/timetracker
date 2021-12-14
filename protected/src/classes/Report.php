@@ -197,6 +197,9 @@ class Report {
 		} else {
 			$prev_link = "/report?rp=".$req['rp']."&rt=".
 				$req['rt']."&rd=".$req['rd']."&page=".(string)($page-1);
+			if($is_team) {
+				$prev_link .= '&team='.$team_id;
+			}
 		}
 
 		if(($page+1)*10 >= $logs_count || $logs_count <= 10) {
@@ -204,6 +207,9 @@ class Report {
 		} else {
 			$next_link = "/report?rp=".$req['rp']."&rt=".
 				$req['rt']."&rd=".$req['rd']."&page=".(string)($page+1);
+			if($is_team) {
+				$next_link .= '&team='.$team_id;
+			}
 		}
 		$f3->set('v_next_link', $next_link);
 		$f3->set('v_prev_link', $prev_link);
