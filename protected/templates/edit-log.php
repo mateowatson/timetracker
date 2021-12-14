@@ -14,6 +14,7 @@
 			<form action="<?php echo $SITE_URL; ?>/edit-log" method="POST">
 				<input type="text" name="csrf" id="csrf_timer" value="<?php echo $CSRF; ?>" hidden>
 				<input type="text" name="edit_log_log_id" id="edit_log_log_id" value="<?php echo $v_log_id; ?>" hidden>
+				<input type="text" name="back_to" id="back_to" value="<?php echo $v_edit_log_cancel_link; ?>" hidden>
 
 				<div class="row">
 					<div class="col-lg-4">
@@ -295,6 +296,7 @@
 					if($confirmation->element_id === 'edit_log_bottom_confirmations') :
 					?>
 					<p><?php echo $confirmation->message; ?></p>
+					<p><a href="<?php echo $v_edit_log_cancel_link?>">Go Back</a></p>
 					<?php endif; endforeach; ?>
 				</div>
 				<?php endif; ?>

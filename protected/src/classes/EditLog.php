@@ -91,6 +91,14 @@ class EditLog {
 			);
 		}
 
+		// DEFINE BACK BUTTON, EDIT CANCEL BUTTON TOO MAYBE
+		if(!empty($req['back_to'])) {
+			$f3->set(
+				'v_edit_log_cancel_link',
+				$req['back_to']
+			);
+		}
+
 		// GET PROJECT AND TASK LISTS
 		$projects_and_tasks = Utils::get_project_and_task_lists($is_team, $team, $db, $user);
 		$projects = $projects_and_tasks['projects'];
@@ -257,7 +265,10 @@ class EditLog {
 			'element_id' => 'edit_log_bottom_confirmations',
 			'message' => 'Log updated!'
 		));
-		error_log($req['edit_log_start_dd']);
+
+		if(!empty($req['back_to'])) {
+			Utils::reroute_with_confirmations($f3, $args, '/edit-log?id=' . $db_log->id . '&back_to=' . urlencode($req['back_to']));
+		}
 		Utils::reroute_with_confirmations($f3, $args, '/edit-log?id=' . $db_log->id);
 	}
 }

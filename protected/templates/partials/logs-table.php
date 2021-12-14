@@ -20,7 +20,7 @@
 		<tbody>
 			<?php foreach ($v_logs as $log): ?>
 			<tr>
-				<td><a href="/edit-log?id=<?php echo urlencode($log['id']); ?>">Edit</a></td>
+				<td><a href="/edit-log?id=<?php echo urlencode($log['id']); ?><?php echo !empty($_SERVER['REQUEST_URI']) ? '&back_to='.urlencode($_SERVER['REQUEST_URI']) : '' ?>">Edit</a></td>
 				<td><?php echo $log['username']; ?></td>
 				<td><?php echo $log['project_name']; ?></td>
 				<td><?php echo $log['task_name']; ?></td>
