@@ -148,7 +148,8 @@ class AdvancedReport {
                     ) as timeunit,
                     logs.notes as notes,
                     '.$timesum.'
-                    as time
+                    as time,
+                    id as logid
                 FROM logs
                 WHERE user_id = ?
                     '.$where_clauses.'

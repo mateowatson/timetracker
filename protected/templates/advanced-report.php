@@ -32,7 +32,13 @@
                         if($gridx < count($v_obj->generated_report) - 1): ?>
                         <tr>
                             <td>
+                                <?php if($v_obj->ar_report_type === 'Individual Logs'): ?>
+                                <a href="/edit-log?id=<?= $generated_report_item['logid'] ?>&back_to=<?= urlencode($_SERVER['REQUEST_URI']) ?>">
+                                <?php endif; ?>
                                 <?= $generated_report_item['timeunit'] ?>
+                                <?php if($v_obj->ar_report_type === 'Individual Logs'): ?>
+                                </a>
+                                <?php endif; ?>
                             </td>
                             <?php if($v_obj->ar_report_type === 'Individual Logs'): ?>
                             <td>
