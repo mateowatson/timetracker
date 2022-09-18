@@ -29,8 +29,8 @@ class ManageTasks {
         $this->tasks = $this->db->exec('
             SELECT * FROM tasks
             LEFT JOIN users_tasks
-                ON (users_tasks.user_id = ? AND
-                users_tasks.task_id = tasks.id)
+                ON users_tasks.task_id = tasks.id
+            WHERE users_tasks.user_id = ?
         ', $this->user->id);
 
         $f3->set('v_tasks', $this->tasks);
