@@ -1,7 +1,7 @@
 <?php require_once('partials/header.php'); ?>
 
 <div class="container mb-5">
-	<div class="row">
+	<div class="row align-items-baseline">
 		<?php require_once('partials/heading.php'); ?>
 		<?php require_once('partials/account.php'); ?>
 		<?php require_once('partials/team-badge.php'); ?>
@@ -31,18 +31,6 @@
 				<div class="card-body px-0">
 					<h2>Report</h2>
 					<?php require_once('partials/report.php'); ?>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-lg-4">
-			<div class="card bg-transparent border-0">
-				<div class="card-body px-0">
-					<h2>Manage</h2>
-
-					<ul>
-						<li><a href="/projects">Manage Projects</a></li>
-					</ul>
 				</div>
 			</div>
 		</div>
