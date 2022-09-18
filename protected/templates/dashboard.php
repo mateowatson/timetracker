@@ -34,6 +34,18 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="col-lg-4">
+			<div class="card bg-transparent border-0">
+				<div class="card-body px-0">
+					<h2>Manage</h2>
+
+					<ul>
+						<li><a href="/projects">Manage Projects</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
