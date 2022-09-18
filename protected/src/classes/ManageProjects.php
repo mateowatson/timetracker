@@ -36,7 +36,7 @@ class ManageProjects {
         $f3->set('v_projects', $this->projects);
 
         $view = new \View;
-        echo $view->render('manage-projects.php');
+        echo $view->render('projects-list.php');
     }
 
     function show_project(\Base $f3, array $args) {
