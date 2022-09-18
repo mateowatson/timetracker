@@ -1,7 +1,7 @@
 <?php require_once('partials/header.php'); ?>
 
 <div class="container mb-5">
-	<div class="row">
+	<div class="row align-items-baseline">
 		<?php require_once('partials/heading.php'); ?>
         <?php require_once('partials/account.php'); ?>
 	</div>
