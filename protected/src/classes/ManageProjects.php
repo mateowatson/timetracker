@@ -29,8 +29,8 @@ class ManageProjects {
         $this->projects = $this->db->exec('
             SELECT * FROM projects
             LEFT JOIN users_projects
-                ON (users_projects.user_id = ? AND
-                users_projects.project_id = projects.id)
+            ON users_projects.project_id = projects.id
+            WHERE users_projects.user_id = ?
         ', $this->user->id);
 
         $f3->set('v_projects', $this->projects);
