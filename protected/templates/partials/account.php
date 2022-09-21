@@ -15,7 +15,7 @@
 	
 	<a class="btn btn-link" title="<?php echo $v_username; ?>" href="<?php echo $SITE_URL; ?>/account">Account</a>
 
-	<form action="<?php echo $SITE_URL; ?>/logout" method="POST">
+	<form action="<?php echo $SITE_URL; ?>/logout" method="POST" class="d-flex align-items-baseline">
 		<input type="text" name="csrf" id="csrf" value="<?php echo $CSRF; ?>" hidden>
 		<input class="btn btn-link pr-0" type="submit" value="Logout">
 	</form>
