@@ -35,10 +35,13 @@ class Dashboard {
 			//$f3->set('v_page_title', 'Team: '.$team['name']);
 		}
 		$team_members = array();
-		$team_members_ids = $db->exec(
-			'SELECT user_id FROM users_teams WHERE team_id = ?',
-			array($team['id'])
-		);
+		$team_members_ids = array();
+		if($is_team) {
+			$team_members_ids = $db->exec(
+				'SELECT user_id FROM users_teams WHERE team_id = ?',
+				array($team['id'])
+			);
+		}
 		foreach($team_members_ids as $id) {
 			array_push(
 				$team_members,
@@ -156,6 +159,8 @@ class Dashboard {
 		
 		// SET SOME TEAM VIEW VARIABLES
 		$f3->set('v_is_team', $is_team);
+		$f3->set('v_team', null);
+		$f3->set('v_show_remove_members', null);
 		if($is_team) {
 			$f3->set('v_team', $team);
 			$f3->set('v_show_remove_members', $user->id === (int)$team['creator']);
@@ -186,6 +191,7 @@ class Dashboard {
 		} else {
 			$f3->set('v_timer_start_new', false);
 		}
+		$f3->set('v_report_date', null);
         echo $view->render('dashboard.php');
 	}
 }

@@ -112,11 +112,12 @@ $f3->set(
 $f3->set('v_errors', json_decode($f3->get('SESSION.errors')) ? : array());
 // Creating v_errors_element_ids, simply for ease of checking quickly if there are any
 // errors, especially for use in the template files.
+$f3->set('v_errors_element_ids', array());
+$element_ids = array();
 foreach ($f3->get('v_errors') as $error) {
-	$element_ids = array();
 	array_push($element_ids, $error->element_id);
-	$f3->set('v_errors_element_ids', array_unique($element_ids));
 }
+$f3->set('v_errors_element_ids', array_unique($element_ids));
 // Capture confirmations in memory
 $f3->set('v_confirmations', json_decode($f3->get('SESSION.confirmations')) ? : array());
 // Creating v_confirmations_element_ids, simply for ease of checking quickly if there are any

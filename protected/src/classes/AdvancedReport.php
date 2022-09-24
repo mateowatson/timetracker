@@ -26,14 +26,16 @@ class AdvancedReport {
 		$SITE_URL = $f3->get('SITE_URL');
 
         // GET SEARCH PARAMETERS
-        $this->ar_projects = $f3->REQUEST['ar_projects'] ? : $this->ar_projects;
+        $this->ar_projects = isset($f3->REQUEST['ar_projects']) ? $f3->REQUEST['ar_projects'] : $this->ar_projects;
         $this->ar_projects = array_map('intval', $this->ar_projects);
-        $this->ar_tasks = $f3->REQUEST['ar_tasks'] ? : $this->ar_tasks;
+        $this->ar_tasks = isset($f3->REQUEST['ar_tasks']) ? $f3->REQUEST['ar_tasks'] : $this->ar_tasks;
         $this->ar_tasks = array_map('intval', $this->ar_tasks);
-        $this->ar_notes = $f3->REQUEST['ar_notes'] ? : $this->ar_notes;
-        $this->ar_begin_date = Utils::validate_date($f3->REQUEST['ar_begin_date']) ? $f3->REQUEST['ar_begin_date'] : null;
-        $this->ar_end_date = Utils::validate_date($f3->REQUEST['ar_end_date']) ? $f3->REQUEST['ar_end_date'] : null;
-        $this->ar_report_type = $f3->REQUEST['ar_report_type'] ? : $this->ar_report_type;
+        $this->ar_notes = isset($f3->REQUEST['ar_notes']) ? $f3->REQUEST['ar_notes'] : $this->ar_notes;
+        if(isset($f3->REQUEST['ar_begin_date']))
+            $this->ar_begin_date = Utils::validate_date($f3->REQUEST['ar_begin_date']) ? $f3->REQUEST['ar_begin_date'] : null;
+        if(isset($f3->REQUEST['ar_end_date']))
+            $this->ar_end_date = Utils::validate_date($f3->REQUEST['ar_end_date']) ? $f3->REQUEST['ar_end_date'] : null;
+        $this->ar_report_type = isset($f3->REQUEST['ar_report_type']) ? $f3->REQUEST['ar_report_type'] : $this->ar_report_type;
 
         // GET PROJECTS AND TASKS LISTS
         $this->user_projects_tasks = Utils::get_project_and_task_lists(false, null, $db, $user, true, 'projects.name ASC', 'tasks.name ASC');
@@ -165,7 +167,7 @@ class AdvancedReport {
         // ADDITIONAL VIEW VARIABLES
 		$f3->set('v_page_title', 'Advanced Report');
 		$f3->set('v_obj', $this);
-
+        $f3->set('v_team', null);
         // RENDER
 		$view = new \View;
 		echo $view->render('advanced-report.php');

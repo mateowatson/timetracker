@@ -26,7 +26,7 @@
 					<option value="noteam">None (personal logs)</option>
 					<?php foreach($v_teams as $team) : ?>
 					<option value="<?php echo $team['team_id']; ?>"
-						<?php echo ((int)$team['team_id'] === (int)$v_team['id'] ? 'selected' : ''); ?>>
+						<?php echo (isset($v_team['id']) && (int)$team['team_id'] === (int)$v_team['id'] ? 'selected' : ''); ?>>
 						<?php echo $team['team_name']; ?>
 					</option>
 					<?php endforeach; ?>

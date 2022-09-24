@@ -16,13 +16,13 @@ class Report {
 		$f3->set('v_user_email_verified', $user->email_verified);
 
 		$req = $f3->get('REQUEST');
-		$report_project = urldecode($req['rp']);
-		$report_task = urldecode($req['rt']);
-		$report_date = urldecode($req['rd']);
+		$report_project = urldecode(isset($req['rp']) ? $req['rp'] : '');
+		$report_task = urldecode(isset($req['rt']) ? $req['rt'] : '');
+		$report_date = urldecode(isset($req['rd']) ? $req['rd'] : '');
 		// Set variable so we can autopopulate in the view
 		$f3->set('v_report_date', $report_date);
-		$report_team_member = urldecode($req['rtm']);
-		$team_id = urldecode($req['team']);
+		$report_team_member = urldecode(isset($req['rtm']) ? $req['rtm'] : '');
+		$team_id = urldecode(isset($req['team']) ? $req['team'] : '');
 		$page = isset($req['page']) ? (int)urldecode($req['page']) : 0;
 		$f3->set('v_no_matches', false);
 
@@ -49,10 +49,13 @@ class Report {
 		
 		// Set team members variable
 		$team_members = array();
-		$team_members_ids = $db->exec(
-			'SELECT user_id FROM users_teams WHERE team_id = ?',
-			array($v_team['id'])
-		);
+		$team_members_ids = array();
+		if(isset($v_team['id'])) {
+			$team_members_ids = $db->exec(
+				'SELECT user_id FROM users_teams WHERE team_id = ?',
+				array($v_team['id'])
+			);
+		}
 		foreach($team_members_ids as $id) {
 			array_push(
 				$team_members,
@@ -243,13 +246,13 @@ class Report {
         Utils::prevent_csrf($f3, $args);
         
         $req = $f3->get('REQUEST');
-		$report_project = $req['rp'];
-		$report_task = $req['rt'];
-		$report_date = $req['rd'];
-		$report_team = $req['team'];
-		$report_team_member = $req['rtm'];
+		$report_project = isset($req['rp']) ? $req['rp'] : null;
+		$report_task = isset($req['rt']) ? $req['rt'] : null;
+		$report_date = isset($req['rd']) ? $req['rd'] : null;
+		$report_team = isset($req['team']) ? $req['team'] : null;
+		$report_team_member = isset($req['rtm']) ? $req['rtm'] : null;
 		$report_noteam = $report_team === 'noteam';
-		$report_changeteam = $req['change-team'];
+		$report_changeteam = isset($req['change-team']) ? $req['change-team'] : null;
 
 		// GET DB, SESSION AND USER
 		$db = $f3->get('DB');
@@ -282,7 +285,8 @@ class Report {
 		if(!$report_changeteam) {
 			$referer_url = $f3->get('HEADERS')['Referer'];
 			$referer_url_parts = parse_url($referer_url);
-			parse_str($referer_url_parts['query'], $referer_query);
+			if(isset($referer_url_parts['query']))
+				parse_str($referer_url_parts['query'], $referer_query);
 			if(isset($referer_query['team'])) {
 				$referer_team_id = $referer_query['team'];
 				$is_team = true;
