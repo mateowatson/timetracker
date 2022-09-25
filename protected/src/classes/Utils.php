@@ -217,7 +217,7 @@ class Utils {
 				projects.name AS project_name,
 				tasks.name AS task_name,
 				users.username,
-				IF(logs.end_time != "0000-00-00 00:00:00",
+				IF(logs.end_time IS NOT NULL,
 					TIMESTAMPDIFF(SECOND, logs.start_time, logs.end_time),
 					TIMESTAMPDIFF(SECOND, logs.start_time, NOW())
 				)
@@ -280,9 +280,10 @@ class Utils {
 			return true;
 		}
 
-		$logs = $db->exec($query_string, array(
-			$user_id
-		));
+		if($is_team_filter)
+			$logs = $db->exec($query_string);
+		else
+			$logs = $db->exec($query_string, array($user_id));
 
 		foreach($logs as $idx => $log) {
 			$logs[$idx]['start_time_formatted'] = self::formatted_datetime_to_html($logs[$idx]['start_time_formatted']);
@@ -321,15 +322,15 @@ class Utils {
 		$logs_total_time = $db->exec('
 			SELECT
 				SUM(
-					IF(logs.end_time != "0000-00-00 00:00:00",
+					IF(logs.end_time IS NOT NULL,
 						TIMESTAMPDIFF(SECOND, logs.start_time, logs.end_time),
 						TIMESTAMPDIFF(SECOND, logs.start_time, NOW())
 					)
 				) as total_time
 			FROM logs
-			WHERE '. (!$is_team_filter ? 'user_id = ? AND logs.team_id IS NULL ' : 'TRUE ').
+			WHERE '. (!$is_team_filter ? 'user_id = ? AND logs.team_id IS NULL ' : '? ').
 			$conditions.' ORDER BY start_time DESC
-		', array($user_id));
+		', array(!$is_team_filter ? $user_id : 'TRUE'));
 		
 		$f3->set(
 			'v_logs_total_time',
@@ -794,8 +795,8 @@ CREATE TABLE `logs` (
   `project_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL,
   `team_id` int(11) DEFAULT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `start_time` datetime DEFAULT NULL,
+  `end_time` datetime DEFAULT NULL,
   `notes` text,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),

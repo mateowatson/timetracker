@@ -39,13 +39,13 @@ class Account {
 		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/account');
 
 		$req = $f3->get('REQUEST');
-		$req_username = $req['account_username'];
-		$req_password = $req['account_password'];
-		$req_email = $req['account_email'];
-		$req_registration = $req['account_registration'];
-		$req_add_username = $req['account_add_username'];
-		$req_add_email = $req['account_add_email'];
-		$req_add_password = $req['account_add_password'];
+		$req_username = isset($req['account_username']) ? $req['account_username'] : null;
+		$req_password = isset($req['account_password']) ? $req['account_password'] : null;
+		$req_email = isset($req['account_email']) ? $req['account_email'] : null;
+		$req_registration = isset($req['account_registration']) ? $req['account_registration'] : null;
+		$req_add_username = isset($req['account_add_username']) ? $req['account_add_username'] : null;
+		$req_add_email = isset($req['account_add_email']) ? $req['account_add_email'] : null;
+		$req_add_password = isset($req['account_add_password']) ? $req['account_add_password'] : null;
 
 		$db = $f3->get('DB');
 		$session_username = $f3->get('SESSION.session_username');

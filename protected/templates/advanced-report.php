@@ -57,6 +57,10 @@
                     </tfoot>
                 </table>
             </div>
+            <?php else: ?>
+                <?php if(!empty($v_obj->ar_projects)): ?>
+                    <p>No logs found.</p>
+                <?php endif; ?>
             <?php endif; ?>
             <form action="/advanced-report" method="GET">
                 <div class="row">

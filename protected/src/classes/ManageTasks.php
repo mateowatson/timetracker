@@ -15,8 +15,8 @@ class ManageTasks {
         $this->user = new \DB\SQL\Mapper($this->db, 'users');
         $this->user->load(array('username=?', $session_username));
         $f3->set('v_username', $session_username);
-        $f3->set('v_user_email', $user->email);
-        $f3->set('v_user_email_verified', $user->email_verified);
+        $f3->set('v_user_email', $this->user->email);
+        $f3->set('v_user_email_verified', $this->user->email_verified);
     }
 
     function show_all(\Base $f3, array $args) {

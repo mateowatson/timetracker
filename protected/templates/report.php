@@ -47,7 +47,7 @@
 					<option value="">All</option>
 					<?php foreach($v_team_members as $team_member) : ?>
 					<option value="<?php echo $team_member['id']; ?>"
-						<?php echo ($team_member['id'] === $v_team_member_id ? 'selected' : ''); ?>>
+						<?php echo (!empty($v_team_member_id) && $team_member['id'] === $v_team_member_id ? 'selected' : ''); ?>>
 						<?php echo $team_member['username']; ?>
 					</option>
 					<?php endforeach; ?>

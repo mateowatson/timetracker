@@ -46,11 +46,11 @@ class Timer {
 		
 
 		$req = $f3->get('REQUEST');
-		$req_new_proj = $req['start_time_new_project'];
-		$req_proj = $req['start_time_project'];
-		$req_new_task = $req['start_time_new_task'];
-		$req_task = $req['start_time_task'];
-		$req_notes = $req['start_time_notes'];
+		$req_new_proj = isset($req['start_time_new_project']) ? $req['start_time_new_project'] : null;
+		$req_proj = isset($req['start_time_project']) ? $req['start_time_project'] : null;
+		$req_new_task = isset($req['start_time_new_task']) ? $req['start_time_new_task'] : null;
+		$req_task = isset($req['start_time_task']) ? $req['start_time_task'] : null;
+		$req_notes = isset($req['start_time_notes']) ? $req['start_time_notes'] : null;
 
 		// CHECK ERRORS
 		// Validate the required fields were filled in
@@ -247,12 +247,12 @@ class Timer {
 
 		if(!$is_team) {
 			$db_logs->load(array(
-				'end_time="0000-00-00 00:00:00" AND user_id = ? AND team_id IS NULL',
+				'end_time IS NULL AND user_id = ? AND team_id IS NULL',
 				$user->id
 			));
 		} else {
 			$db_logs->load(array(
-				'end_time="0000-00-00 00:00:00" AND user_id = ? AND team_id = ?',
+				'end_time IS NULL AND user_id = ? AND team_id = ?',
 				array($user->id, $team['id'])
 			));
 		}

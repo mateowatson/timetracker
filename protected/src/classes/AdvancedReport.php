@@ -27,9 +27,11 @@ class AdvancedReport {
 
         // GET SEARCH PARAMETERS
         $this->ar_projects = isset($f3->REQUEST['ar_projects']) ? $f3->REQUEST['ar_projects'] : $this->ar_projects;
-        $this->ar_projects = array_map('intval', $this->ar_projects);
+        if(is_array($this->ar_projects) && !in_array('ar_all', $this->ar_projects))
+            $this->ar_projects = array_map('intval', $this->ar_projects);
         $this->ar_tasks = isset($f3->REQUEST['ar_tasks']) ? $f3->REQUEST['ar_tasks'] : $this->ar_tasks;
-        $this->ar_tasks = array_map('intval', $this->ar_tasks);
+        if(is_array($this->ar_tasks) && !in_array('ar_all', $this->ar_tasks))
+            $this->ar_tasks = array_map('intval', $this->ar_tasks);
         $this->ar_notes = isset($f3->REQUEST['ar_notes']) ? $f3->REQUEST['ar_notes'] : $this->ar_notes;
         if(isset($f3->REQUEST['ar_begin_date']))
             $this->ar_begin_date = Utils::validate_date($f3->REQUEST['ar_begin_date']) ? $f3->REQUEST['ar_begin_date'] : null;
@@ -51,7 +53,7 @@ class AdvancedReport {
             $alltasks = true;
 
         // PARTS SAME FOR ALL QUERIES
-        $timesum = 'ROUND(SUM(IF(logs.end_time != "0000-00-00 00:00:00",
+        $timesum = 'ROUND(SUM(IF(logs.end_time IS NOT NULL,
             TIMESTAMPDIFF(SECOND, logs.start_time, logs.end_time)/60/60,
             TIMESTAMPDIFF(SECOND, logs.start_time, NOW())/60/60
         )), 2)';
@@ -81,7 +83,6 @@ class AdvancedReport {
                 '%'.$this->ar_notes.'%',
                 !$this->ar_notes
             ));
-            $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
         } else if($this->ar_report_type === 'Total by Day') {
             // GET DAY REPORT
             $this->generated_report = $db->exec('
@@ -104,8 +105,6 @@ class AdvancedReport {
                 $item_date = date_create($generated_report_item['timeunit']);
                 $generated_report_item['timeunit'] = date_format($item_date, 'Y-m-d, D.');
             }
-
-            $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
         } else if($this->ar_report_type === 'Total by Year') {
             // GET YEAR REPORT
             $this->generated_report = $db->exec('
@@ -122,7 +121,6 @@ class AdvancedReport {
                 '%'.$this->ar_notes.'%',
                 !$this->ar_notes
             ));
-            $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
         } else if($this->ar_report_type === 'Individual Logs') {
             // GET INDIVIDUAL LOGS REPORT
             $this->generated_report = $db->exec('
@@ -161,8 +159,12 @@ class AdvancedReport {
                 '%'.$this->ar_notes.'%',
                 !$this->ar_notes
             ));
-            $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
         }
+
+        if(is_array($this->generated_report) && count($this->generated_report))
+            $this->generated_report[count($this->generated_report) - 1]['timeunit'] = "Total";
+        else
+            $this->generated_report = null;
 
         // ADDITIONAL VIEW VARIABLES
 		$f3->set('v_page_title', 'Advanced Report');

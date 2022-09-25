@@ -198,8 +198,8 @@ class Report {
 		if($page === 0) {
 			$prev_link = null;
 		} else {
-			$prev_link = "/report?rp=".$req['rp']."&rt=".
-				$req['rt']."&rd=".$req['rd']."&page=".(string)($page-1);
+			$prev_link = "/report?rp=".$report_project."&rt=".
+				$report_task."&rd=".$report_date."&page=".(string)($page-1);
 			if($is_team) {
 				$prev_link .= '&team='.$team_id;
 			}
@@ -208,8 +208,8 @@ class Report {
 		if(($page+1)*10 >= $logs_count || $logs_count <= 10) {
 			$next_link = null;
 		} else {
-			$next_link = "/report?rp=".$req['rp']."&rt=".
-				$req['rt']."&rd=".$req['rd']."&page=".(string)($page+1);
+			$next_link = "/report?rp=".$report_project."&rt=".
+				$report_task."&rd=".$report_date."&page=".(string)($page+1);
 			if($is_team) {
 				$next_link .= '&team='.$team_id;
 			}
@@ -276,7 +276,7 @@ class Report {
 				(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
 				(isset($referer_query_parts['team']))
 			) {
-				$referer_team_id = $referer_path_parts[2] ? : $referer_query_parts['team'];
+				$referer_team_id = !empty($referer_path_parts[2]) ? $referer_path_parts[2] : $referer_query_parts['team'];
 				$is_team = true;
 				$team = $db->exec('SELECT * FROM teams WHERE id = ?', (int)$referer_team_id)[0];
 			}
@@ -300,7 +300,7 @@ class Report {
 			$report_team_member = '';
 		}
         
-        if($is_team) {
+        if($is_team && !$report_changeteam) {
 			Utils::prevent_csrf_from_tab_conflict($f3, $args, $referer_url_parts['path']);
 		} else {
 			Utils::prevent_csrf_from_tab_conflict($f3, $args, '/report');
