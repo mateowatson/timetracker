@@ -116,9 +116,9 @@ class EditLog {
 		Utils::prevent_csrf($f3, $args);
 
 		$req = $f3->get('REQUEST');
-		$req_new_proj = $req['edit_log_new_project'];
+		$req_new_proj = !empty($req['edit_log_new_project']) ? $req['edit_log_new_project'] : null;
 		$req_proj = $req['edit_log_project'];
-		$req_new_task = $req['edit_log_new_task'];
+		$req_new_task = !empty($req['edit_log_new_task']) ? $req['edit_log_new_task'] : null;
 		$req_task = $req['edit_log_task'];
 		$req_notes = $req['edit_log_notes'];
 		$req_log_id = $req['edit_log_log_id'];
@@ -173,7 +173,7 @@ class EditLog {
 			));
 		}
 		// Validate datetimes submitted
-		if($req_log_start_time === false || $req_log_end_time === false) {
+		if($req_log_start_time === false) {
 			$f3->push('v_errors', array(
 				'element_id' => 'edit_log_bottom_errors',
 				'message' => 'Invalid date and times submitted.'
@@ -258,7 +258,7 @@ class EditLog {
 		$db_log->task_id = $return_edit_log_task;
 		$db_log->notes = $return_edit_log_notes;
 		$db_log->start_time = $req_log_start_time;
-		$db_log->end_time = $req_log_end_time;
+		$db_log->end_time = $req_log_end_time ? : null;
 		$db_log->save();
 
 		$f3->push('v_confirmations', array(
