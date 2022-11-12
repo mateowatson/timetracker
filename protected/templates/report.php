@@ -68,7 +68,7 @@
 			<?php if(!$v_no_matches): ?>
 
 				<?php require('partials/pagination-links.php'); ?>
-				<?php require_once('partials/logs-table.php'); ?>
+				<?php require_once('partials/logs-table-selectable.php'); ?>
 				<?php require('partials/pagination-links.php'); ?>
 
 			<?php else: ?>

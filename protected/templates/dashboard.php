@@ -66,7 +66,7 @@
 		</div>
 		<div class="col-lg-12">
 			<?php if($v_logs): ?>
-			<?php require_once('partials/logs-table.php'); ?>
+			<?php require_once('partials/logs-table-selectable.php'); ?>
 			<?php else: ?>
 			<?php require_once('partials/logs-no-logs.php'); ?>
 			<?php endif; ?>
