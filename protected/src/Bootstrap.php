@@ -131,6 +131,14 @@ $f3->set('v_confirmations_element_ids', array_unique($element_ids));
 $f3->set('SESSION.errors', '');
 $f3->set('SESSION.confirmations', '');
 
+// this can be handy in hidden inputs
+$f3->set('global_back_to', (!empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/'));
 
+// set light or dark theme
+if($f3->get('COOKIE.theme') === 'dark') {
+	$f3->set('theme', 'dark');
+} else {
+	$f3->set('theme', 'light');
+}
 
 $f3->run();

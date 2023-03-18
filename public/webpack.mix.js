@@ -14,6 +14,7 @@ let mix = require('laravel-mix');
 mix
     .js('assets/js/app.js', 'dist/')
     .sass('assets/sass/app.scss', 'dist/')
+    .sass('assets/sass/app-dark.scss', 'dist/')
     .babelConfig({
         plugins: [ "@babel/plugin-proposal-class-properties" ]
     })
