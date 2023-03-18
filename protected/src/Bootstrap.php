@@ -135,10 +135,10 @@ $f3->set('SESSION.confirmations', '');
 $f3->set('global_back_to', (!empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/'));
 
 // set light or dark theme
-if($f3->get('COOKIE.theme') === 'dark') {
-	$f3->set('theme', 'dark');
+if($f3->get('COOKIE.savedtheme') === 'dark') {
+	$f3->set('savedtheme', 'dark');
 } else {
-	$f3->set('theme', 'light');
+	$f3->set('savedtheme', 'light');
 }
 
 $f3->run();

@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title><?php echo $SITE_NAME; ?> - <?php echo $v_page_title; ?></title>
 
-	<?php if($theme === 'dark'): ?>
+	<?php if($savedtheme === 'dark'): ?>
 	<link rel="stylesheet" href="<?php echo $SITE_URL; ?>/dist/app-dark.css">
 	<?php else: ?>
 	<link rel="stylesheet" href="<?php echo $SITE_URL; ?>/dist/app.css">

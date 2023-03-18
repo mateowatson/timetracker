@@ -23,8 +23,8 @@
 	<form action="<?php echo $SITE_URL; ?>/theme" method="POST" class="d-flex align-items-baseline">
 		<input type="text" name="csrf" id="csrf" value="<?php echo $CSRF; ?>" hidden>
 		<input type="text" name="global_back_to" id="global_back_to" value="<?php echo $global_back_to; ?>" hidden>
-		<input type="text" name="theme" id="theme" value="<?php echo $theme === 'dark' ? 'light' : 'dark'; ?>" hidden>
-		<span class="sr-only"><?php echo ($theme === 'dark') ? 'Light Mode' : 'Dark Mode'; ?></span>
-		<input class="ml-3 btn <?php echo ($theme === 'dark') ? '' : 'btn-dark'; ?>" type="submit" value="<?php echo ($theme === 'dark') ? '☀️' : '🌙'; ?>">
+		<input type="text" name="changetheme" id="changetheme" value="<?php echo $savedtheme === 'dark' ? 'light' : 'dark'; ?>" hidden>
+		<span class="sr-only"><?php echo ($savedtheme === 'dark') ? 'Light Mode' : 'Dark Mode'; ?></span>
+		<input class="ml-3 btn <?php echo ($savedtheme === 'dark') ? '' : 'btn-dark'; ?>" type="submit" value="<?php echo ($savedtheme === 'dark') ? '☀️' : '🌙'; ?>">
 	</form>
 </div>

@@ -4,12 +4,14 @@ class Theme {
 		$req = $f3->get('REQUEST');
 		Utils::redirect_logged_out_user($f3, $args);
 
-        $req_theme = !empty($req['theme']) ? $req['theme'] : 'light';
+        $req_theme = !empty($req['changetheme']) ? $req['changetheme'] : 'light';
 
-        if($req_theme !== 'dark' || $req_theme !== 'light')
-            $req_theme !== 'light';
+        if($req_theme === 'dark')
+            $req_theme = 'dark';
+        else
+            $req_theme = 'light';
 
-        $f3->set('COOKIE.theme', $req_theme);
+        $f3->set('COOKIE.savedtheme', $req_theme);
 
         $f3->reroute($f3->get('REQUEST.global_back_to'));
     }
