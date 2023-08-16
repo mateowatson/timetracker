@@ -11,7 +11,7 @@ class Theme {
         else
             $req_theme = 'light';
 
-        $f3->set('COOKIE.savedtheme', $req_theme);
+        $f3->set('COOKIE.savedtheme', $req_theme, 60*60*24*365);
 
         $f3->reroute($f3->get('REQUEST.global_back_to'));
     }
