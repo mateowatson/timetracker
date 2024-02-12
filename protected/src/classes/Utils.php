@@ -84,9 +84,14 @@ class Utils {
 
 	static function chunk_datetime($time) {
 		if (!$time) {
-			return [];
+			$parts['yyyy'] = '0000';
+			$parts['mm'] = '00';
+			$parts['dd'] = '00';
+			$parts['hour'] = '00';
+			$parts['min'] = '00';
+			$parts['sec'] = '00';
 		}
-		
+
 		$parts['yyyy'] = substr($time, 0, 4);
 		$parts['mm'] = substr($time, 5, 2);
 		$parts['dd'] = substr($time, 8, 2);
