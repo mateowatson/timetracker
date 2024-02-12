@@ -109,7 +109,7 @@ $f3->set(
 );
 
 // Capture errors in memory
-$f3->set('v_errors', json_decode($f3->get('SESSION.errors')) ? : array());
+$f3->set('v_errors', $f3->get('SESSION.errors') ? json_decode($f3->get('SESSION.errors')) : array());
 // Creating v_errors_element_ids, simply for ease of checking quickly if there are any
 // errors, especially for use in the template files.
 $f3->set('v_errors_element_ids', array());
@@ -119,7 +119,7 @@ foreach ($f3->get('v_errors') as $error) {
 }
 $f3->set('v_errors_element_ids', array_unique($element_ids));
 // Capture confirmations in memory
-$f3->set('v_confirmations', json_decode($f3->get('SESSION.confirmations')) ? : array());
+$f3->set('v_confirmations', $f3->get('SESSION.confirmations') ? json_decode($f3->get('SESSION.confirmations')) : array());
 // Creating v_confirmations_element_ids, simply for ease of checking quickly if there are any
 // confirmations, especially for use in the template files.
 $element_ids = array();
