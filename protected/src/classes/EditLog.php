@@ -57,7 +57,14 @@ class EditLog {
 		$referer_url = $f3->get('HEADERS')['Referer'];
 		$referer_url_parts = parse_url($referer_url);
 		$referer_path_parts = explode('/', $referer_url_parts['path']);
-		parse_str(parse_url($referer_url, PHP_URL_QUERY), $referer_query_parts);
+		$referer_query_parts = [];
+
+		$parsed_url = parse_url($referer_url, PHP_URL_QUERY);
+
+		if ($parsed_url) {
+			parse_str($parsed_url, $referer_query_parts);
+		}
+
 		$referer_team_id = null;
 		if(
 			(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
