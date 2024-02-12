@@ -90,6 +90,7 @@ class Utils {
 			$parts['hour'] = '00';
 			$parts['min'] = '00';
 			$parts['sec'] = '00';
+			return $parts;
 		}
 
 		$parts['yyyy'] = substr($time, 0, 4);
