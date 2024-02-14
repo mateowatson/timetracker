@@ -69,12 +69,12 @@ class Report {
 		$projects = $projects_and_tasks['projects'];
 		$tasks = $projects_and_tasks['tasks'];
 		foreach($projects as $project_idx => $project) {
-			if($project['id'] === $report_project) {
+			if((int)$project['id'] === (int)$report_project) {
 				$projects[$project_idx]['preselect_in_report_dropdown'] = true;
 			}
 		}
 		foreach($tasks as $task_idx => $task) {
-			if($task['id'] === $report_task) {
+			if((int)$task['id'] === (int)$report_task) {
 				$tasks[$task_idx]['preselect_in_report_dropdown'] = true;
 			}
 		}
@@ -270,7 +270,7 @@ class Report {
 			$referer_url = $f3->get('HEADERS')['Referer'];
 			$referer_url_parts = parse_url($referer_url);
 			$referer_path_parts = explode('/', $referer_url_parts['path']);
-			parse_str(parse_url($referer_url, PHP_URL_QUERY), $referer_query_parts);
+			parse_str(parse_url($referer_url, PHP_URL_QUERY) ?: '', $referer_query_parts);
 			$referer_team_id = null;
 			if(
 				(count($referer_path_parts) > 2 && $referer_path_parts[1] === 'team') ||
