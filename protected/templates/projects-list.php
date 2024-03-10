@@ -10,6 +10,16 @@
 <div class="container mb-5">
     <div class="row">
         <div class="col-12">
+            <?php if(isset($v_confirmations) && count($v_confirmations)) : ?>
+			<div class="alert alert-success" role="alert">
+				<?php
+				foreach($v_confirmations as $confirmation) :
+				?>
+				<p><?php echo $confirmation->message; ?></p>
+				<?php endforeach; ?>
+			</div>
+			<?php endif; ?>
+
             <?php if (count($v_projects)): ?>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-sm">

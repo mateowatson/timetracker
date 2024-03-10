@@ -37,6 +37,17 @@
                 </div>
 
                 <button class="btn btn-primary mr-3" type="submit">Save</button>
+
+                <?php if(!$v_project['archived']): ?>
+
+                    <button class="btn btn-danger mr-3" type="submit" name="archive">Archive</button>
+
+                <?php else: ?>
+
+                    <button class="btn btn-danger mr-3" type="submit" name="unarchive">Unarchive</button>
+
+                <?php endif; ?>
+
                 <a href="/projects">Back to Projects</a>
             </form>
         </div>
