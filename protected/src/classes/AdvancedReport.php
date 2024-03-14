@@ -9,6 +9,7 @@ class AdvancedReport {
     public $ar_report_type;
     public $user_projects;
     public $user_tasks;
+    public $user_projects_tasks;
     public $generated_report;
 
     function show(\Base $f3, array $args) {
@@ -93,7 +94,7 @@ class AdvancedReport {
                 FROM logs
                 WHERE user_id = ?
                     '.$where_clauses.'
-                GROUP BY DAYOFYEAR(DATE(logs.start_time)) WITH ROLLUP
+                GROUP BY DATE(logs.start_time) WITH ROLLUP
             ', array(
                 $user->id,
                 '%'.$this->ar_notes.'%',
@@ -102,8 +103,10 @@ class AdvancedReport {
 
             // add the day of the week
             foreach($this->generated_report as &$generated_report_item) {
-                $item_date = date_create($generated_report_item['timeunit']);
-                $generated_report_item['timeunit'] = date_format($item_date, 'Y-m-d, D.');
+                if ($generated_report_item['timeunit']) {
+                    $item_date = date_create($generated_report_item['timeunit']);
+                    $generated_report_item['timeunit'] = date_format($item_date, 'Y-m-d, D.');
+                }
             }
         } else if($this->ar_report_type === 'Total by Year') {
             // GET YEAR REPORT
