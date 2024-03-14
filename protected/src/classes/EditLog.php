@@ -54,7 +54,7 @@ class EditLog {
 		// DETERMINE CANCEL LINK
 		$is_team = false;
 		$team = false;
-		$referer_url = $f3->get('HEADERS')['Referer'];
+		$referer_url = $f3->get('HEADERS')['Referer'] ?? '/';
 		$referer_url_parts = parse_url($referer_url);
 		$referer_path_parts = explode('/', $referer_url_parts['path']);
 		$referer_query_parts = [];
