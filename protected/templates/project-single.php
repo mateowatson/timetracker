@@ -12,6 +12,10 @@
         <div class="col-sm-6 col-md-5">
             <h2><?= $v_project['name'] ?></h2>
 
+            <?php if($v_project['archived']): ?>
+                <p class="badge badge-secondary mb-3">Archived</p>
+            <?php endif; ?>
+
             <?php if (in_array('save_project_errors', $v_errors_element_ids ?: [])): ?>
 
             <div class="alert alert-danger" role="alert">
@@ -37,6 +41,17 @@
                 </div>
 
                 <button class="btn btn-primary mr-3" type="submit">Save</button>
+
+                <?php if(!$v_project['archived']): ?>
+
+                    <button class="btn btn-danger mr-3" type="submit" name="archive">Archive</button>
+
+                <?php else: ?>
+
+                    <button class="btn btn-danger mr-3" type="submit" name="unarchive">Unarchive</button>
+
+                <?php endif; ?>
+
                 <a href="/projects">Back to Projects</a>
             </form>
         </div>

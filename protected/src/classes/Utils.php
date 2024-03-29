@@ -745,6 +745,7 @@ MESSAGE;
 				array_push($projects, array(
 					'id' => $query['project_id'],
 					'name' => $query['name'],
+					'archived' => $query['archived'],
 					'preselect_in_dropdown' => false,
 					'preselect_in_report_dropdown' => false,
 					'preselect_in_search_dropdown' => false

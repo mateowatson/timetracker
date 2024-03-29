@@ -30,10 +30,12 @@
 			<select class="form-control" id="start_time_project" name="start_time_project">
 				<option value="">Select Existing Project</option>
 				<?php foreach ($v_projects as $project): ?>
+				<?php if(!$project['archived']): ?>
 				<option value="<?php echo $project["id"]; ?>"
 					<?php echo $project["preselect_in_dropdown"] ? "selected" : ""; ?>>
 					<?php echo $project["name"]; ?>
 				</option>
+				<?php endif; ?>
 				<?php endforeach; ?>
 			</select>
 		</div>
