@@ -22,9 +22,9 @@
 
             <div class="mb-3">
             <?php if(!$v_show_archived) : ?>
-                <a href="/projects?archived=1" class="btn btn-secondary">Show archived projects</a>
+                <a href="/projects?archived=1" class="">Show archived projects</a>
             <?php else: ?>
-                <a href="/projects" class="btn btn-secondary">Hide archived projects</a>
+                <a href="/projects" class="">Hide archived projects</a>
             <?php endif; ?>
             </div>
 
@@ -41,7 +41,7 @@
                         <?php foreach($v_projects as $project): ?>
                             <tr>
                                 <td><?= $project['id'] ?></td>
-                                <td><a href="/projects/<?= $project['id'] ?>"><?= $project['name'] ?></a><?php if($project['archived']):?> <span class="badge badge-secondary">archived</span><?php endif; ?></td>
+                                <td><?php if($project['archived']):?><span class="badge badge-secondary">archived</span> <?php endif; ?><a href="/projects/<?= $project['id'] ?>"><?= $project['name'] ?></a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
