@@ -25,13 +25,21 @@ class ManageProjects {
         // set the page title
 		$f3->set('v_page_title', 'Manage Projects');
 
+        $req = $f3->get('REQUEST');
+        $show_archived = $req['archived'] ?? null;
+
+        $f3->set('v_show_archived', $show_archived);
+
         // Get all Projects
         $this->projects = $this->db->exec('
             SELECT * FROM projects
             LEFT JOIN users_projects
             ON users_projects.project_id = projects.id
-            WHERE users_projects.user_id = ?
-        ', $this->user->id);
+            WHERE users_projects.user_id = ?'
+            .($show_archived ? '' : ' AND projects.archived IS NULL'),
+
+            $this->user->id
+        );
 
         $f3->set('v_projects', $this->projects);
 

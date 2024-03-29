@@ -12,6 +12,10 @@
         <div class="col-sm-6 col-md-5">
             <h2><?= $v_project['name'] ?></h2>
 
+            <?php if($v_project['archived']): ?>
+                <p class="badge badge-secondary mb-3">Archived</p>
+            <?php endif; ?>
+
             <?php if (in_array('save_project_errors', $v_errors_element_ids ?: [])): ?>
 
             <div class="alert alert-danger" role="alert">
