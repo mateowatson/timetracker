@@ -247,12 +247,12 @@ class Timer {
 
 		if(!$is_team) {
 			$db_logs->load(array(
-				'end_time IS NULL AND user_id = ? AND team_id IS NULL',
+				'(end_time IS NULL OR end_time = "0000-00-00 00:00:00") AND user_id = ? AND team_id IS NULL',
 				$user->id
 			));
 		} else {
 			$db_logs->load(array(
-				'end_time IS NULL AND user_id = ? AND team_id = ?',
+				'(end_time IS NULL OR end_time = "0000-00-00 00:00:00") AND user_id = ? AND team_id = ?',
 				array($user->id, $team['id'])
 			));
 		}
