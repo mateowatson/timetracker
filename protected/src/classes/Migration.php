@@ -19,9 +19,9 @@ class Migration {
 	function migrate($f3, $args) {
 		Utils::prevent_csrf_from_tab_conflict($f3, $args, '/install');
 
-		$request_user = $f3->get('REQUEST')['username'];
-		$request_email = $f3->get('REQUEST')['email'];
-		$request_password = $f3->get('REQUEST')['password'];
+		$request_user = $f3->get('REQUEST')['username'] ?? null;
+		$request_email = $f3->get('REQUEST')['email'] ?? null;
+		$request_password = $f3->get('REQUEST')['password'] ?? null;
 
 		if(!$request_user || !$request_password) {
 			$f3->push('v_errors', array(

@@ -743,9 +743,9 @@ MESSAGE;
 			}
 			if(!$is_dup) {
 				array_push($projects, array(
-					'id' => $query['project_id'],
-					'name' => $query['name'],
-					'archived' => $query['archived'],
+					'id' => $query['project_id'] ?? null,
+					'name' => $query['name'] ?? null,
+					'archived' => $query['archived'] ?? null,
 					'preselect_in_dropdown' => false,
 					'preselect_in_report_dropdown' => false,
 					'preselect_in_search_dropdown' => false
@@ -896,8 +896,8 @@ CREATE TABLE `admins_teams` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `team_id` (`team_id`),
-  CONSTRAINT `users_teams_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `users_teams_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
+  CONSTRAINT `admins_teams_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `admins_teams_ibfk_2` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 MIGRATION;
 
